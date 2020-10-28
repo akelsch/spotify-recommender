@@ -7,6 +7,8 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "bulma": "^0.9.1",
+    "eslint": "^7.12.1",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^17.0.1",
@@ -16,7 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -38,7 +40,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.15.0",

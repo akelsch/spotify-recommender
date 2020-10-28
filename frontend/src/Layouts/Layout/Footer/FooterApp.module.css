@@ -1,0 +1,17 @@
+.footerApp {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.footer {
+  padding: 20px;
+}
+
+.footerText {
+  letter-spacing: 1px;
+}
+
+.footerEmoji {
+  margin: 2px;
+}
