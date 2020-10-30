@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, Heading } from 'react-bulma-components';
+import { Link } from 'react-router-dom';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function HeaderApp() {
@@ -8,7 +9,9 @@ function HeaderApp() {
     <Navbar active={active}>
       <Navbar.Brand>
         <Navbar.Item>
-          <Heading>Spotify Recommender</Heading>
+          <Link to="/">
+            <Heading>Spotify Recommender</Heading>
+          </Link>
         </Navbar.Item>
         <Navbar.Burger onClick={() => setActive(!active)} />
       </Navbar.Brand>

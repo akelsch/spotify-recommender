@@ -1,11 +1,16 @@
 import React from 'react';
-import Layout from './Layouts/Layout/Layout';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './Pages/Login/Login';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function App() {
   return (
     <div>
-      <Layout>{}</Layout>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Login} />
+        </Switch>
+      </Router>
     </div>
   );
 }
