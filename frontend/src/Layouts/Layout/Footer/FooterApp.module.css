@@ -13,5 +13,12 @@
 }
 
 .footerEmoji {
-  margin: 2px;
+  margin: 4px;
+  margin-right: 7px;
+}
+
+@media screen and (max-width: 500px) {
+  .footerApp {
+    position: relative;
+  }
 }
