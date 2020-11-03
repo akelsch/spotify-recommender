@@ -1,5 +1,6 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
+import de.htwsaar.spotifyrecommender.recent.RecentlyPlayedHandler;
 import de.htwsaar.spotifyrecommender.song.SongHandler;
 import de.htwsaar.spotifyrecommender.spotify.SpotifyHandler;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,12 @@ public class RouteConfiguration {
     @Bean
     RouterFunction<ServerResponse> routeSpotify(SpotifyHandler spotifyHandler) {
         return route(path("/spotify/**"), spotifyHandler::deligate);
+    }
+
+    @Bean
+    RouterFunction<ServerResponse> routeRecentlyPlayed(RecentlyPlayedHandler recentlyPlayedHandler) {
+        var routes = route(GET("/recently-played").and(accept(APPLICATION_JSON)), recentlyPlayedHandler::get);
+        return nest(path("/api/v1/"), routes);
     }
 
     @Bean
