@@ -4,10 +4,10 @@ import Header from './HeaderApp';
 import FooterApp from './Footer/FooterApp';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
-function Layout({ children }) {
+function Layout({ children, onlineStatus }) {
   return (
     <div>
-      <Header />
+      <Header onlineStatus={onlineStatus} />
       {children}
       <FooterApp />
     </div>
@@ -16,6 +16,7 @@ function Layout({ children }) {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  onlineStatus: PropTypes.bool.isRequired,
 };
 
 export default Layout;

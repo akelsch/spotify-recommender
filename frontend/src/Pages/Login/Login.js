@@ -1,11 +1,12 @@
 import React from 'react';
 import { Container, Button, Columns, Heading } from 'react-bulma-components';
+import PropTypes from 'prop-types';
 import Layout from '../../Layouts/Layout/Layout';
 import styles from './Login.module.css';
 
-function Login() {
+function Login({ hanldeOnlineStatus, onlineStatus }) {
   return (
-    <Layout>
+    <Layout onlineStatus={onlineStatus}>
       <Container className={styles.containerLogin}>
         <Columns className={styles.columnsLogin}>
           <Columns.Column>
@@ -19,7 +20,10 @@ function Login() {
           </Columns.Column>
           <Columns.Column>
             <a href="http://localhost:8080/oauth2/authorization/spotify">
-              <Button className={styles.buttonLogin}>
+              <Button
+                className={styles.buttonLogin}
+                onClick={() => hanldeOnlineStatus(true)}
+              >
                 <Heading size={6} className={styles.buttonTextLogin}>
                   Log In with Spotify
                 </Heading>
@@ -31,4 +35,8 @@ function Login() {
     </Layout>
   );
 }
+Login.propTypes = {
+  hanldeOnlineStatus: PropTypes.func.isRequired,
+  onlineStatus: PropTypes.bool.isRequired,
+};
 export default Login;

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Navbar, Heading } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
+import UserAvatar from '../../Components/UserAvatar/UserAvatar';
 
-function HeaderApp() {
+function HeaderApp({ onlineStatus }) {
   const [active, setActive] = useState(false);
   return (
     <Navbar active={active}>
@@ -26,10 +28,17 @@ function HeaderApp() {
           <Navbar.Item href="#">
             <Heading size={5}>Discover</Heading>
           </Navbar.Item>
+          {onlineStatus ? (
+            <Navbar.Item href="#">
+              <UserAvatar />
+            </Navbar.Item>
+          ) : null}
         </Navbar.Container>
       </Navbar.Menu>
     </Navbar>
   );
 }
-
+HeaderApp.propTypes = {
+  onlineStatus: PropTypes.bool.isRequired,
+};
 export default HeaderApp;
