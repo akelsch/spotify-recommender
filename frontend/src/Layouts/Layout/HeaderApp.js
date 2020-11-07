@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import UserAvatar from '../../Components/UserAvatar/UserAvatar';
 
-implfunction HeaderApp({ handleOnlineStatus, onlineStatus }) {
+function HeaderApp({ handleOnlineStatus, onlineStatus }) {
   const [active, setActive] = useState(false);
 
   return (
