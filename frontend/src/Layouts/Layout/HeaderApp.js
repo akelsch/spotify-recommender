@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import UserAvatar from '../../Components/UserAvatar/UserAvatar';
 
-function HeaderApp({ onlineStatus }) {
+implfunction HeaderApp({ handleOnlineStatus, onlineStatus }) {
   const [active, setActive] = useState(false);
+
   return (
     <Navbar active={active}>
       <Navbar.Brand>
@@ -30,7 +31,7 @@ function HeaderApp({ onlineStatus }) {
           </Navbar.Item>
           {onlineStatus ? (
             <Navbar.Item href="#">
-              <UserAvatar />
+              <UserAvatar handleOnlineStatus={handleOnlineStatus} />
             </Navbar.Item>
           ) : null}
         </Navbar.Container>
@@ -39,6 +40,7 @@ function HeaderApp({ onlineStatus }) {
   );
 }
 HeaderApp.propTypes = {
+  handleOnlineStatus: PropTypes.func.isRequired,
   onlineStatus: PropTypes.bool.isRequired,
 };
 export default HeaderApp;

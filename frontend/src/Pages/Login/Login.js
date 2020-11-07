@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import Layout from '../../Layouts/Layout/Layout';
 import styles from './Login.module.css';
 
-function Login({ hanldeOnlineStatus, onlineStatus }) {
+function Login({ handleOnlineStatus, onlineStatus }) {
   return (
-    <Layout onlineStatus={onlineStatus}>
+    <Layout handleOnlineStatus={handleOnlineStatus} onlineStatus={onlineStatus}>
       <Container className={styles.containerLogin}>
         <Columns className={styles.columnsLogin}>
           <Columns.Column>
@@ -19,16 +19,18 @@ function Login({ hanldeOnlineStatus, onlineStatus }) {
             </Heading>
           </Columns.Column>
           <Columns.Column>
-            <a href="http://localhost:8080/oauth2/authorization/spotify">
-              <Button
-                className={styles.buttonLogin}
-                onClick={() => hanldeOnlineStatus(true)}
-              >
-                <Heading size={6} className={styles.buttonTextLogin}>
-                  Log In with Spotify
-                </Heading>
-              </Button>
-            </a>
+            {onlineStatus ? null : (
+              <a href="http://localhost:8080/oauth2/authorization/spotify">
+                <Button
+                  className={styles.buttonLogin}
+                  onClick={() => handleOnlineStatus(true)}
+                >
+                  <Heading size={6} className={styles.buttonTextLogin}>
+                    Log In with Spotify
+                  </Heading>
+                </Button>
+              </a>
+            )}
           </Columns.Column>
         </Columns>
       </Container>
@@ -36,7 +38,7 @@ function Login({ hanldeOnlineStatus, onlineStatus }) {
   );
 }
 Login.propTypes = {
-  hanldeOnlineStatus: PropTypes.func.isRequired,
+  handleOnlineStatus: PropTypes.func.isRequired,
   onlineStatus: PropTypes.bool.isRequired,
 };
 export default Login;

@@ -4,7 +4,7 @@ import Login from './Pages/Login/Login';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function App() {
-  const [isOnline, setOnlineStatus] = useState(false);
+  const [isOnline, setOnlineStatus] = useState(true);
   return (
     <div>
       <Router>
@@ -14,7 +14,7 @@ function App() {
             exact
             component={() => (
               <Login
-                hanldeOnlineStatus={setOnlineStatus}
+                handleOnlineStatus={setOnlineStatus}
                 onlineStatus={isOnline}
               />
             )}
