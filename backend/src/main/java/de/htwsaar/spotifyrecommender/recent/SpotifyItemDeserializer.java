@@ -17,24 +17,56 @@ public class SpotifyItemDeserializer extends JsonDeserializer<RecentlyPlayedItem
 
         TreeNode track = treeNode.get("track");
 
-        String id = track.get("uri").toString().replace("\"","");
-        recentlyPlayedItem.setId(id.substring(14));
-
-        String name = track.get("name").toString().replace("\"","");
-        recentlyPlayedItem.setName(name);
-
         // TODO set ImageUrl
         recentlyPlayedItem.setImageUrl("TODO");
 
         TreeNode context = treeNode.get("context");
         if(context instanceof NullNode) {
             recentlyPlayedItem.setType("Song");
+
+            String id = track.get("uri").toString().replace("\"","");
+            recentlyPlayedItem.setId(id.substring(14));
+
+            String songName = track.get("name").toString().replace("\"","");
+            recentlyPlayedItem.setName(songName);
         } else {
             String type = context.get("type").toString().replace("\"","");
             switch (type) {
-                case "album" -> recentlyPlayedItem.setType("Album");
-                case "artist" -> recentlyPlayedItem.setType("Artist");
-                case "playlist" -> recentlyPlayedItem.setType("Playlist");
+                case "album" -> {
+                    recentlyPlayedItem.setType("Album");
+
+                    String albumId = track.get("album").get("uri").toString().replace("\"", "");
+                    recentlyPlayedItem.setId(albumId.substring(14));
+
+                    String albumName = track.get("album").get("name").toString().replace("\"", "");
+                    recentlyPlayedItem.setName(albumName);
+                }
+                case "artist" -> {
+                    recentlyPlayedItem.setType("Artist");
+                    TreeNode artists = track.get("artists");
+                    if(artists.size() > 1) {
+                        String id = artists.get(0).get("uri").toString().replace("\"", "");
+                        recentlyPlayedItem.setId(id.substring(14));
+
+                        String name =artists.get(0).get("name").toString().replace("\"", "");
+                        recentlyPlayedItem.setName(name);
+                    } else {
+                        String id = artists.get("uri").toString().replace("\"", "");
+                        recentlyPlayedItem.setId(id.substring(14));
+
+                        String name = artists.get("name").toString().replace("\"", "");
+                        recentlyPlayedItem.setName(name);
+                    }
+                }
+                case "playlist" -> {
+                    recentlyPlayedItem.setType("Playlist");
+
+                    String playlistId = track.get("uri").toString().replace("\"", "");
+                    recentlyPlayedItem.setId(playlistId.substring(14));
+                    
+                    String playlistName = track.get("name").toString().replace("\"", "");
+                    recentlyPlayedItem.setName(playlistName);
+                }
             }
         }
 
