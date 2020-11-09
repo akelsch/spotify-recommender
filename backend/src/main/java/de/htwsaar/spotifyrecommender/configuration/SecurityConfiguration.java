@@ -1,5 +1,6 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
+import de.htwsaar.spotifyrecommender.util.SimpleUrlServerAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -18,7 +19,7 @@ import java.util.List;
 @EnableWebFluxSecurity
 public class SecurityConfiguration {
 
-    @Value("${de.htwsaar.spotifyrecommender.redirectUrl}")
+    @Value("${de.htwsaar.spotifyrecommender.redirectUrl:}")
     private String redirectUrl;
 
     @Bean
@@ -26,11 +27,15 @@ public class SecurityConfiguration {
         http.csrf().disable();
         http.cors();
 
-        var authenticationSuccessHandler = new SimpleUrlServerAuthenticationSuccessHandler(redirectUrl);
-        http.oauth2Login();
+        if (!redirectUrl.isEmpty()) {
+            var authenticationSuccessHandler = new SimpleUrlServerAuthenticationSuccessHandler(redirectUrl);
+            http.oauth2Login().authenticationSuccessHandler(authenticationSuccessHandler);
+        } else {
+            http.oauth2Login();
+        }
 
         http.authorizeExchange()
-                .pathMatchers("/spotify/**", "/api/v1/**").authenticated()
+                .pathMatchers("/spotify/**", "/api/**").authenticated()
                 .anyExchange().permitAll();
 
         return http.build();

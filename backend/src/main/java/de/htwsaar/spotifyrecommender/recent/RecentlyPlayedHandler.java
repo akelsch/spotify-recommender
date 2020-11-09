@@ -20,7 +20,6 @@ public class RecentlyPlayedHandler {
                 .uri("/v1/me/player/recently-played")
                 .exchange()
                 .map(response -> response.bodyToMono(RecentlyPlayedItems.class))
-                .flatMap(body -> ServerResponse.ok()
-                        .body(body, RecentlyPlayedItems.class));
+                .flatMap(body -> ServerResponse.ok().body(body, RecentlyPlayedItems.class));
     }
 }
