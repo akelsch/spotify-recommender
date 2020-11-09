@@ -1,7 +1,6 @@
 package de.htwsaar.spotifyrecommender.spotify;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -13,11 +12,8 @@ public class SpotifyHandler {
 
     private final WebClient client;
 
-    public SpotifyHandler(ServerOAuth2AuthorizedClientExchangeFilterFunction oauthFilter) {
-        this.client = WebClient.builder()
-                .baseUrl("https://api.spotify.com")
-                .filter(oauthFilter)
-                .build();
+    public SpotifyHandler(WebClient oauthWebClient) {
+        this.client = oauthWebClient;
     }
 
     public Mono<ServerResponse> deligate(ServerRequest serverRequest) {

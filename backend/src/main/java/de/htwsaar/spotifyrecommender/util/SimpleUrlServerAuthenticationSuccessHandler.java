@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.configuration;
+package de.htwsaar.spotifyrecommender.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.DefaultServerRedirectStrategy;
