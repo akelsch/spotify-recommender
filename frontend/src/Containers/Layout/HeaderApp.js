@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Navbar, Heading } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import UserAvatar from '../../Components/UserAvatar/UserAvatar';
+import { selectUserStatus } from '../../State/Slices/UserSlice';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
 
-function HeaderApp({ handleOnlineStatus, onlineStatus }) {
+function HeaderApp() {
   const [active, setActive] = useState(false);
+  const onlineStatus = useSelector(selectUserStatus);
 
   return (
     <Navbar active={active}>
@@ -31,7 +33,7 @@ function HeaderApp({ handleOnlineStatus, onlineStatus }) {
           </Navbar.Item>
           {onlineStatus ? (
             <Navbar.Item href="#">
-              <UserAvatar handleOnlineStatus={handleOnlineStatus} />
+              <UserAvatar />
             </Navbar.Item>
           ) : null}
         </Navbar.Container>
@@ -39,8 +41,5 @@ function HeaderApp({ handleOnlineStatus, onlineStatus }) {
     </Navbar>
   );
 }
-HeaderApp.propTypes = {
-  handleOnlineStatus: PropTypes.func.isRequired,
-  onlineStatus: PropTypes.bool.isRequired,
-};
+
 export default HeaderApp;

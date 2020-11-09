@@ -1,12 +1,15 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Button, Columns, Heading } from 'react-bulma-components';
-import PropTypes from 'prop-types';
-import Layout from '../../Layouts/Layout/Layout';
+import Layout from '../../Containers/Layout/Layout';
 import styles from './Login.module.css';
+import { login, selectUserStatus } from '../../State/Slices/UserSlice';
 
-function Login({ handleOnlineStatus, onlineStatus }) {
+function Login() {
+  const onlineStatus = useSelector(selectUserStatus);
+  const dispatch = useDispatch();
   return (
-    <Layout handleOnlineStatus={handleOnlineStatus} onlineStatus={onlineStatus}>
+    <Layout>
       <Container className={styles.containerLogin}>
         <Columns className={styles.columnsLogin}>
           <Columns.Column>
@@ -23,7 +26,7 @@ function Login({ handleOnlineStatus, onlineStatus }) {
               <a href="http://localhost:8080/oauth2/authorization/spotify">
                 <Button
                   className={styles.buttonLogin}
-                  onClick={() => handleOnlineStatus(true)}
+                  onClick={() => dispatch(login(true))}
                 >
                   <Heading size={6} className={styles.buttonTextLogin}>
                     Log In with Spotify
@@ -37,8 +40,4 @@ function Login({ handleOnlineStatus, onlineStatus }) {
     </Layout>
   );
 }
-Login.propTypes = {
-  handleOnlineStatus: PropTypes.func.isRequired,
-  onlineStatus: PropTypes.bool.isRequired,
-};
 export default Login;

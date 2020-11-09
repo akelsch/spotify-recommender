@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Avater from 'react-avatar';
 import { Dropdown } from 'react-bulma-components';
-import PropTypes from 'prop-types';
 import styles from './UserAvatar.module.css';
+import { logout } from '../../State/Slices/UserSlice';
 
-function UserAvatar({ handleOnlineStatus }) {
+function UserAvatar() {
   const [imgUrl, setImgUrl] = useState('');
   const [selectedItem, setSelectedItem] = useState('');
-
+  const dispatch = useDispatch();
   useEffect(async () => {
     const response = await axios.get(
       'https://jsonplaceholder.typicode.com/albums/1/photos/?id=2'
@@ -20,7 +21,7 @@ function UserAvatar({ handleOnlineStatus }) {
 
   const handleDropDownMenu = (selected) => {
     if (selected === 'logout') {
-      handleOnlineStatus(false);
+      dispatch(logout(false));
     }
     setSelectedItem(selected);
   };
@@ -32,7 +33,6 @@ function UserAvatar({ handleOnlineStatus }) {
           <Dropdown.Item value="home" className={styles.dropDownMenuItems}>
             <Avater rounded unstyled src={imgUrl} />
           </Dropdown.Item>
-
           <Dropdown.Item value="logout" className={styles.dropDownMenuItems}>
             <Link to="/">Logout</Link>
           </Dropdown.Item>
@@ -41,8 +41,5 @@ function UserAvatar({ handleOnlineStatus }) {
     </div>
   );
 }
-UserAvatar.propTypes = {
-  handleOnlineStatus: PropTypes.func.isRequired,
-};
 
 export default UserAvatar;
