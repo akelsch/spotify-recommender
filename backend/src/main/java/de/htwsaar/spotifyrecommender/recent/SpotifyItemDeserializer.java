@@ -1,75 +1,90 @@
 package de.htwsaar.spotifyrecommender.recent;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.stream.StreamSupport;
 
-public class SpotifyItemDeserializer extends JsonDeserializer<RecentlyPlayedItem> {
+public class SpotifyItemDeserializer extends StdDeserializer<RecentlyPlayedItem> {
+
+    public SpotifyItemDeserializer() {
+        super(RecentlyPlayedItem.class);
+    }
 
     @Override
     public RecentlyPlayedItem deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        TreeNode treeNode = p.readValueAsTree();
-        RecentlyPlayedItem recentlyPlayedItem = new RecentlyPlayedItem();
+        JsonNode jsonNode = p.readValueAsTree();
 
-        TreeNode track = treeNode.get("track");
+        JsonNode track = jsonNode.get("track");
+        JsonNode context = jsonNode.get("context");
 
-        // TODO set ImageUrl
-        recentlyPlayedItem.setImageUrl("TODO");
+        if (context.isNull()) {
+            return handleTrackWithoutContext(track);
+        }
 
-        TreeNode context = treeNode.get("context");
-        if(context instanceof NullNode) {
-            recentlyPlayedItem.setType("Song");
+        return handleTrackWithContext(track, context);
+    }
 
-            String id = track.get("uri").toString().replace("\"","");
-            recentlyPlayedItem.setId(id.substring(14));
+    private RecentlyPlayedItem handleTrackWithoutContext(JsonNode track) {
+        RecentlyPlayedItem item = new RecentlyPlayedItem();
 
-            String songName = track.get("name").toString().replace("\"","");
-            recentlyPlayedItem.setName(songName);
-        } else {
-            String type = context.get("type").toString().replace("\"","");
-            switch (type) {
-                case "album" -> {
-                    recentlyPlayedItem.setType("Album");
+        item.setId(extractIdFromUri(track));
+        item.setName(track.get("name").asText());
+        item.setImageUrl(extractAlbumImageUrl(track));
+        item.setType(track.get("type").asText()); // track
 
-                    String albumId = track.get("album").get("uri").toString().replace("\"", "");
-                    recentlyPlayedItem.setId(albumId.substring(14));
+        return item;
+    }
 
-                    String albumName = track.get("album").get("name").toString().replace("\"", "");
-                    recentlyPlayedItem.setName(albumName);
-                }
-                case "artist" -> {
-                    recentlyPlayedItem.setType("Artist");
-                    TreeNode artists = track.get("artists");
-                    if(artists.size() > 1) {
-                        String id = artists.get(0).get("uri").toString().replace("\"", "");
-                        recentlyPlayedItem.setId(id.substring(14));
+    private RecentlyPlayedItem handleTrackWithContext(JsonNode track, JsonNode context) {
+        RecentlyPlayedItem item = new RecentlyPlayedItem();
 
-                        String name =artists.get(0).get("name").toString().replace("\"", "");
-                        recentlyPlayedItem.setName(name);
-                    } else {
-                        String id = artists.get("uri").toString().replace("\"", "");
-                        recentlyPlayedItem.setId(id.substring(14));
+        String type = context.get("type").asText();
+        item.setType(type);
 
-                        String name = artists.get("name").toString().replace("\"", "");
-                        recentlyPlayedItem.setName(name);
-                    }
-                }
-                case "playlist" -> {
-                    recentlyPlayedItem.setType("Playlist");
-
-                    String playlistId = track.get("uri").toString().replace("\"", "");
-                    recentlyPlayedItem.setId(playlistId.substring(14));
-                    
-                    String playlistName = track.get("name").toString().replace("\"", "");
-                    recentlyPlayedItem.setName(playlistName);
-                }
+        switch (type) {
+            case "album" -> {
+                item.setId(extractIdFromUri(context));
+                item.setName(track.get("album").get("name").asText());
+                item.setImageUrl(extractAlbumImageUrl(track));
+            }
+            case "artist" -> {
+                JsonNode artist = extractArtistFromContext(track, context);
+                item.setId(artist.get("id").asText());
+                item.setName(artist.get("name").asText());
+                // TODO image missing
+            }
+            case "playlist" -> {
+                item.setId(extractIdFromUri(context));
+                // TODO name missing
+                // TODO image missing
             }
         }
 
-        return recentlyPlayedItem;
+        return item;
+    }
+
+    private static String extractIdFromUri(JsonNode node) {
+        return StringUtils.substringAfterLast(node.get("uri").asText(), ":");
+    }
+
+    private static String extractAlbumImageUrl(JsonNode track) {
+        return StreamSupport.stream(track.get("album").withArray("images").spliterator(), false)
+                .skip(1) // skip high-resolution image
+                .findFirst()
+                .map(image -> image.get("url").asText())
+                .get();
+    }
+
+    private static JsonNode extractArtistFromContext(JsonNode track, JsonNode context) {
+        String artistUriFromContext = context.get("uri").asText();
+        return StreamSupport.stream(track.withArray("artists").spliterator(), false)
+                .filter(artist -> artist.get("uri").asText().equals(artistUriFromContext))
+                .findFirst()
+                .get();
     }
 }
