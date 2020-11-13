@@ -23,9 +23,9 @@ public class SpotifyHandler {
 
         return client.method(method)
                 .uri(uriBuilder -> uriBuilder.path(endpoint).queryParams(queryParams).build())
-                .exchange()
-                .flatMap(response -> ServerResponse.status(response.statusCode())
-                        .headers(httpHeaders -> httpHeaders.addAll(response.headers().asHttpHeaders()))
-                        .body(response.bodyToMono(String.class), String.class));
+                .exchangeToMono(response -> response.bodyToMono(String.class)
+                        .flatMap(body -> ServerResponse.status(response.statusCode())
+                                .headers(httpHeaders -> httpHeaders.addAll(response.headers().asHttpHeaders()))
+                                .bodyValue(body)));
     }
 }

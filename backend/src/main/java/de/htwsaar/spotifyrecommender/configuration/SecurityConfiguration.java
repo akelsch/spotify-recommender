@@ -19,6 +19,9 @@ import java.util.List;
 @EnableWebFluxSecurity
 public class SecurityConfiguration {
 
+    @Value("${de.htwsaar.spotifyrecommender.frontendUrl}")
+    private String allowedOrigin;
+
     @Value("${de.htwsaar.spotifyrecommender.redirectUrl:}")
     private String redirectUrl;
 
@@ -45,7 +48,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin(allowedOrigin);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.applyPermitDefaultValues();
 
