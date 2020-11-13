@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
-import StatusCodes from 'http-status-codes';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Button, Columns, Heading } from 'react-bulma-components';
 import Layout from '../../Containers/Layout/Layout';
@@ -10,17 +8,6 @@ import { login, logout, selectUserStatus } from '../../State/Slices/UserSlice';
 function Login() {
   const onlineStatus = useSelector(selectUserStatus);
   const dispatch = useDispatch();
-  useEffect(async () => {
-    const response = await axios.get('localhost:8080/me', {
-      withCredentials: true,
-    });
-    console.log(response.data);
-    if (response.status === StatusCodes.UNAUTHORIZED) {
-      dispatch(logout(false));
-    } else {
-      dispatch(login(true));
-    }
-  }, []);
   return (
     <Layout>
       <Container className={styles.containerLogin}>
