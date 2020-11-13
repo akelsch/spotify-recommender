@@ -7,6 +7,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 @Component
 public class SpotifyHandler {
 
@@ -17,8 +19,8 @@ public class SpotifyHandler {
     }
 
     public Mono<ServerResponse> deligate(ServerRequest serverRequest) {
-        HttpMethod method = serverRequest.method();
-        String endpoint = serverRequest.pathContainer().subPath(2).value();
+        HttpMethod method = Optional.ofNullable(serverRequest.method()).orElse(HttpMethod.GET);
+        String endpoint = serverRequest.requestPath().subPath(2).value();
         var queryParams = serverRequest.queryParams();
 
         return client.method(method)
