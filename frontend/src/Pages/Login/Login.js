@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import StatusCodes from 'http-status-codes';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Button, Columns, Heading } from 'react-bulma-components';
 import Layout from '../../Containers/Layout/Layout';
 import styles from './Login.module.css';
-import { login, selectUserStatus } from '../../State/Slices/UserSlice';
+import { login, logout, selectUserStatus } from '../../State/Slices/UserSlice';
 
 function Login() {
   const onlineStatus = useSelector(selectUserStatus);
   const dispatch = useDispatch();
+  useEffect(async () => {
+    const response = await axios.get('localhost:8080/me', {
+      withCredentials: true,
+    });
+    console.log(response.data);
+    if (response.status === StatusCodes.UNAUTHORIZED) {
+      dispatch(logout(false));
+    } else {
+      dispatch(login(true));
+    }
+  }, []);
   return (
     <Layout>
       <Container className={styles.containerLogin}>
@@ -26,7 +39,7 @@ function Login() {
               <a href="http://localhost:8080/oauth2/authorization/spotify">
                 <Button
                   className={styles.buttonLogin}
-                  onClick={() => dispatch(login(true))}
+                  onClick={async () => dispatch(login(true))}
                 >
                   <Heading size={6} className={styles.buttonTextLogin}>
                     Log In with Spotify
