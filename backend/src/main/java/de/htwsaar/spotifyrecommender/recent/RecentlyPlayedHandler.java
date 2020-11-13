@@ -16,10 +16,11 @@ public class RecentlyPlayedHandler {
     }
 
     public Mono<ServerResponse> get(ServerRequest serverRequest) {
+        var queryParams = serverRequest.queryParams();
         return client.get()
-                .uri("/v1/me/player/recently-played")
-                .exchange()
-                .map(response -> response.bodyToMono(RecentlyPlayedItems.class))
-                .flatMap(body -> ServerResponse.ok().body(body, RecentlyPlayedItems.class));
+                .uri(uriBuilder -> uriBuilder.path("/v1/me/player/recently-played").queryParams(queryParams).build())
+                .retrieve()
+                .bodyToMono(Response.class)
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }

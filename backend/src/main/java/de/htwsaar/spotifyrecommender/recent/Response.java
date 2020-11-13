@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RecentlyPlayedItems {
+class Response {
 
-    private List<RecentlyPlayedItem> items;
+    private List<Track> items;
 }
