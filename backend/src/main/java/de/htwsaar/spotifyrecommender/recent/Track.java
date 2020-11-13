@@ -5,13 +5,20 @@ import lombok.Data;
 
 @Data
 @JsonDeserialize(using = SpotifyItemDeserializer.class)
-public class RecentlyPlayedItem {
+class Track {
 
     private String id;
 
-    private String name;
+    private String title;
 
+    // List<String>
+    private String artist;
+
+    private String album;
+
+    // URI
     private String imageUrl;
 
-    private String type;
+    // Instant
+    private String playedAt;
 }
