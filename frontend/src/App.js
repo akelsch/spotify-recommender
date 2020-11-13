@@ -1,25 +1,34 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import StatusCodes from 'http-status-codes';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { login, logout } from './State/Slices/UserSlice';
+import { login } from './State/Slices/UserSlice';
+import { loadImage } from './State/Slices/AvatarSlice';
 import Login from './Pages/Login/Login';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(async () => {
-    const response = await axios.get('http://localhost:8080/me', {
-      withCredentials: true,
-    });
-    console.log(response.data);
-    if (response.status === StatusCodes.UNAUTHORIZED) {
-      dispatch(logout(false));
-    } else {
-      dispatch(login(true));
-    }
+
+  useEffect(() => {
+    const fetchUserStatusAndImage = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/me', {
+          withCredentials: true,
+        });
+
+        dispatch(login(true));
+        dispatch(loadImage(response.data.images[0].url));
+      } catch (error) {
+        if (window.location.pathname !== '/') {
+          window.location.replace('/');
+        }
+      }
+    };
+
+    fetchUserStatusAndImage();
   }, []);
+
   return (
     <div>
       <Router>

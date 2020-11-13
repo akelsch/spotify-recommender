@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Button, Columns, Heading } from 'react-bulma-components';
 import Layout from '../../Containers/Layout/Layout';
 import styles from './Login.module.css';
-import { login, logout, selectUserStatus } from '../../State/Slices/UserSlice';
+import { login, selectUserStatus } from '../../State/Slices/UserSlice';
 
 function Login() {
   const onlineStatus = useSelector(selectUserStatus);
@@ -23,16 +23,14 @@ function Login() {
           </Columns.Column>
           <Columns.Column>
             {onlineStatus ? null : (
-              <a href="http://localhost:8080/oauth2/authorization/spotify">
-                <Button
-                  className={styles.buttonLogin}
-                  onClick={async () => dispatch(login(true))}
-                >
-                  <Heading size={6} className={styles.buttonTextLogin}>
-                    Log In with Spotify
-                  </Heading>
-                </Button>
-              </a>
+              <Button
+                renderAs="a"
+                href="http://localhost:8080/oauth2/authorization/spotify"
+                className={styles.buttonLogin}
+                onClick={async () => dispatch(login(true))}
+              >
+                Log In with Spotify
+              </Button>
             )}
           </Columns.Column>
         </Columns>
