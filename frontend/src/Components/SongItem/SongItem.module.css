@@ -1,0 +1,7 @@
+.songWrapper {
+  position: relative;
+}
+.songImage {
+  width: 100%;
+  display: block;
+}

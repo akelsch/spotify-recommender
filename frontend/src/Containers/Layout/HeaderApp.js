@@ -25,7 +25,7 @@ function HeaderApp() {
           <Navbar.Item href="#">
             <Heading size={5}>Dashboard</Heading>
           </Navbar.Item>
-          <Navbar.Item href="#">
+          <Navbar.Item href="/recently-played">
             <Heading size={5}>Recently Played</Heading>
           </Navbar.Item>
           <Navbar.Item href="#">
