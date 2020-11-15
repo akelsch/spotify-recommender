@@ -10,32 +10,35 @@ function HeaderApp() {
   const onlineStatus = useSelector(selectUserStatus);
 
   return (
-    <Navbar active={active}>
-      <Navbar.Brand>
-        <Navbar.Item href="/">
-          <Heading>Spotify Recommender</Heading>
-        </Navbar.Item>
-        <Navbar.Burger onClick={() => setActive(!active)} />
-      </Navbar.Brand>
-      <Navbar.Menu>
-        <Navbar.Container position="end">
-          <Navbar.Item href="#">
-            <Heading size={5}>Dashboard</Heading>
+    <div>
+      <Navbar active={active}>
+        <Navbar.Brand>
+          <Navbar.Item href="/">
+            <Heading>Spotify Recommender</Heading>
           </Navbar.Item>
-          <Navbar.Item href="/recently-played">
-            <Heading size={5}>Recently Played</Heading>
-          </Navbar.Item>
-          <Navbar.Item href="#">
-            <Heading size={5}>Discover</Heading>
-          </Navbar.Item>
-          {onlineStatus ? (
+          <Navbar.Burger onClick={() => setActive(!active)} />
+        </Navbar.Brand>
+        <Navbar.Menu>
+          <Navbar.Container position="end">
             <Navbar.Item href="#">
-              <UserAvatar />
+              <Heading size={5}>Dashboard</Heading>
             </Navbar.Item>
-          ) : null}
-        </Navbar.Container>
-      </Navbar.Menu>
-    </Navbar>
+            <Navbar.Item href="/recently-played">
+              <Heading size={5}>Recently Played</Heading>
+            </Navbar.Item>
+            <Navbar.Item href="#">
+              <Heading size={5}>Discover</Heading>
+            </Navbar.Item>
+            {onlineStatus ? (
+              <Navbar.Item href="#">
+                <UserAvatar />
+              </Navbar.Item>
+            ) : null}
+          </Navbar.Container>
+        </Navbar.Menu>
+      </Navbar>
+      <hr />
+    </div>
   );
 }
 

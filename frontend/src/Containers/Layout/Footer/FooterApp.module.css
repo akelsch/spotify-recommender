@@ -1,5 +1,5 @@
 .footerApp {
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -15,10 +15,4 @@
 .footerEmoji {
   margin: 4px;
   margin-right: 7px;
-}
-
-@media screen and (max-width: 500px) {
-  .footerApp {
-    position: relative;
-  }
 }
