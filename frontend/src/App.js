@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.css';
-import { login } from './State/Slices/UserSlice';
-import { loadImage } from './State/Slices/AvatarSlice';
-import { getRecentlyPlayedSongs } from './State/Slices/RecentlyPlayedSlice';
-import SpotifyRecommenderApi from './Api/SpotifyRecommenderApi';
-import Home from './Pages/Home/Home';
-import RecentlyPlayed from './Pages/RecentlyPlayed/RecentlyPlayed';
+import { login } from './state/slices/UserSlice';
+import { loadImage } from './state/slices/AvatarSlice';
+import { getRecentlyPlayedSongs } from './state/slices/RecentlyPlayedSlice';
+import SpotifyRecommenderApi from './api/SpotifyRecommenderApi';
+import Home from './pages/Home';
+import RecentlyPlayed from './pages/RecentlyPlayed';
 
 function App() {
   const dispatch = useDispatch();

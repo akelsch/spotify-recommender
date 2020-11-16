@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navbar, Container, Heading } from 'react-bulma-components';
 
-import UserAvatar from '../../Components/UserAvatar/UserAvatar';
-import { selectUserStatus } from '../../State/Slices/UserSlice';
+import UserAvatar from '../../components/UserAvatar';
+import { selectUserStatus } from '../../state/slices/UserSlice';
 
 function Header() {
   const [active, setActive] = useState(false);

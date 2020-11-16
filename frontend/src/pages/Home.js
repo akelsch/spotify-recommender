@@ -4,8 +4,8 @@ import { Hero, Heading, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
-import Layout from '../../Containers/Layout/Layout';
-import { login, selectUserStatus } from '../../State/Slices/UserSlice';
+import Layout from './layout/Layout';
+import { login, selectUserStatus } from '../state/slices/UserSlice';
 
 function Home() {
   const onlineStatus = useSelector(selectUserStatus);
@@ -37,4 +37,5 @@ function Home() {
     </Layout>
   );
 }
+
 export default Home;

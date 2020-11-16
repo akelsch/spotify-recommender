@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Navbar } from 'react-bulma-components';
 import Avatar from 'react-avatar';
 
-import { selectAvatarImage } from '../../State/Slices/AvatarSlice';
+import { selectAvatarImage } from '../state/slices/AvatarSlice';
 
 function UserAvatar() {
   const imageUrl = useSelector(selectAvatarImage);

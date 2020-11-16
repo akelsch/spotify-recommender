@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './Slices/UserSlice';
-import avatarReducer from './Slices/AvatarSlice';
-import recentlyPlayedReducer from './Slices/RecentlyPlayedSlice';
+import userReducer from './slices/UserSlice';
+import avatarReducer from './slices/AvatarSlice';
+import recentlyPlayedReducer from './slices/RecentlyPlayedSlice';
 
 export default configureStore({
   reducer: {

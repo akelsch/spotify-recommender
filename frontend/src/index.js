@@ -6,7 +6,7 @@ import './index.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import store from './State/Store';
+import store from './state/Store';
 
 ReactDOM.render(
   <React.StrictMode>

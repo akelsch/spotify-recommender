@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SongItem from '../../Components/SongItem/SongItem';
+import SongItem from './SongItem';
 
 function SongItemList({ songItems }) {
   return (

@@ -25,4 +25,5 @@ SongItem.propTypes = {
   songTitle: PropTypes.string.isRequired,
   songArtist: PropTypes.string.isRequired,
 };
+
 export default SongItem;
