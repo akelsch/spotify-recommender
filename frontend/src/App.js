@@ -8,7 +8,9 @@ import { loadImage } from './state/slices/AvatarSlice';
 import { getRecentlyPlayedSongs } from './state/slices/RecentlyPlayedSlice';
 import SpotifyRecommenderApi from './api/SpotifyRecommenderApi';
 import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import RecentlyPlayed from './pages/RecentlyPlayed';
+import Discover from './pages/Discover';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +37,9 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" exact component={() => <Home />} />
+        <Route path="/dashboard" component={() => <Dashboard />} />
         <Route path="/recently-played" component={() => <RecentlyPlayed />} />
+        <Route path="/discover" component={() => <Discover />} />
       </Switch>
     </Router>
   );
