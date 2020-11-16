@@ -1,29 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Rating from 'react-rating-stars-component';
-import { Container } from 'react-bulma-components';
 import styles from './SongItem.module.css';
 
-function SongItem({ songImgUrl, songTitle }) {
+function SongItem({ songImgUrl, songTitle, songArtist }) {
   return (
-    <Container>
-      <div className={styles.songWrapper}>
-        <img src={songImgUrl} alt="songCover" className={styles.songImage} />
-        <p>{songTitle}</p>
-        <Rating
-          count={5}
-          isHalf
-          onChange={(e) => console.log(e)}
-          size={24}
-          activeColor="#ffd700"
-        />
-      </div>
-    </Container>
+    <div className={styles.songWrapper}>
+      <img src={songImgUrl} alt="songCover" className={styles.songImage} />
+      <p>{songTitle}</p>
+      <p>{songArtist}</p>
+      <Rating
+        count={5}
+        isHalf
+        onChange={(e) => console.log(e)}
+        size={24}
+        activeColor="#ffd700"
+      />
+    </div>
   );
 }
 
 SongItem.propTypes = {
   songImgUrl: PropTypes.string.isRequired,
   songTitle: PropTypes.string.isRequired,
+  songArtist: PropTypes.string.isRequired,
 };
 export default SongItem;

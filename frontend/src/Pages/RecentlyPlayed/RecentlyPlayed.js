@@ -11,7 +11,7 @@ function RecentlyPlayed() {
   return (
     <Layout>
       <Heading size={3} className={styles.headingRecentlyPlayed}>
-        RecentlyPlayed
+        Recently Played
       </Heading>
       <SongItemList songItems={recentlyPlayedSongs} />
     </Layout>

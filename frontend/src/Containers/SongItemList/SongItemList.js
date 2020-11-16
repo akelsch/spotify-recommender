@@ -7,8 +7,13 @@ function SongItemList({ songItems }) {
   return (
     <div className={styles.songItemListContainer}>
       {[
-        ...songItems.map(({ played_at, image_url, title }) => (
-          <SongItem key={played_at} songImgUrl={image_url} songTitle={title} />
+        ...songItems.map(({ played_at, image_url, title, artist }) => (
+          <SongItem
+            key={played_at}
+            songImgUrl={image_url}
+            songTitle={title}
+            songArtist={artist}
+          />
         )),
       ]}
     </div>
