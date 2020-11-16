@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import SongItem from '../../Components/SongItem/SongItem';
-import styles from './SongItemList.module.css';
 
 function SongItemList({ songItems }) {
   return (
-    <div className={styles.songItemListContainer}>
+    <div className="is-flex is-flex-wrap-wrap">
       {[
         ...songItems.map(({ played_at, image_url, title, artist }) => (
           <SongItem
