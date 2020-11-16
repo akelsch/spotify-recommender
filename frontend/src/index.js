@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
 import './index.css';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './State/Store';
-import { Provider } from 'react-redux';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import './App.css';
 import { login } from './State/Slices/UserSlice';
 import { loadImage } from './State/Slices/AvatarSlice';
 import { getRecentlyPlayedSongs } from './State/Slices/RecentlyPlayedSlice';
 import SpotifyRecommenderApi from './Api/SpotifyRecommenderApi';
 import Login from './Pages/Login/Login';
 import RecentlyPlayed from './Pages/RecentlyPlayed/RecentlyPlayed';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,14 +32,12 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <Router>
-        <Switch>
-          <Route path="/" exact component={() => <Login />} />
-          <Route path="/recently-played" component={() => <RecentlyPlayed />} />
-        </Switch>
-      </Router>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={() => <Login />} />
+        <Route path="/recently-played" component={() => <RecentlyPlayed />} />
+      </Switch>
+    </Router>
   );
 }
 

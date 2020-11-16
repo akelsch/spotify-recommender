@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Navbar, Heading } from 'react-bulma-components';
 import UserAvatar from '../../Components/UserAvatar/UserAvatar';
 import { selectUserStatus } from '../../State/Slices/UserSlice';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function HeaderApp() {
   const [active, setActive] = useState(false);

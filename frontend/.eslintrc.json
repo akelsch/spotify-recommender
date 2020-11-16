@@ -1,19 +1,19 @@
 {
-    "extends": ["airbnb", "prettier", "plugin:react/recommended"],
-    "plugins": ["prettier"],
-    "rules": {
+  "extends": ["airbnb", "prettier", "plugin:react/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
     "camelcase": "off",
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"]}],
-      "prettier/prettier": ["error", { "endOfLine": "auto"}],
-      "no-unused-vars": "warn",
-      "no-console": "off",
-      "func-names": "off",
-      "no-process-exit": "off",
-      "object-shorthand": "off",
-      "class-methods-use-this": "off",
-      "no-param-reassign":"off"
-    },
-    "env": {
-      "browser": true
-    }
+    "prettier/prettier": ["error", { "endOfLine": "auto"}],
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "func-names": "off",
+    "no-process-exit": "off",
+    "object-shorthand": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign":"off"
+  },
+  "env": {
+    "browser": true
   }
+}
