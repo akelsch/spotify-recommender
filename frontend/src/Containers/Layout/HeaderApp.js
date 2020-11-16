@@ -10,7 +10,7 @@ function HeaderApp() {
   const onlineStatus = useSelector(selectUserStatus);
 
   return (
-    <Navbar active={active}>
+    <Navbar active={active} className="has-shadow">
       <Navbar.Brand>
         <Navbar.Item href="/">
           <Heading>Spotify Recommender</Heading>
@@ -22,7 +22,7 @@ function HeaderApp() {
           <Navbar.Item href="#">
             <Heading size={5}>Dashboard</Heading>
           </Navbar.Item>
-          <Navbar.Item href="#">
+          <Navbar.Item href="/recently-played">
             <Heading size={5}>Recently Played</Heading>
           </Navbar.Item>
           <Navbar.Item href="#">

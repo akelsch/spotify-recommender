@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { login } from './State/Slices/UserSlice';
 import { loadImage } from './State/Slices/AvatarSlice';
+import { getRecentlyPlayedSongs } from './State/Slices/RecentlyPlayedSlice';
+import SpotifyRecommenderApi from './Api/SpotifyRecommenderApi';
 import Login from './Pages/Login/Login';
+import RecentlyPlayed from './Pages/RecentlyPlayed/RecentlyPlayed';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchUserStatusAndImage = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/me', {
-          withCredentials: true,
-        });
-
+        const recentlyPlayedSongs = await SpotifyRecommenderApi.getRecentlyPlayedSongs();
+        const imgUrl = await SpotifyRecommenderApi.getUserImage();
         dispatch(login(true));
-        dispatch(loadImage(response.data.images[0].url));
+        dispatch(loadImage(imgUrl));
+        dispatch(getRecentlyPlayedSongs(recentlyPlayedSongs));
       } catch (error) {
         if (window.location.pathname !== '/') {
           window.location.replace('/');
@@ -26,7 +27,7 @@ function App() {
       }
     };
 
-    fetchUserStatusAndImage();
+    fetchUserData();
   }, []);
 
   return (
@@ -34,6 +35,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={() => <Login />} />
+          <Route path="/recently-played" component={() => <RecentlyPlayed />} />
         </Switch>
       </Router>
     </div>

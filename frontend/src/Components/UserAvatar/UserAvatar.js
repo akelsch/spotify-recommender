@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import { Dropdown } from 'react-bulma-components';
 import styles from './UserAvatar.module.css';
@@ -26,9 +25,7 @@ function UserAvatar() {
           <Dropdown.Item value="home" className={styles.dropDownMenuItems}>
             <Avatar rounded unstyled src={imageUrl} />
           </Dropdown.Item>
-          <Dropdown.Item value="logout" className={styles.dropDownMenuItems}>
-            <Link to="/">Logout</Link>
-          </Dropdown.Item>
+          <Dropdown.Item value="logout" className={styles.dropDownMenuItems} />
         </Dropdown>
       )}
     </div>

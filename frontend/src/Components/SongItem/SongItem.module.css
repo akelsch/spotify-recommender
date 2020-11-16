@@ -1,0 +1,15 @@
+.songWrapper {
+  width: 250px;
+  margin: 1.5rem auto;
+}
+
+.songWrapper p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.songImage {
+  width: 250px;
+  height: 250px;
+}
