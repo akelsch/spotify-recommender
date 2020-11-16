@@ -23,9 +23,9 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Menu>
             <Navbar.Container position="end">
-              <Navbar.Item href="/DashBoard">Dashboard</Navbar.Item>
+              <Navbar.Item href="/dashboard">Dashboard</Navbar.Item>
               <Navbar.Item href="/recently-played">Recently Played</Navbar.Item>
-              <Navbar.Item href="#">Discover</Navbar.Item>
+              <Navbar.Item href="/discover">Discover</Navbar.Item>
               {onlineStatus ? <UserAvatar /> : null}
             </Navbar.Container>
           </Navbar.Menu>
