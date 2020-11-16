@@ -23,7 +23,7 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Menu>
             <Navbar.Container position="end">
-              <Navbar.Item href="#">Dashboard</Navbar.Item>
+              <Navbar.Item href="/DashBoard">Dashboard</Navbar.Item>
               <Navbar.Item href="/recently-played">Recently Played</Navbar.Item>
               <Navbar.Item href="#">Discover</Navbar.Item>
               {onlineStatus ? <UserAvatar /> : null}

@@ -9,6 +9,7 @@ import { getRecentlyPlayedSongs } from './state/slices/RecentlyPlayedSlice';
 import SpotifyRecommenderApi from './api/SpotifyRecommenderApi';
 import Home from './pages/Home';
 import RecentlyPlayed from './pages/RecentlyPlayed';
+import DashBoard from './Pages/DashBoard/DashBoard';
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={() => <Home />} />
         <Route path="/recently-played" component={() => <RecentlyPlayed />} />
+        <Route path="/DashBoard" component={() => <DashBoard />} />
       </Switch>
     </Router>
   );
