@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -30,7 +28,6 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class DatasetInitializer implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final ApplicationContext applicationContext;
     private final ObjectMapper objectMapper;
     private final PlaylistService playlistService;
     private final TrackRepository trackRepository;
@@ -44,7 +41,6 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
                 .log()
                 .map(this::deserializeFile)
                 .flatMap(this::saveToDatabase)
-                .doAfterTerminate(() -> SpringApplication.exit(applicationContext))
                 .subscribe();
     }
 
