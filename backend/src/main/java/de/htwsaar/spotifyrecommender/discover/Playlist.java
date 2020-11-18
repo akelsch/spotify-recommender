@@ -11,11 +11,11 @@ public class Playlist {
     @Id
     private Integer pid;
 
-    private long modified_at;
+    private long modifiedAt;
 
-    private int num_tracks;
+    private int numTracks;
 
-    private int num_albums;
+    private int numAlbums;
 
-    private int num_followers;
+    private int numFollowers;
 }

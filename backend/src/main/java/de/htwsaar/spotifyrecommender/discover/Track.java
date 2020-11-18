@@ -15,11 +15,11 @@ public class Track {
     @Column("pid_fk")
     private int pid;
 
-    private String track_uri;
+    private String trackUri;
 
-    private String artist_uri;
+    private String artistUri;
 
-    private String album_uri;
+    private String albumUri;
 
     private int pos;
 }

@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     @Value("${de.htwsaar.spotifyrecommender.frontendUrl}")
     private String allowedOrigin;
 
-    @Value("${de.htwsaar.spotifyrecommender.redirectUrl:}")
+    @Value("${de.htwsaar.spotifyrecommender.redirectUrl}")
     private String redirectUrl;
 
     @Bean

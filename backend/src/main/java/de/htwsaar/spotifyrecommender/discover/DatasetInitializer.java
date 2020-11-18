@@ -1,34 +1,62 @@
 package de.htwsaar.spotifyrecommender.discover;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 @Profile("init")
 @RequiredArgsConstructor
 public class DatasetInitializer implements ApplicationListener<ApplicationReadyEvent> {
 
+    private final ApplicationContext applicationContext;
     private final ObjectMapper objectMapper;
     private final PlaylistService playlistService;
     private final TrackRepository trackRepository;
 
+    @Value("${de.htwsaar.spotifyrecommender.datasetPath}")
+    private String datasetPath;
+
     @Override
-    @SneakyThrows
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        JsonParser parser = objectMapper.createParser(new File("C:\\Users\\Arthur\\Downloads\\spotify\\test.json"));
-        JsonNode jsonNode = parser.readValueAsTree();
+        Flux.fromStream(findAllJsonFiles())
+                .log()
+                .map(this::deserializeFile)
+                .flatMap(this::saveToDatabase)
+                .doAfterTerminate(() -> SpringApplication.exit(applicationContext))
+                .subscribe();
+    }
+
+    @SneakyThrows
+    private Stream<File> findAllJsonFiles() {
+        Path dir = Paths.get(datasetPath);
+        return Files.find(dir, 1, (path, attr) -> path.toString().endsWith(".json")).map(Path::toFile);
+    }
+
+    @SneakyThrows
+    private Tuple2<List<Playlist>, List<Track>> deserializeFile(File file) {
+        JsonNode jsonNode = objectMapper.readTree(file);
 
         List<Playlist> playlistList = new ArrayList<>();
         List<Track> trackList = new ArrayList<>();
@@ -46,8 +74,12 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
             }
         }
 
-        playlistService.insertAll(playlistList)
-                .thenMany(trackRepository.saveAll(trackList))
-                .subscribe();
+        return Tuples.of(playlistList, trackList);
+    }
+
+    private Mono<Void> saveToDatabase(Tuple2<List<Playlist>, List<Track>> data) {
+        return playlistService.insertAll(data.getT1())
+                .thenMany(trackRepository.saveAll(data.getT2()))
+                .then();
     }
 }
