@@ -1,6 +1,7 @@
 package de.htwsaar.spotifyrecommender.discover;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -20,7 +21,6 @@ import reactor.util.function.Tuples;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,14 +43,24 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
         this.objectMapper = objectMapper;
         this.csvMapper = new CsvMapper();
         csvMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        csvMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        initDirs();
         Flux.fromStream(findAllJsonFiles())
                 .log()
                 .map(this::deserializeFile)
                 .subscribe(this::writeCsvFiles);
+    }
+
+    @SneakyThrows
+    private void initDirs() {
+        File dir = Paths.get(datasetPath, "csv").toFile();
+        if (!dir.mkdir()) {
+            FileUtils.cleanDirectory(dir);
+        }
     }
 
     @SneakyThrows
@@ -87,9 +97,6 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
         File playlistsFile = Paths.get(datasetPath, "csv", "playlists.csv").toFile();
         String tracksFilename = "tracks%d.csv".formatted(objects.getT1().get(0).getPid());
         File tracksFile = Paths.get(datasetPath, "csv", tracksFilename).toFile();
-
-        File dir = playlistsFile.getParentFile();
-        dir.mkdir();
 
         CsvSchema playlistSchema;
         if (playlistsFile.exists()) {
