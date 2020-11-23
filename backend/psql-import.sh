@@ -7,6 +7,7 @@ fi
 
 PGPASSWORD=$1 psql -U sptfyusr -d postgres -c "DELETE FROM Tracks;"
 PGPASSWORD=$1 psql -U sptfyusr -d postgres -c "DELETE FROM Playlists;"
+PGPASSWORD=$1 psql -U sptfyusr -d postgres -c "ALTER SEQUENCE tracks_id_seq RESTART;"
 
 for FILE in *.csv; do
   if [[ $FILE == playlists* ]]; then
