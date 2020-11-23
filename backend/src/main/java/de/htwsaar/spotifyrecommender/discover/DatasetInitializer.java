@@ -1,5 +1,6 @@
 package de.htwsaar.spotifyrecommender.discover;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +45,7 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
         this.csvMapper = new CsvMapper();
         csvMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         csvMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
+        csvMapper.enable(JsonGenerator.Feature.IGNORE_UNKNOWN);
     }
 
     @Override
@@ -109,8 +111,16 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
                 .with(playlistSchema)
                 .writeValue(new FileOutputStream(playlistsFile, true), objects.getT1());
 
+        CsvSchema trackSchemaWithoutId = CsvSchema.builder()
+                .addColumn("pid")
+                .addColumn("track_uri")
+                .addColumn("artist_uri")
+                .addColumn("album_uri")
+                .addColumn("pos")
+                .build();
+
         csvMapper.writer()
-                .with(csvMapper.schemaFor(Track.class).withHeader())
+                .with(trackSchemaWithoutId.withHeader())
                 .writeValue(tracksFile, objects.getT2());
     }
 }
