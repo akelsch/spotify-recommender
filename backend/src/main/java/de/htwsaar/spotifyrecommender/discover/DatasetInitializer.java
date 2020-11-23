@@ -2,20 +2,25 @@ package de.htwsaar.spotifyrecommender.discover;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,23 +30,27 @@ import java.util.stream.Stream;
 
 @Component
 @Profile("init")
-@RequiredArgsConstructor
 public class DatasetInitializer implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ObjectMapper objectMapper;
-    private final PlaylistService playlistService;
-    private final TrackRepository trackRepository;
+    private final CsvMapper csvMapper;
 
     @Value("${de.htwsaar.spotifyrecommender.datasetPath}")
     private String datasetPath;
+
+    @Autowired
+    public DatasetInitializer(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+        this.csvMapper = new CsvMapper();
+        csvMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+    }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         Flux.fromStream(findAllJsonFiles())
                 .log()
                 .map(this::deserializeFile)
-                .flatMap(this::saveToDatabase)
-                .subscribe();
+                .subscribe(this::writeCsvFiles);
     }
 
     @SneakyThrows
@@ -73,9 +82,28 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
         return Tuples.of(playlistList, trackList);
     }
 
-    private Mono<Void> saveToDatabase(Tuple2<List<Playlist>, List<Track>> data) {
-        return playlistService.insertAll(data.getT1())
-                .thenMany(trackRepository.saveAll(data.getT2()))
-                .then();
+    @SneakyThrows
+    private void writeCsvFiles(Tuple2<List<Playlist>, List<Track>> objects) {
+        File playlistsFile = Paths.get(datasetPath, "csv", "playlists.csv").toFile();
+        String tracksFilename = "tracks%d.csv".formatted(objects.getT1().get(0).getPid());
+        File tracksFile = Paths.get(datasetPath, "csv", tracksFilename).toFile();
+
+        File dir = playlistsFile.getParentFile();
+        dir.mkdir();
+
+        CsvSchema playlistSchema;
+        if (playlistsFile.exists()) {
+            playlistSchema = csvMapper.schemaFor(Playlist.class).withoutHeader();
+        } else {
+            playlistSchema = csvMapper.schemaFor(Playlist.class).withHeader();
+        }
+
+        csvMapper.writer()
+                .with(playlistSchema)
+                .writeValue(new FileOutputStream(playlistsFile, true), objects.getT1());
+
+        csvMapper.writer()
+                .with(csvMapper.schemaFor(Track.class).withHeader())
+                .writeValue(tracksFile, objects.getT2());
     }
 }
