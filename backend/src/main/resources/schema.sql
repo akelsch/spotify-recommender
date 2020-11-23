@@ -1,3 +1,6 @@
+DROP TYPE IF EXISTS spotify_type;
+DROP TABLE IF EXISTS Playlists, Tracks, Ratings;
+
 CREATE TYPE spotify_type AS ENUM ('track', 'artist', 'album');
 
 CREATE TABLE Playlists
