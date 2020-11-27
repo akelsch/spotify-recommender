@@ -19,9 +19,19 @@ const getUserImage = async () => {
   return imgUrl;
 };
 
+const getUserName = async () => {
+  const response = await axios.get(`${BASE_URL}/me`, {
+    withCredentials: true,
+  });
+  const userName = response.data.display_name;
+
+  return userName;
+};
+
 const SpotifyRecommenderApi = {
   getRecentlyPlayedSongs,
   getUserImage,
+  getUserName,
 };
 
 export default SpotifyRecommenderApi;
