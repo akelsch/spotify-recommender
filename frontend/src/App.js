@@ -6,7 +6,7 @@ import './App.css';
 import { login } from './state/slices/UserSlice';
 import { loadImage } from './state/slices/AvatarSlice';
 import { getRecentlyPlayedSongs } from './state/slices/RecentlyPlayedSlice';
-import { setUserName } from './state/slices/UserName';
+import { setUserName } from './state/slices/UserNameSlice';
 import SpotifyRecommenderApi from './api/SpotifyRecommenderApi';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';

@@ -15,6 +15,7 @@
     "http-status-codes": "^2.1.4",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
+    "react-alice-carousel": "^2.1.0",
     "react-avatar": "^3.9.7",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^17.0.1",
