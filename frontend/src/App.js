@@ -20,8 +20,10 @@ function App() {
     const fetchUserData = async () => {
       try {
         const recentlyPlayedSongs = await SpotifyRecommenderApi.getRecentlyPlayedSongs();
-        const imgUrl = await SpotifyRecommenderApi.getUserImage();
-        const userName = await SpotifyRecommenderApi.getUserName();
+        const {
+          userName,
+          imgUrl,
+        } = await SpotifyRecommenderApi.getUserInformation();
         dispatch(login(true));
         dispatch(loadImage(imgUrl));
         dispatch(setUserName(userName));

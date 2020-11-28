@@ -11,7 +11,7 @@ function Dashboard() {
   const userName = useSelector(selectUserName);
   const text = `Welcome back, ${userName}! How is it going`;
   const recentlyPlayedSongs = useSelector(selectRecentlyPlayedSongs);
-  console.log(recentlyPlayedSongs);
+
   return (
     <Layout>
       <Heading>Dashboard</Heading>
