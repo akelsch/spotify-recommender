@@ -7,9 +7,10 @@ function SongItemList({ songItems }) {
   return (
     <div className="is-flex is-flex-wrap-wrap">
       {[
-        ...songItems.map(({ played_at, image_url, title, artist }) => (
+        ...songItems.map(({ played_at, id, image_url, title, artist }) => (
           <SongItem
             key={played_at}
+            songId={id}
             songImgUrl={image_url}
             songTitle={title}
             songArtist={artist}
