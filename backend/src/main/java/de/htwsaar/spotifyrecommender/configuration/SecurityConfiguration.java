@@ -1,6 +1,6 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
-import de.htwsaar.spotifyrecommender.util.SimpleUrlServerAuthenticationSuccessHandler;
+import de.htwsaar.spotifyrecommender.configuration.security.SimpleUrlServerAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;

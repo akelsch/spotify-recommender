@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.discover;
+package de.htwsaar.spotifyrecommender.dataset;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,9 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Converts the JSON dataset we got to CSV so it can be imported into Postgres.
+ */
 @Component
 @Profile("init")
-public class DatasetInitializer implements ApplicationListener<ApplicationReadyEvent> {
+public class DatasetConverter implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ObjectMapper objectMapper;
     private final CsvMapper csvMapper;
@@ -40,7 +43,7 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
     private String datasetPath;
 
     @Autowired
-    public DatasetInitializer(ObjectMapper objectMapper) {
+    public DatasetConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.csvMapper = new CsvMapper();
         csvMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
@@ -72,21 +75,21 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
     }
 
     @SneakyThrows
-    private Tuple2<List<Playlist>, List<Track>> deserializeFile(File file) {
+    private Tuple2<List<PlaylistEntity>, List<TrackEntity>> deserializeFile(File file) {
         JsonNode jsonNode = objectMapper.readTree(file);
 
-        List<Playlist> playlistList = new ArrayList<>();
-        List<Track> trackList = new ArrayList<>();
+        List<PlaylistEntity> playlistList = new ArrayList<>();
+        List<TrackEntity> trackList = new ArrayList<>();
 
         ArrayNode playlists = jsonNode.withArray("playlists");
         for (JsonNode p : playlists) {
-            Playlist playlist = objectMapper.treeToValue(p, Playlist.class);
+            PlaylistEntity playlist = objectMapper.treeToValue(p, PlaylistEntity.class);
             playlistList.add(playlist);
 
             ArrayNode tracks = p.withArray("tracks");
             for (JsonNode t : tracks) {
-                Track track = objectMapper.treeToValue(t, Track.class);
-                track.setPid(playlist.getPid());
+                TrackEntity track = objectMapper.treeToValue(t, TrackEntity.class);
+                track.setPidFk(playlist.getPid());
                 trackList.add(track);
             }
         }
@@ -95,16 +98,16 @@ public class DatasetInitializer implements ApplicationListener<ApplicationReadyE
     }
 
     @SneakyThrows
-    private void writeCsvFiles(Tuple2<List<Playlist>, List<Track>> objects) {
+    private void writeCsvFiles(Tuple2<List<PlaylistEntity>, List<TrackEntity>> objects) {
         File playlistsFile = Paths.get(datasetPath, "csv", "playlists.csv").toFile();
         String tracksFilename = "tracks%d.csv".formatted(objects.getT1().get(0).getPid());
         File tracksFile = Paths.get(datasetPath, "csv", tracksFilename).toFile();
 
         CsvSchema playlistSchema;
         if (playlistsFile.exists()) {
-            playlistSchema = csvMapper.schemaFor(Playlist.class).withoutHeader();
+            playlistSchema = csvMapper.schemaFor(PlaylistEntity.class).withoutHeader();
         } else {
-            playlistSchema = csvMapper.schemaFor(Playlist.class).withHeader();
+            playlistSchema = csvMapper.schemaFor(PlaylistEntity.class).withHeader();
         }
 
         csvMapper.writer()
