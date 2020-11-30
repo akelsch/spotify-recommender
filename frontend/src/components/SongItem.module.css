@@ -1,5 +1,5 @@
 .songWrapper {
-  max-width: 250px;
+  width: 250px;
   margin: 1.5rem auto;
 }
 
@@ -13,28 +13,25 @@
   width: 250px;
   height: 250px;
 }
+
 .songImageAndIconWrapper {
   position: relative;
 }
-.songPlayButtonIcon:hover .songPlayButtonIcon {
-  opacity: 1;
-}
+
 .songPlayButtonIcon {
+  font-size: 96px;
+  color: white;
+
   position: absolute;
-  z-index: 1;
-  font-size: 100px;
-  color: #fff;
-  transition: all 0.3s ease 0s;
-  margin: auto;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 1;
+
+  margin: auto;
 }
+
 .songPlayButtonIcon:hover {
-  opacity: 0.7;
+  opacity: 0.75;
   transition: all 0.3s ease 0s;
 }
