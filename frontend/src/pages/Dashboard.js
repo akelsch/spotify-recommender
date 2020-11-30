@@ -9,21 +9,33 @@ import Layout from './layout/Layout';
 
 function Dashboard() {
   const userName = useSelector(selectUserName);
-  const text = `Welcome back, ${userName}! How is it going`;
+  const greeting = `Welcome back, ${userName}! How is it going?`;
   const recentlyPlayedSongs = useSelector(selectRecentlyPlayedSongs);
 
   return (
     <Layout>
       <Heading>Dashboard</Heading>
       <Heading subtitle renderAs="h2">
-        {text}
+        {greeting}
       </Heading>
 
-      <Heading>Recently Played</Heading>
-      {recentlyPlayedSongs.length ? (
-        <Carousel songItems={recentlyPlayedSongs} />
-      ) : null}
-      <Heading>Discover</Heading>
+      <div>
+        <Heading renderAs="h2" className="mb-0">
+          Recently Played
+        </Heading>
+        {recentlyPlayedSongs.length ? (
+          <Carousel songItems={recentlyPlayedSongs} />
+        ) : null}
+      </div>
+
+      <div>
+        <Heading renderAs="h2" className="mb-0">
+          Discover
+        </Heading>
+        {recentlyPlayedSongs.length ? (
+          <Carousel songItems={recentlyPlayedSongs.slice().reverse()} />
+        ) : null}
+      </div>
     </Layout>
   );
 }

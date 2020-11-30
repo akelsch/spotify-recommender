@@ -1,34 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
+import SwiperCore, { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import SongItem from './SongItem';
+
+SwiperCore.use([Pagination]);
 
 function Carousel({ songItems }) {
   const songItemsComponents = [
     ...songItems.map(({ played_at, image_url, title, artist }) => (
-      <SongItem
-        key={played_at}
-        songImgUrl={image_url}
-        songTitle={title}
-        songArtist={artist}
-      />
+      <SwiperSlide key={played_at}>
+        <SongItem
+          songImgUrl={image_url}
+          songTitle={title}
+          songArtist={artist}
+        />
+      </SwiperSlide>
     )),
   ];
+
   return (
-    <div className="is-flex is-flex-wrap-wrap">
-      <RCarousel
-        items={songItemsComponents}
-        mouseTracking
-        responsive={{
-          0: { items: 1 },
-          568: { items: 3 },
-          1024: { items: 5 },
-        }}
-      />
-    </div>
+    <Swiper slidesPerView={5} pagination={{ clickable: true }}>
+      {songItemsComponents}
+    </Swiper>
   );
 }
+
 Carousel.propTypes = {
   songItems: PropTypes.arrayOf(
     PropTypes.shape({

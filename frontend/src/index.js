@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import './index.css';
+import 'swiper/swiper-bundle.min.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
