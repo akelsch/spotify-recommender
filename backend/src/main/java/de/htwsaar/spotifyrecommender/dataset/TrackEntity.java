@@ -1,16 +1,22 @@
 package de.htwsaar.spotifyrecommender.dataset;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * POJO that represents the Tracks database table.
  */
 @Data
+@Table("Tracks")
 public class TrackEntity {
 
+    @Id
     private Long id;
 
-    private int pidFk;
+    @Column("pid_fk")
+    private int pid;
 
     private String trackUri;
 

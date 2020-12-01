@@ -89,7 +89,7 @@ public class DatasetConverter implements ApplicationListener<ApplicationReadyEve
             ArrayNode tracks = p.withArray("tracks");
             for (JsonNode t : tracks) {
                 TrackEntity track = objectMapper.treeToValue(t, TrackEntity.class);
-                track.setPidFk(playlist.getPid());
+                track.setPid(playlist.getPid());
                 trackList.add(track);
             }
         }

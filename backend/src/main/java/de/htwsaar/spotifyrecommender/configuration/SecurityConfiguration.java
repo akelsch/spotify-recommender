@@ -20,7 +20,7 @@ import java.util.List;
 public class SecurityConfiguration {
 
     @Value("${de.htwsaar.spotifyrecommender.frontendUrl}")
-    private String allowedOrigin;
+    private String frontendUrl;
 
     @Value("${de.htwsaar.spotifyrecommender.redirectUrl}")
     private String redirectUrl;
@@ -48,7 +48,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin(allowedOrigin);
+        configuration.addAllowedOrigin(frontendUrl);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.applyPermitDefaultValues();
 
