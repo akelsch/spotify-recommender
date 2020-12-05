@@ -1,11 +1,11 @@
-package de.htwsaar.spotifyrecommender.recent;
+package de.htwsaar.spotifyrecommender.discover;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 @Data
-@JsonDeserialize(using = SpotifyItemDeserializer.class)
-class Track {
+@JsonDeserialize(using = DiscoverTrackDeserializer.class)
+class DiscoverTrack {
 
     private String id;
 
@@ -18,7 +18,4 @@ class Track {
 
     // URI
     private String imageUrl;
-
-    // Instant
-    private String playedAt;
 }

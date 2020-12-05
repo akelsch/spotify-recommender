@@ -10,28 +10,28 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-class SpotifyItemDeserializer extends StdDeserializer<Track> {
+class RecentlyPlayedTrackDeserializer extends StdDeserializer<RecentlyPlayedTrack> {
 
-    public SpotifyItemDeserializer() {
-        super(Track.class);
+    public RecentlyPlayedTrackDeserializer() {
+        super(RecentlyPlayedTrack.class);
     }
 
     @Override
-    public Track deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public RecentlyPlayedTrack deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode jsonNode = p.readValueAsTree();
 
         JsonNode track = jsonNode.get("track");
         JsonNode playedAt = jsonNode.get("played_at");
 
-        Track item = new Track();
-        item.setId(StringUtils.substringAfterLast(track.get("uri").asText(), ":"));
-        item.setTitle(track.get("name").asText());
-        item.setArtist(extractArtists(track));
-        item.setAlbum(track.get("album").get("name").asText());
-        item.setImageUrl(extractAlbumImageUrl(track));
-        item.setPlayedAt(playedAt.asText());
+        RecentlyPlayedTrack object = new RecentlyPlayedTrack();
+        object.setId(StringUtils.substringAfterLast(track.get("uri").asText(), ":"));
+        object.setTitle(track.get("name").asText());
+        object.setArtist(extractArtists(track));
+        object.setAlbum(track.get("album").get("name").asText());
+        object.setImageUrl(extractAlbumImageUrl(track));
+        object.setPlayedAt(playedAt.asText());
 
-        return item;
+        return object;
     }
 
     private static String extractArtists(JsonNode track) {
