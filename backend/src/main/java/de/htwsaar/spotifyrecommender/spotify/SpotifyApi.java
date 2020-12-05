@@ -26,4 +26,10 @@ public class SpotifyApi {
                 .uri(uriBuilder -> uriBuilder.path("/v1/tracks").queryParams(queryParams).build())
                 .retrieve();
     }
+
+    public WebClient.ResponseSpec getRecentlyPlayedTracks(MultiValueMap<String, String> queryParams) {
+        return client.get()
+                .uri(uriBuilder -> uriBuilder.path("/v1/me/player/recently-played").queryParams(queryParams).build())
+                .retrieve();
+    }
 }

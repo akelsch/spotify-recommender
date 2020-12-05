@@ -20,14 +20,14 @@ class DiscoverTrackDeserializer extends StdDeserializer<DiscoverTrack> {
     public DiscoverTrack deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode jsonNode = p.readValueAsTree();
 
-        DiscoverTrack item = new DiscoverTrack();
-        item.setId(StringUtils.substringAfterLast(jsonNode.get("uri").asText(), ":"));
-        item.setTitle(jsonNode.get("name").asText());
-        item.setArtist(extractArtists(jsonNode));
-        item.setAlbum(jsonNode.get("album").get("name").asText());
-        item.setImageUrl(extractAlbumImageUrl(jsonNode));
+        DiscoverTrack track = new DiscoverTrack();
+        track.setId(StringUtils.substringAfterLast(jsonNode.get("uri").asText(), ":"));
+        track.setTitle(jsonNode.get("name").asText());
+        track.setArtist(extractArtists(jsonNode));
+        track.setAlbum(jsonNode.get("album").get("name").asText());
+        track.setImageUrl(extractAlbumImageUrl(jsonNode));
 
-        return item;
+        return track;
     }
 
     private static String extractArtists(JsonNode track) {

@@ -1,27 +1,21 @@
 package de.htwsaar.spotifyrecommender.recent;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import de.htwsaar.spotifyrecommender.spotify.SpotifyApi;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @Component
+@RequiredArgsConstructor
 public class RecentlyPlayedHandler {
 
-    private final WebClient client;
-
-    @Autowired
-    public RecentlyPlayedHandler(WebClient oauthWebClient) {
-        this.client = oauthWebClient;
-    }
+    private final SpotifyApi spotifyApi;
 
     public Mono<ServerResponse> get(ServerRequest serverRequest) {
         var queryParams = serverRequest.queryParams();
-        return client.get()
-                .uri(uriBuilder -> uriBuilder.path("/v1/me/player/recently-played").queryParams(queryParams).build())
-                .retrieve()
+        return spotifyApi.getRecentlyPlayedTracks(queryParams)
                 .bodyToMono(RecentlyPlayedResponse.class)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
