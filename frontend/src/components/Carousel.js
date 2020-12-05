@@ -8,9 +8,10 @@ SwiperCore.use([Pagination]);
 
 function Carousel({ songItems }) {
   const songItemsComponents = [
-    ...songItems.map(({ played_at, image_url, title, artist }) => (
+    ...songItems.map(({ played_at, id, image_url, title, artist }) => (
       <SwiperSlide key={played_at}>
         <SongItem
+          songId={id}
           songImgUrl={image_url}
           songTitle={title}
           songArtist={artist}
@@ -20,7 +21,30 @@ function Carousel({ songItems }) {
   ];
 
   return (
-    <Swiper slidesPerView={5} pagination={{ clickable: true }}>
+    <Swiper
+      breakpoints={{
+        640: {
+          width: 320,
+          slidesPerView: 1,
+        },
+        768: {
+          width: 768,
+          spaceBetween: 15,
+          slidesPerView: 2,
+        },
+        961: {
+          width: 961,
+          spaceBetween: 20,
+          slidesPerView: 3,
+        },
+        1025: {
+          width: 1300,
+          spaceBetween: 20,
+          slidesPerView: 5,
+        },
+      }}
+      pagination={{ clickable: true }}
+    >
       {songItemsComponents}
     </Swiper>
   );

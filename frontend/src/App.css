@@ -19,6 +19,29 @@
 
 /* Workaround for swiper pagination ignoring margin */
 
-.swiper-slide > [class*="songWrapper"] > :last-child {
+.swiper-slide > [class*='songWrapper'] > :last-child {
   margin-bottom: 3rem;
+}
+.swiper-container {
+  width: 1024px;
+}
+@media screen and (min-width: 320px) {
+  .swiper-container {
+    width: 320px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .swiper-container {
+    width: 768px;
+  }
+}
+@media screen and (min-width: 961px) {
+  .swiper-container {
+    width: 961px;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .swiper-container {
+    width: 1300px;
+  }
 }
