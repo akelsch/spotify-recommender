@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { Navbar, Container, Heading } from 'react-bulma-components';
 
 import UserAvatar from '../../components/UserAvatar';
-import { selectUserStatus } from '../../state/slices/UserSlice';
+import { selectUser } from '../../state/slices/newUserSlice';
 
 function Header() {
   const [active, setActive] = useState(false);
-  const onlineStatus = useSelector(selectUserStatus);
+  const user = useSelector(selectUser);
 
   return (
     <header>
@@ -26,7 +26,7 @@ function Header() {
               <Navbar.Item href="/dashboard">Dashboard</Navbar.Item>
               <Navbar.Item href="/recently-played">Recently Played</Navbar.Item>
               <Navbar.Item href="/discover">Discover</Navbar.Item>
-              {onlineStatus ? <UserAvatar /> : null}
+              {user ? <UserAvatar /> : null}
             </Navbar.Container>
           </Navbar.Menu>
         </Container>

@@ -1,14 +1,29 @@
-import { configureStore } from '@reduxjs/toolkit';
-import userAvatarReducer from './slices/UserSlice';
-import avatarReducer from './slices/AvatarSlice';
-import recentlyPlayedReducer from './slices/RecentlyPlayedSlice';
-import userNameReducer from './slices/UserNameSlice';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+import rootReducer from './slices';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default configureStore({
-  reducer: {
-    userStatus: userAvatarReducer,
-    avatarImage: avatarReducer,
-    recentlyPlayed: recentlyPlayedReducer,
-    userName: userNameReducer,
-  },
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 });

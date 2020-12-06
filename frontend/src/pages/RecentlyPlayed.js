@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Heading } from 'react-bulma-components';
 
+import { selectRecentlyPlayedSongs } from '../state/slices/RecentlyPlayedSlice';
 import Layout from './layout/Layout';
 import SongItemList from '../components/SongItemList';
-import { selectRecentlyPlayedSongs } from '../state/slices/RecentlyPlayedSlice';
 
 function RecentlyPlayed() {
   const recentlyPlayedSongs = useSelector(selectRecentlyPlayedSongs);

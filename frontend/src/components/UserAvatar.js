@@ -5,18 +5,19 @@ import Avatar from 'react-avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-import { selectAvatarImage } from '../state/slices/AvatarSlice';
+import { selectUserImage } from '../state/slices/newUserSlice';
 
 function UserAvatar() {
-  const imageUrl = useSelector(selectAvatarImage);
+  const image = useSelector(selectUserImage);
+  console.log(image);
 
   return (
     <Navbar.Item dropdown hoverable href="#">
       <Navbar.Link>
-        {imageUrl === '' ? (
-          <FontAwesomeIcon icon={faUser} />
+        {image ? (
+          <Avatar src={image} size="28" round />
         ) : (
-          <Avatar src={imageUrl} size="28" round />
+          <FontAwesomeIcon icon={faUser} />
         )}
       </Navbar.Link>
       <Navbar.Dropdown>

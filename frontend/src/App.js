@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.css';
-import { login } from './state/slices/UserSlice';
-import { loadImage } from './state/slices/AvatarSlice';
-import { getRecentlyPlayedSongs } from './state/slices/RecentlyPlayedSlice';
-import { setUserName } from './state/slices/UserNameSlice';
-import SpotifyRecommenderApi from './api/SpotifyRecommenderApi';
+import { login, selectUser } from './state/slices/newUserSlice';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import RecentlyPlayed from './pages/RecentlyPlayed';
@@ -15,28 +11,13 @@ import Discover from './pages/Discover';
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const recentlyPlayedSongs = await SpotifyRecommenderApi.getRecentlyPlayedSongs();
-        const {
-          userName,
-          imgUrl,
-        } = await SpotifyRecommenderApi.getUserInformation();
-        dispatch(login(true));
-        dispatch(loadImage(imgUrl));
-        dispatch(setUserName(userName));
-        dispatch(getRecentlyPlayedSongs(recentlyPlayedSongs));
-      } catch (error) {
-        if (window.location.pathname !== '/') {
-          window.location.replace('/');
-        }
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    if (user === null) {
+      dispatch(login());
+    }
+  });
 
   return (
     <Router>

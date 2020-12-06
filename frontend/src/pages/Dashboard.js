@@ -1,11 +1,11 @@
 import React from 'react';
 import { Heading } from 'react-bulma-components';
 import { useSelector } from 'react-redux';
-import { selectUserName } from '../state/slices/UserNameSlice';
-import { selectRecentlyPlayedSongs } from '../state/slices/RecentlyPlayedSlice';
-import Carousel from '../components/Carousel';
 
+import { selectUserName } from '../state/slices/newUserSlice';
+import { selectRecentlyPlayedSongs } from '../state/slices/RecentlyPlayedSlice';
 import Layout from './layout/Layout';
+import Carousel from '../components/Carousel';
 
 function Dashboard() {
   const userName = useSelector(selectUserName);

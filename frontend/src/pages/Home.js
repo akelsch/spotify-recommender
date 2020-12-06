@@ -4,11 +4,12 @@ import { Hero, Heading, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
+import { selectUser } from '../state/slices/newUserSlice';
 import Layout from './layout/Layout';
-import { selectUserStatus } from '../state/slices/UserSlice';
 
 function Home() {
-  const onlineStatus = useSelector(selectUserStatus);
+  const user = useSelector(selectUser);
+
   return (
     <Layout>
       <Hero>
@@ -17,7 +18,7 @@ function Home() {
           <Heading subtitle renderAs="h2">
             Login below to get started now!
           </Heading>
-          {onlineStatus ? null : (
+          {user ? null : (
             <Button
               size="medium"
               color="success"
