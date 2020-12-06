@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SwiperCore, { Pagination } from 'swiper';
+import SwiperCore, { Pagination, Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 import SongItem from './SongItem';
 
-SwiperCore.use([Pagination]);
+SwiperCore.use([Pagination, Virtual]);
 
 function Carousel({ songItems }) {
   const songItemsComponents = [
-    ...songItems.map(({ played_at, id, image_url, title, artist }) => (
-      <SwiperSlide key={played_at}>
+    ...songItems.map(({ played_at, id, image_url, title, artist }, index) => (
+      <SwiperSlide key={played_at} virtualIndex={index}>
         <SongItem
           songId={id}
           songImgUrl={image_url}
@@ -22,28 +23,26 @@ function Carousel({ songItems }) {
 
   return (
     <Swiper
+      slidesPerView={5}
       breakpoints={{
-        640: {
-          width: 320,
+        0: {
           slidesPerView: 1,
         },
         768: {
-          width: 768,
-          spaceBetween: 15,
           slidesPerView: 2,
         },
-        961: {
-          width: 961,
-          spaceBetween: 20,
+        1024: {
           slidesPerView: 3,
         },
-        1025: {
-          width: 1300,
-          spaceBetween: 20,
+        1216: {
+          slidesPerView: 4,
+        },
+        1408: {
           slidesPerView: 5,
         },
       }}
       pagination={{ clickable: true }}
+      virtual
     >
       {songItemsComponents}
     </Swiper>
