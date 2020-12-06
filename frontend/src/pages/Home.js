@@ -1,15 +1,14 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Hero, Heading, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
 import Layout from './layout/Layout';
-import { login, selectUserStatus } from '../state/slices/UserSlice';
+import { selectUserStatus } from '../state/slices/UserSlice';
 
 function Home() {
   const onlineStatus = useSelector(selectUserStatus);
-  const dispatch = useDispatch();
   return (
     <Layout>
       <Hero>
@@ -20,11 +19,12 @@ function Home() {
           </Heading>
           {onlineStatus ? null : (
             <Button
-              renderAs="a"
-              href="http://localhost:8080/oauth2/authorization/spotify"
               size="medium"
               color="success"
-              onClick={async () => dispatch(login(true))}
+              onClick={async () => {
+                window.location.href =
+                  'http://localhost:8080/oauth2/authorization/spotify';
+              }}
             >
               <Icon>
                 <FontAwesomeIcon icon={faSpotify} />

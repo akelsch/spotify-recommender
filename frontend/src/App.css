@@ -1,5 +1,4 @@
 /* Unavailable Bulma features in react-bulma-components */
-
 .mb-0 {
   margin-bottom: 0 !important;
 }
@@ -17,8 +16,11 @@
   flex-wrap: wrap !important;
 }
 
-/* Workaround for swiper pagination ignoring margin */
+.container {
+  width: 100% !important; /* fixes broken containers in flexbox root div */
+}
 
-.swiper-slide > [class*="songWrapper"] > :last-child {
+/* Workaround for swiper pagination ignoring margin */
+.swiper-slide > [class*='songWrapper'] > :last-child {
   margin-bottom: 3rem;
 }
