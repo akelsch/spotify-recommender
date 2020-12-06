@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import SpotifyRecommenderApi from '../../api/SpotifyRecommenderApi';
+import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 
 export const login = createAsyncThunk('user/login', async () => {
   const user = await SpotifyRecommenderApi.fetchUser();

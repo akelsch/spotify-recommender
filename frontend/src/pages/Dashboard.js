@@ -2,15 +2,15 @@ import React from 'react';
 import { Heading } from 'react-bulma-components';
 import { useSelector } from 'react-redux';
 
-import { selectUserName } from '../state/slices/newUserSlice';
-import { selectRecentlyPlayedSongs } from '../state/slices/RecentlyPlayedSlice';
+import { selectUserName } from '../reducers/userReducer';
+import { selectRecentlyPlayedTracks } from '../reducers/recentlyPlayedReducer';
 import Layout from './layout/Layout';
 import Carousel from '../components/Carousel';
 
 function Dashboard() {
   const userName = useSelector(selectUserName);
   const greeting = `Welcome back, ${userName}! How is it going?`;
-  const recentlyPlayedSongs = useSelector(selectRecentlyPlayedSongs);
+  const recentlyPlayedTracks = useSelector(selectRecentlyPlayedTracks);
 
   return (
     <Layout>
@@ -23,8 +23,8 @@ function Dashboard() {
         <Heading renderAs="h2" className="mb-0">
           Recently Played
         </Heading>
-        {recentlyPlayedSongs.length ? (
-          <Carousel songItems={recentlyPlayedSongs} />
+        {recentlyPlayedTracks.length ? (
+          <Carousel songItems={recentlyPlayedTracks} />
         ) : null}
       </div>
 
@@ -32,8 +32,8 @@ function Dashboard() {
         <Heading renderAs="h2" className="mb-0">
           Discover
         </Heading>
-        {recentlyPlayedSongs.length ? (
-          <Carousel songItems={recentlyPlayedSongs.slice().reverse()} />
+        {recentlyPlayedTracks.length ? (
+          <Carousel songItems={recentlyPlayedTracks.slice().reverse()} />
         ) : null}
       </div>
     </Layout>

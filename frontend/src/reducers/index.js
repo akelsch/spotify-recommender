@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import newUserReducer from './newUserSlice';
-import recentlyPlayedReducer from './RecentlyPlayedSlice';
+import userReducer from './userReducer';
+import recentlyPlayedReducer from './recentlyPlayedReducer';
 
 export default combineReducers({
-  user: newUserReducer,
+  user: userReducer,
   recentlyPlayed: recentlyPlayedReducer,
 });

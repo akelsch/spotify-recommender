@@ -8,8 +8,8 @@ import 'react-bulma-components/dist/react-bulma-components.min.css';
 import 'swiper/swiper-bundle.min.css';
 import './index.css';
 import App from './App';
+import store from './store';
 import reportWebVitals from './reportWebVitals';
-import store from './state/Store';
 
 ReactDOM.render(
   <React.StrictMode>

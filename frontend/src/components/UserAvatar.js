@@ -5,11 +5,10 @@ import Avatar from 'react-avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-import { selectUserImage } from '../state/slices/newUserSlice';
+import { selectUserImage } from '../reducers/userReducer';
 
 function UserAvatar() {
   const image = useSelector(selectUserImage);
-  console.log(image);
 
   return (
     <Navbar.Item dropdown hoverable href="#">

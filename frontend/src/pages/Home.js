@@ -4,7 +4,7 @@ import { Hero, Heading, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
-import { selectUser } from '../state/slices/newUserSlice';
+import { selectUser } from '../reducers/userReducer';
 import Layout from './layout/Layout';
 
 function Home() {
