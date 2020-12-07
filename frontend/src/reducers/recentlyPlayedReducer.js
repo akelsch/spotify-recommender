@@ -6,12 +6,10 @@ const recentlyPlayedSlice = createSlice({
     value: [],
   },
   reducers: {
-    getRecentlyPlayedTracks: (state, action) => {
-      state.value = action.payload;
-    },
+    setRecentlyPlayedTracks: (state, action) => ({ value: action.payload }),
   },
 });
 
-export const { getRecentlyPlayedTracks } = recentlyPlayedSlice.actions;
+export const { setRecentlyPlayedTracks } = recentlyPlayedSlice.actions;
 export const selectRecentlyPlayedTracks = (state) => state.recentlyPlayed.value;
 export default recentlyPlayedSlice.reducer;

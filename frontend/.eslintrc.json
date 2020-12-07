@@ -1,7 +1,5 @@
 {
-  "plugins": [
-    "prettier"
-  ],
+  "plugins": ["prettier"],
   "extends": [
     "airbnb",
     "prettier",
@@ -11,14 +9,8 @@
   ],
   "rules": {
     "camelcase": "off",
-    "class-methods-use-this": "off",
-    "func-names": "off",
     "no-console": "off",
-    "no-param-reassign":"off",
-    "no-process-exit": "off",
     "no-unused-vars": "warn",
-    "object-shorthand": "off",
-    "prettier/prettier": ["error", { "endOfLine": "auto"}],
-    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"]}]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }
