@@ -6,12 +6,12 @@ import UserAvatar from '../../components/UserAvatar';
 import { selectUser } from '../../reducers/userReducer';
 
 function Header() {
-  const [active, setActive] = useState(false);
+  const [isActive, setActive] = useState(false);
   const user = useSelector(selectUser);
 
   return (
     <header>
-      <Navbar active={active} className="has-shadow">
+      <Navbar active={isActive} className="has-shadow">
         <Container>
           <Navbar.Brand>
             <Navbar.Item href="/">
@@ -19,7 +19,7 @@ function Header() {
                 Spotify Recommender
               </Heading>
             </Navbar.Item>
-            <Navbar.Burger onClick={() => setActive(!active)} />
+            <Navbar.Burger onClick={() => setActive(!isActive)} />
           </Navbar.Brand>
           <Navbar.Menu>
             <Navbar.Container position="end">

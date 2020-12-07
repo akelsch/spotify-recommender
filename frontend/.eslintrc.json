@@ -2,15 +2,16 @@
   "plugins": ["prettier"],
   "extends": [
     "airbnb",
+    "airbnb/hooks",
     "prettier",
     "prettier/react",
-    "plugin:react/recommended",
     "plugin:react-redux/recommended"
   ],
   "rules": {
     "camelcase": "off",
     "no-console": "off",
     "no-unused-vars": "warn",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "require-await": "warn"
   }

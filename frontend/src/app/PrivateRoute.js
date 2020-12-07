@@ -8,23 +8,25 @@ import { login, selectUser } from '../reducers/userReducer';
 
 /* eslint-disable react/jsx-props-no-spreading */
 function PrivateRoute({ component: Component, ...rest }) {
-  const [isLoading, setLoading] = useState(true);
-
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
-  useEffect(async () => {
-    if (user === null) {
-      try {
-        const newUser = await SpotifyRecommenderApi.fetchUser();
-        dispatch(login(newUser));
-      } catch (e) {
-        // authentication failed, user is not logged in
-      }
-    }
+  const [isLoading, setLoading] = useState(true);
 
-    setLoading(false);
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user === null) {
+        try {
+          const newUser = await SpotifyRecommenderApi.fetchUser();
+          dispatch(login(newUser));
+        } catch (e) {
+          // authentication failed, user is not logged in
+        }
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, [dispatch, user]);
 
   return (
     <Route

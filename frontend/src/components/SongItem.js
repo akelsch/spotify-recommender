@@ -6,14 +6,15 @@ import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from './SongItem.module.css';
 
 function SongItem({ songId, songImgUrl, songTitle, songArtist }) {
-  const [isShown, setIsShown] = useState(false);
+  const [isShown, setShown] = useState(false);
   const playLintToSpotify = `https://open.spotify.com/track/${songId}`;
+
   return (
     <div className={styles.songWrapper}>
       <div
         className={styles.songImageAndIconWrapper}
-        onMouseEnter={() => setIsShown(!isShown)}
-        onMouseLeave={() => setIsShown(!isShown)}
+        onMouseEnter={() => setShown(!isShown)}
+        onMouseLeave={() => setShown(!isShown)}
       >
         {isShown && (
           <FontAwesomeIcon
