@@ -11,6 +11,7 @@
     "camelcase": "off",
     "no-console": "off",
     "no-unused-vars": "warn",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+    "require-await": "warn"
   }
 }

@@ -4,6 +4,7 @@ import { Hero, Heading, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
+import { BACKEND_URL } from '../api/SpotifyRecommenderApi';
 import { selectUser } from '../reducers/userReducer';
 import Layout from './layout/Layout';
 
@@ -22,9 +23,8 @@ function Home() {
             <Button
               size="medium"
               color="success"
-              onClick={async () => {
-                window.location.href =
-                  'http://localhost:8080/oauth2/authorization/spotify';
+              onClick={() => {
+                window.location.href = `${BACKEND_URL}/oauth2/authorization/spotify`;
               }}
             >
               <Icon>

@@ -1,13 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from 'react-bulma-components';
 import Avatar from 'react-avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-import { selectUserImage } from '../reducers/userReducer';
+import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
+import { selectUserImage, logout } from '../reducers/userReducer';
 
 function UserAvatar() {
+  const dispatch = useDispatch();
   const image = useSelector(selectUserImage);
 
   return (
@@ -20,7 +22,13 @@ function UserAvatar() {
         )}
       </Navbar.Link>
       <Navbar.Dropdown>
-        <Navbar.Item href="#">Logout</Navbar.Item>
+        <Navbar.Item
+          onClick={async () =>
+            (await SpotifyRecommenderApi.logout()) && dispatch(logout())
+          }
+        >
+          Logout
+        </Navbar.Item>
       </Navbar.Dropdown>
     </Navbar.Item>
   );
