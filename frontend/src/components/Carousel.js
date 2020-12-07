@@ -10,7 +10,7 @@ SwiperCore.use([Pagination, Virtual]);
 function Carousel({ songItems }) {
   const songItemsComponents = [
     ...songItems.map(({ played_at, id, image_url, title, artist }, index) => (
-      <SwiperSlide key={played_at} virtualIndex={index}>
+      <SwiperSlide key={played_at || id + index} virtualIndex={index}>
         <SongItem
           songId={id}
           songImgUrl={image_url}
@@ -57,7 +57,7 @@ Carousel.propTypes = {
       artist: PropTypes.string.isRequired,
       album: PropTypes.string.isRequired,
       image_url: PropTypes.string.isRequired,
-      played_at: PropTypes.string.isRequired,
+      played_at: PropTypes.string,
     })
   ).isRequired,
 };
