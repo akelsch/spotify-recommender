@@ -4,11 +4,13 @@ import { Hero, Heading, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
+import { BACKEND_URL } from '../api/SpotifyRecommenderApi';
+import { selectUser } from '../reducers/userReducer';
 import Layout from './layout/Layout';
-import { selectUserStatus } from '../state/slices/UserSlice';
 
 function Home() {
-  const onlineStatus = useSelector(selectUserStatus);
+  const user = useSelector(selectUser);
+
   return (
     <Layout>
       <Hero>
@@ -17,13 +19,12 @@ function Home() {
           <Heading subtitle renderAs="h2">
             Login below to get started now!
           </Heading>
-          {onlineStatus ? null : (
+          {user ? null : (
             <Button
               size="medium"
               color="success"
-              onClick={async () => {
-                window.location.href =
-                  'http://localhost:8080/oauth2/authorization/spotify';
+              onClick={() => {
+                window.location.href = `${BACKEND_URL}/oauth2/authorization/spotify`;
               }}
             >
               <Icon>

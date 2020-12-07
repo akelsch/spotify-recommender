@@ -1,50 +1,21 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.css';
-import { login } from './state/slices/UserSlice';
-import { loadImage } from './state/slices/AvatarSlice';
-import { getRecentlyPlayedSongs } from './state/slices/RecentlyPlayedSlice';
-import { setUserName } from './state/slices/UserNameSlice';
-import SpotifyRecommenderApi from './api/SpotifyRecommenderApi';
+import PrivateRoute from './app/PrivateRoute';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import RecentlyPlayed from './pages/RecentlyPlayed';
 import Discover from './pages/Discover';
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const recentlyPlayedSongs = await SpotifyRecommenderApi.getRecentlyPlayedSongs();
-        const {
-          userName,
-          imgUrl,
-        } = await SpotifyRecommenderApi.getUserInformation();
-        dispatch(login(true));
-        dispatch(loadImage(imgUrl));
-        dispatch(setUserName(userName));
-        dispatch(getRecentlyPlayedSongs(recentlyPlayedSongs));
-      } catch (error) {
-        if (window.location.pathname !== '/') {
-          window.location.replace('/');
-        }
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
   return (
     <Router>
       <Switch>
-        <Route path="/" exact component={() => <Home />} />
-        <Route path="/dashboard" component={() => <Dashboard />} />
-        <Route path="/recently-played" component={() => <RecentlyPlayed />} />
-        <Route path="/discover" component={() => <Discover />} />
+        <Route path="/" exact component={Home} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
+        <PrivateRoute path="/recently-played" component={RecentlyPlayed} />
+        <PrivateRoute path="/discover" component={Discover} />
       </Switch>
     </Router>
   );
