@@ -7,7 +7,7 @@ import {
 } from '../reducers/recentlyPlayedReducer';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 import Layout from './layout/Layout';
-import Headline from '../components/Headline';
+import Headline from '../components/common/Headline';
 import TrackItemGrid from '../components/TrackItemGrid';
 
 function RecentlyPlayed() {

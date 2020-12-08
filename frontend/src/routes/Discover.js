@@ -8,7 +8,7 @@ import {
 } from '../reducers/discoverReducer';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 import Layout from './layout/Layout';
-import Headline from '../components/Headline';
+import Headline from '../components/common/Headline';
 import SettingsForm from '../components/SettingsForm';
 import Carousel from '../components/Carousel';
 

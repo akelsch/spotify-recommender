@@ -8,7 +8,7 @@ import {
   logout,
 } from '../../reducers/userReducer';
 import SpotifyRecommenderApi from '../../api/SpotifyRecommenderApi';
-import UserAvatar from '../../components/UserAvatar';
+import Avatar from '../../components/common/Avatar';
 
 function Header() {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ function Header() {
               <Navbar.Item href="/recently-played">Recently Played</Navbar.Item>
               <Navbar.Item href="/discover">Discover</Navbar.Item>
               {isUserOnline ? (
-                <UserAvatar imageUrl={image} logoutCallback={logoutCallback} />
+                <Avatar imageUrl={image} logoutCallback={logoutCallback} />
               ) : null}
             </Navbar.Container>
           </Navbar.Menu>

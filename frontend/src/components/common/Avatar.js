@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar } from 'react-bulma-components';
-import Avatar from 'react-avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-function UserAvatar({ imageUrl, logoutCallback }) {
+import styles from './Avatar.module.css';
+
+function Avatar({ imageUrl, logoutCallback }) {
   return (
-    <Navbar.Item dropdown hoverable href="#">
+    <Navbar.Item dropdown hoverable>
       <Navbar.Link>
         {imageUrl ? (
-          <Avatar src={imageUrl} size="28" round />
+          <img src={imageUrl} alt="Avatar" className={styles.avatar} />
         ) : (
           <FontAwesomeIcon icon={faUser} size="lg" />
         )}
@@ -22,9 +23,9 @@ function UserAvatar({ imageUrl, logoutCallback }) {
   );
 }
 
-UserAvatar.propTypes = {
+Avatar.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   logoutCallback: PropTypes.func.isRequired,
 };
 
-export default UserAvatar;
+export default Avatar;

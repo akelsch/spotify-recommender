@@ -11,7 +11,7 @@ import {
   setDiscoverTracks,
 } from '../reducers/discoverReducer';
 import Layout from './layout/Layout';
-import Headline from '../components/Headline';
+import Headline from '../components/common/Headline';
 import Carousel from '../components/Carousel';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 
