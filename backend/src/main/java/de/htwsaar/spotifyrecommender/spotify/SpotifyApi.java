@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.server.ServerRequest;
 
 import java.util.List;
 
@@ -24,6 +25,22 @@ public class SpotifyApi {
         queryParams.put("ids", List.of(Strings.join(ids, ',')));
         return client.get()
                 .uri(uriBuilder -> uriBuilder.path("/v1/tracks").queryParams(queryParams).build())
+                .retrieve();
+    }
+
+    public WebClient.ResponseSpec getSeveralAlbums(List<String> ids) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.put("ids", List.of(Strings.join(ids, ',')));
+        return client.get()
+                .uri(uriBuilder -> uriBuilder.path("/v1/albums").queryParams(queryParams).build())
+                .retrieve();
+    }
+
+    public WebClient.ResponseSpec getSeveralArtists(List<String> ids) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.put("ids", List.of(Strings.join(ids, ',')));
+        return client.get()
+                .uri(uriBuilder -> uriBuilder.path("/v1/artists").queryParams(queryParams).build())
                 .retrieve();
     }
 

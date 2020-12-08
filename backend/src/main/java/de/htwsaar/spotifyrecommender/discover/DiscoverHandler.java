@@ -1,6 +1,8 @@
 package de.htwsaar.spotifyrecommender.discover;
 
 import de.htwsaar.spotifyrecommender.dataset.TrackEntityService;
+import de.htwsaar.spotifyrecommender.dataset.projections.AlbumIdOnly;
+import de.htwsaar.spotifyrecommender.dataset.projections.ArtistIdOnly;
 import de.htwsaar.spotifyrecommender.dataset.projections.TrackIdOnly;
 import de.htwsaar.spotifyrecommender.spotify.SpotifyApi;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,10 +34,24 @@ public class DiscoverHandler {
     }
 
     public Mono<ServerResponse> discoverAlbums(ServerRequest serverRequest) {
-        return null;
+        int page = serverRequest.queryParam("page").map(Integer::parseInt).orElse(0);
+        int size = serverRequest.queryParam("size").map(Integer::parseInt).orElse(20);
+
+        return trackEntityService.findAllAlbumIds((PageRequest.of(page, size)))
+                .map(AlbumIdOnly::getId)
+                .collect(Collectors.toList())
+                .flatMap(ids -> spotifyApi.getSeveralAlbums(ids).bodyToMono(DiscoverResponseAlbum.class))
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
     public Mono<ServerResponse> discoverArtists(ServerRequest serverRequest) {
-        return null;
+        int page = serverRequest.queryParam("page").map(Integer::parseInt).orElse(0);
+        int size = serverRequest.queryParam("size").map(Integer::parseInt).orElse(20);
+
+        return trackEntityService.findAllArtistIds(PageRequest.of(page, size))
+                .map(ArtistIdOnly::getId)
+                .collect(Collectors.toList())
+                .flatMap(ids -> spotifyApi.getSeveralArtists(ids).bodyToMono(DiscoverResponseArtists.class))
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }
