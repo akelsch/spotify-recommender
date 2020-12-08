@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 import { login, selectUser } from '../reducers/userReducer';
 
-/* eslint-disable react/jsx-props-no-spreading */
 function PrivateRoute({ component: Component, ...rest }) {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);

@@ -22,10 +22,18 @@ async function fetchRecentlyPlayedTracks() {
   return response.data.items;
 }
 
+async function fetchDiscoverTracks() {
+  const response = await client.get(
+    `/api/v1/discover/tracks?page=${Math.floor(Math.random() * 1000)}`
+  );
+  return response.data.tracks;
+}
+
 const SpotifyRecommenderApi = {
   fetchUser,
   logout,
   fetchRecentlyPlayedTracks,
+  fetchDiscoverTracks,
 };
 
 export default SpotifyRecommenderApi;

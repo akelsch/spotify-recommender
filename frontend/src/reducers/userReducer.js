@@ -13,6 +13,7 @@ const userSlice = createSlice({
 
 export const { login, logout } = userSlice.actions;
 export const selectUser = (state) => state.user.value;
-export const selectUserName = (state) => state.user.value.display_name;
-export const selectUserImage = (state) => state.user.value.images[0]?.url;
+export const selectUserOnline = (state) => state.user.value !== null;
+export const selectUserName = (state) => state.user.value?.display_name;
+export const selectUserImage = (state) => state.user.value?.images[0]?.url;
 export default userSlice.reducer;
