@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SwiperCore, { Pagination, Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,44 +7,51 @@ import SongItem from './SongItem';
 
 SwiperCore.use([Pagination, Virtual]);
 
+const params = {
+  slidesPerView: 5,
+  breakpoints: {
+    0: {
+      slidesPerView: 1,
+    },
+    768: {
+      slidesPerView: 2,
+    },
+    1024: {
+      slidesPerView: 3,
+    },
+    1216: {
+      slidesPerView: 4,
+    },
+    1408: {
+      slidesPerView: 5,
+    },
+  },
+  pagination: { clickable: true },
+  virtual: true,
+};
+
 function Carousel({ songItems }) {
-  const songItemsComponents = [
-    ...songItems.map(({ played_at, id, image_url, title, artist }, index) => (
-      <SwiperSlide key={played_at || id + index} virtualIndex={index}>
-        <SongItem
-          songId={id}
-          songImgUrl={image_url}
-          songTitle={title}
-          songArtist={artist}
-        />
-      </SwiperSlide>
-    )),
-  ];
+  const [swiper, setSwiper] = useState(null);
+  const itemsRef = useRef(songItems);
+
+  useEffect(() => {
+    if (swiper && songItems !== itemsRef.current) {
+      swiper.updateSlides();
+    }
+  }, [swiper, songItems]);
 
   return (
-    <Swiper
-      slidesPerView={5}
-      breakpoints={{
-        0: {
-          slidesPerView: 1,
-        },
-        768: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-        1216: {
-          slidesPerView: 4,
-        },
-        1408: {
-          slidesPerView: 5,
-        },
-      }}
-      pagination={{ clickable: true }}
-      virtual
-    >
-      {songItemsComponents}
+    <Swiper onSwiper={(s) => setSwiper(s)} {...params}>
+      {songItems.map(({ id, title, artist, image_url, played_at }, index) => (
+        <SwiperSlide key={played_at || id + index} virtualIndex={index}>
+          <SongItem
+            songId={id}
+            songImgUrl={image_url}
+            songTitle={title}
+            songArtist={artist}
+          />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

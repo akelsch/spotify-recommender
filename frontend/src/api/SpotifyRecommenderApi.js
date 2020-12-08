@@ -24,7 +24,7 @@ async function fetchRecentlyPlayedTracks() {
 
 async function fetchDiscoverTracks() {
   const response = await client.get(
-    `/api/v1/discover/tracks?page=${Math.floor(Math.random() * 100)}`
+    `/api/v1/discover/tracks?page=${Math.floor(Math.random() * 1000)}`
   );
   return response.data.tracks;
 }
