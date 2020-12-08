@@ -25,6 +25,6 @@
 }
 
 /* Workaround for swiper pagination ignoring margin */
-.swiper-slide > [class*='songWrapper'] > :last-child {
+.swiper-slide > [class^='TrackItem'] > :last-child {
   margin-bottom: 3rem;
 }

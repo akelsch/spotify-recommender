@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Heading } from 'react-bulma-components';
 import SwiperCore, { Pagination, Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import SongItem from './SongItem';
+import TrackItem from './TrackItem';
 
 SwiperCore.use([Pagination, Virtual]);
 
@@ -30,34 +31,40 @@ const params = {
   virtual: true,
 };
 
-function Carousel({ songItems }) {
+function Carousel({ heading, tracks }) {
   const [swiper, setSwiper] = useState(null);
-  const itemsRef = useRef(songItems);
+  const tracksRef = useRef(tracks);
 
   useEffect(() => {
-    if (swiper && songItems !== itemsRef.current) {
+    if (swiper && tracks !== tracksRef.current) {
       swiper.updateSlides();
     }
-  }, [swiper, songItems]);
+  }, [swiper, tracks]);
 
   return (
-    <Swiper onSwiper={(s) => setSwiper(s)} {...params}>
-      {songItems.map(({ id, title, artist, image_url, played_at }, index) => (
-        <SwiperSlide key={played_at || id + index} virtualIndex={index}>
-          <SongItem
-            songId={id}
-            songImgUrl={image_url}
-            songTitle={title}
-            songArtist={artist}
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div>
+      <Heading renderAs="h2" className="mb-0">
+        {heading}
+      </Heading>
+      <Swiper onSwiper={setSwiper} {...params}>
+        {tracks.map(({ id, title, artist, image_url, played_at }, index) => (
+          <SwiperSlide key={played_at || id + index} virtualIndex={index}>
+            <TrackItem
+              id={id}
+              title={title}
+              artist={artist}
+              imageUrl={image_url}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
 
 Carousel.propTypes = {
-  songItems: PropTypes.arrayOf(
+  heading: PropTypes.string.isRequired,
+  tracks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Heading } from 'react-bulma-components';
 
 import {
   selectRecentlyPlayedTracks,
@@ -8,7 +7,8 @@ import {
 } from '../reducers/recentlyPlayedReducer';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 import Layout from './layout/Layout';
-import SongItemList from '../components/SongItemList';
+import Headline from '../components/Headline';
+import TrackItemGrid from '../components/TrackItemGrid';
 
 function RecentlyPlayed() {
   const dispatch = useDispatch();
@@ -24,11 +24,11 @@ function RecentlyPlayed() {
 
   return (
     <Layout>
-      <Heading>Recently Played</Heading>
-      <Heading subtitle renderAs="h2">
-        Here&apos;s what you have been up to recently
-      </Heading>
-      <SongItemList songItems={recentlyPlayedTracks} />
+      <Headline
+        title="Recently Played"
+        subtitle="Here's what you have been up to recently"
+      />
+      <TrackItemGrid tracks={recentlyPlayedTracks} />
     </Layout>
   );
 }

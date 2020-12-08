@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Heading } from 'react-bulma-components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectUserName } from '../reducers/userReducer';
@@ -12,6 +11,7 @@ import {
   setDiscoverTracks,
 } from '../reducers/discoverReducer';
 import Layout from './layout/Layout';
+import Headline from '../components/Headline';
 import Carousel from '../components/Carousel';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 
@@ -33,26 +33,18 @@ function Dashboard() {
 
   return (
     <Layout>
-      <Heading>Dashboard</Heading>
-      <Heading subtitle renderAs="h2">
-        {`Welcome back, ${userName}! How is it going?`}
-      </Heading>
+      <Headline
+        title="Dashboard"
+        subtitle={`Welcome back, ${userName}! How is it going?`}
+      />
 
-      <div>
-        <Heading renderAs="h2" className="mb-0">
-          Recently Played
-        </Heading>
-        {recentlyPlayedTracks.length ? (
-          <Carousel songItems={recentlyPlayedTracks} />
-        ) : null}
-      </div>
+      {recentlyPlayedTracks.length ? (
+        <Carousel heading="Recently Played" tracks={recentlyPlayedTracks} />
+      ) : null}
 
-      <div>
-        <Heading renderAs="h2" className="mb-0">
-          Discover
-        </Heading>
-        {discoverTracks.length ? <Carousel songItems={discoverTracks} /> : null}
-      </div>
+      {discoverTracks.length ? (
+        <Carousel heading="Discover" tracks={discoverTracks} />
+      ) : null}
     </Layout>
   );
 }

@@ -2,20 +2,19 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Heading } from 'react-bulma-components';
 
-import Layout from './layout/Layout';
-import SettingsForm from '../components/SettingsForm';
-import Carousel from '../components/Carousel';
-
 import {
   selectDiscoverTracks,
   setDiscoverTracks,
 } from '../reducers/discoverReducer';
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
+import Layout from './layout/Layout';
+import Headline from '../components/Headline';
+import SettingsForm from '../components/SettingsForm';
+import Carousel from '../components/Carousel';
 
 function Discover() {
   const dispatch = useDispatch();
   const discoverTracks = useSelector(selectDiscoverTracks);
-  const initialized = discoverTracks.length;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,22 +26,19 @@ function Discover() {
 
   return (
     <Layout>
-      <Heading>Discover</Heading>
-      <Heading subtitle renderAs="h2">
-        Here&apos;s what we recommend checking out
-      </Heading>
+      <Headline
+        title="Discover"
+        subtitle="Here's what we recommend checking out"
+      />
 
       <div className="mb-5">
         <Heading renderAs="h2">Settings</Heading>
         <SettingsForm />
       </div>
 
-      <div>
-        <Heading renderAs="h2" className="mb-0">
-          Tracks
-        </Heading>
-        {initialized ? <Carousel songItems={discoverTracks} /> : null}
-      </div>
+      {discoverTracks.length ? (
+        <Carousel heading="Tracks" tracks={discoverTracks} />
+      ) : null}
     </Layout>
   );
 }
