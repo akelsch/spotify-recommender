@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Container, Heading } from 'react-bulma-components';
 
+import {
+  selectUserOnline,
+  selectUserImage,
+  logout,
+} from '../../reducers/userReducer';
+import SpotifyRecommenderApi from '../../api/SpotifyRecommenderApi';
 import UserAvatar from '../../components/UserAvatar';
-import { selectUser } from '../../reducers/userReducer';
 
 function Header() {
+  const dispatch = useDispatch();
+  const isUserOnline = useSelector(selectUserOnline);
+  const image = useSelector(selectUserImage);
+  const logoutCallback = async () =>
+    (await SpotifyRecommenderApi.logout()) && dispatch(logout());
+
   const [isActive, setActive] = useState(false);
-  const user = useSelector(selectUser);
 
   return (
     <header>
@@ -26,7 +36,9 @@ function Header() {
               <Navbar.Item href="/dashboard">Dashboard</Navbar.Item>
               <Navbar.Item href="/recently-played">Recently Played</Navbar.Item>
               <Navbar.Item href="/discover">Discover</Navbar.Item>
-              {user ? <UserAvatar /> : null}
+              {isUserOnline ? (
+                <UserAvatar imageUrl={image} logoutCallback={logoutCallback} />
+              ) : null}
             </Navbar.Container>
           </Navbar.Menu>
         </Container>

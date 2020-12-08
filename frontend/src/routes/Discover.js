@@ -29,7 +29,7 @@ function Discover() {
     <Layout>
       <Heading>Discover</Heading>
       <Heading subtitle renderAs="h2">
-        Here&apos;s what we recommend you checking out
+        Here&apos;s what we recommend checking out
       </Heading>
 
       <div className="mb-5">

@@ -8,7 +8,7 @@ import 'react-bulma-components/dist/react-bulma-components.min.css';
 import 'swiper/swiper-bundle.min.css';
 import './index.css';
 import App from './App';
-import store from './store';
+import store from './app/store';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

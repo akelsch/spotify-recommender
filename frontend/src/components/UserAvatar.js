@@ -1,37 +1,30 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Navbar } from 'react-bulma-components';
 import Avatar from 'react-avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
-import { selectUserImage, logout } from '../reducers/userReducer';
-
-function UserAvatar() {
-  const dispatch = useDispatch();
-  const image = useSelector(selectUserImage);
-
+function UserAvatar({ imageUrl, logoutCallback }) {
   return (
     <Navbar.Item dropdown hoverable href="#">
       <Navbar.Link>
-        {image ? (
-          <Avatar src={image} size="28" round />
+        {imageUrl ? (
+          <Avatar src={imageUrl} size="28" round />
         ) : (
-          <FontAwesomeIcon icon={faUser} />
+          <FontAwesomeIcon icon={faUser} size="lg" />
         )}
       </Navbar.Link>
       <Navbar.Dropdown>
-        <Navbar.Item
-          onClick={async () =>
-            (await SpotifyRecommenderApi.logout()) && dispatch(logout())
-          }
-        >
-          Logout
-        </Navbar.Item>
+        <Navbar.Item onClick={logoutCallback}>Logout</Navbar.Item>
       </Navbar.Dropdown>
     </Navbar.Item>
   );
 }
+
+UserAvatar.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  logoutCallback: PropTypes.func.isRequired,
+};
 
 export default UserAvatar;

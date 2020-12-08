@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
 import { BACKEND_URL } from '../api/SpotifyRecommenderApi';
-import { selectUser } from '../reducers/userReducer';
+import { selectUserOnline } from '../reducers/userReducer';
 import Layout from './layout/Layout';
 
 function Home() {
-  const user = useSelector(selectUser);
+  const isUserOnline = useSelector(selectUserOnline);
 
   return (
     <Layout>
@@ -19,7 +19,7 @@ function Home() {
           <Heading subtitle renderAs="h2">
             Login below to get started now!
           </Heading>
-          {user ? null : (
+          {isUserOnline ? null : (
             <Button
               size="medium"
               color="success"
