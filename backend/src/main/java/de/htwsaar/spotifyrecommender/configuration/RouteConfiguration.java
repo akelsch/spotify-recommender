@@ -46,8 +46,9 @@ public class RouteConfiguration {
 
     @Bean
     RouterFunction<ServerResponse> routeRating(RatingHandler ratingHandler) {
-        var routes = route(GET(""), ratingHandler::getRating).and(route(POST(""), ratingHandler::postRating))
-                .and(route(PUT(""), ratingHandler::putRating));
+        var routes = route(GET(""), ratingHandler::getRating)
+                .and(route(POST(""), ratingHandler::postRating))
+                .and(route(PUT("/{id}"), ratingHandler::putRating));
 
         return nest(path("/api/v1/rating").and(accept(APPLICATION_JSON)), routes);
     }

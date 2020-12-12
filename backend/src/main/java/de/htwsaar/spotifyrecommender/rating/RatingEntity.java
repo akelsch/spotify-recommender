@@ -1,9 +1,8 @@
 package de.htwsaar.spotifyrecommender.rating;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-
-import lombok.Data;
 
 @Data
 @Table("Ratings")
@@ -16,7 +15,7 @@ class RatingEntity {
 
     private String uri;
 
-    private RatingEntity type;
+    private RatingType type;
 
-    private float rate;
+    private float rating;
 }
