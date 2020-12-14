@@ -15,7 +15,6 @@
     "eslint": "^7.15.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-avatar": "^3.9.7",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^17.0.1",
     "react-rating-stars-component": "^2.2.0",
@@ -23,7 +22,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "redux-persist": "^6.0.0",
-    "swiper": "^6.3.5",
+    "swiper": "^6.4.0",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

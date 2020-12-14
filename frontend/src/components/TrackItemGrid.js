@@ -1,28 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SongItem from './SongItem';
+import TrackItem from './TrackItem';
 
-function SongItemList({ songItems }) {
+function TrackItemGrid({ tracks }) {
   return (
     <div className="is-flex is-flex-wrap-wrap">
-      {[
-        ...songItems.map(({ played_at, id, image_url, title, artist }) => (
-          <SongItem
-            key={played_at}
-            songId={id}
-            songImgUrl={image_url}
-            songTitle={title}
-            songArtist={artist}
-          />
-        )),
-      ]}
+      {tracks.map(({ id, title, artist, image_url, played_at }) => (
+        <TrackItem
+          key={played_at}
+          id={id}
+          title={title}
+          artist={artist}
+          imageUrl={image_url}
+        />
+      ))}
     </div>
   );
 }
 
-SongItemList.propTypes = {
-  songItems: PropTypes.arrayOf(
+TrackItemGrid.propTypes = {
+  tracks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -34,4 +32,4 @@ SongItemList.propTypes = {
   ).isRequired,
 };
 
-export default SongItemList;
+export default TrackItemGrid;

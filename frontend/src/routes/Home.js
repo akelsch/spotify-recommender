@@ -1,25 +1,26 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Hero, Heading, Button, Icon } from 'react-bulma-components';
+import { Hero, Button, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
 import { BACKEND_URL } from '../api/SpotifyRecommenderApi';
-import { selectUser } from '../reducers/userReducer';
+import { selectUserOnline } from '../reducers/userReducer';
 import Layout from './layout/Layout';
+import Headline from '../components/common/Headline';
 
 function Home() {
-  const user = useSelector(selectUser);
+  const isUserOnline = useSelector(selectUserOnline);
 
   return (
     <Layout>
       <Hero>
         <Hero.Body>
-          <Heading>Discover new music on Spotify easily</Heading>
-          <Heading subtitle renderAs="h2">
-            Login below to get started now!
-          </Heading>
-          {user ? null : (
+          <Headline
+            title="Discover new music on Spotify easily"
+            subtitle="Login below to get started now!"
+          />
+          {isUserOnline ? null : (
             <Button
               size="medium"
               color="success"

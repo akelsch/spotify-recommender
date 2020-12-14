@@ -1,24 +1,20 @@
-.songWrapper {
+.itemContainer {
   width: 250px;
   margin: 1.5rem auto;
+  position: relative;
 }
 
-.songWrapper p {
+.itemContainer p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.songImage {
-  width: 250px;
-  height: 250px;
-}
-
-.songImageAndIconWrapper {
+.coverContainer {
   position: relative;
 }
 
-.songPlayButtonIcon {
+.coverPlayButton {
   font-size: 96px;
   color: white;
 
@@ -31,7 +27,7 @@
   margin: auto;
 }
 
-.songPlayButtonIcon:hover {
-  opacity: 0.75;
+.coverPlayButton:hover {
+  opacity: 0.8;
   transition: all 0.3s ease 0s;
 }
