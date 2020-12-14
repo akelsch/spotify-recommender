@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @JsonDeserialize(using = DiscoverAlbumDeserializer.class)
-public class DiscoverAlbum {
+class DiscoverAlbum {
     private String id;
 
     private String name;

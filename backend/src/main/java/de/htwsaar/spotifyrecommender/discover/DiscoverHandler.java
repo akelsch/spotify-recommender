@@ -12,7 +12,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,7 +28,7 @@ public class DiscoverHandler {
         return trackEntityService.findAllTrackIds(PageRequest.of(page, size))
                 .map(TrackIdOnly::getId)
                 .collect(Collectors.toList())
-                .flatMap(ids -> spotifyApi.getSeveralTracks(ids).bodyToMono(DiscoverResponse.class))
+                .flatMap(ids -> spotifyApi.getSeveralTracks(ids).bodyToMono(DiscoverTrackResponse.class))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
@@ -40,7 +39,7 @@ public class DiscoverHandler {
         return trackEntityService.findAllAlbumIds((PageRequest.of(page, size)))
                 .map(AlbumIdOnly::getId)
                 .collect(Collectors.toList())
-                .flatMap(ids -> spotifyApi.getSeveralAlbums(ids).bodyToMono(DiscoverResponseAlbum.class))
+                .flatMap(ids -> spotifyApi.getSeveralAlbums(ids).bodyToMono(DiscoverAlbumResponse.class))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
@@ -51,7 +50,7 @@ public class DiscoverHandler {
         return trackEntityService.findAllArtistIds(PageRequest.of(page, size))
                 .map(ArtistIdOnly::getId)
                 .collect(Collectors.toList())
-                .flatMap(ids -> spotifyApi.getSeveralArtists(ids).bodyToMono(DiscoverResponseArtists.class))
+                .flatMap(ids -> spotifyApi.getSeveralArtists(ids).bodyToMono(DiscoverArtistResponse.class))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }

@@ -5,7 +5,8 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-class DiscoverResponseArtists {
+class DiscoverAlbumResponse {
 
-    List<DiscoverArtist> artists;
+    List<DiscoverAlbum> albums;
 }
+

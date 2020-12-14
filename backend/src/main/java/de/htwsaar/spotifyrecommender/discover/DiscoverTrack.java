@@ -11,11 +11,9 @@ class DiscoverTrack {
 
     private String title;
 
-    // List<String>
     private String artist;
 
     private String album;
 
-    // URI
     private String imageUrl;
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 public interface ArtistIdOnly {
 
-    // TODO create utils method for this, used multiple times across the application
-    @Value("#{T(org.apache.commons.lang3.StringUtils).substringAfterLast(target.artistUri, ':')}")
+    @Value("#{T(de.htwsaar.spotifyrecommender.util.SpotifyUtils).extractIdFromUri(target.artistUri)}")
     String getId();
 }
