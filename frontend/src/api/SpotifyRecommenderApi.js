@@ -29,11 +29,27 @@ async function fetchDiscoverTracks() {
   return response.data.tracks;
 }
 
+async function fetchDiscoverAlbums() {
+  const response = await client.get(
+    `/api/v1/discover/albums?page=${Math.floor(Math.random() * 1000)}`
+  );
+  return response.data.albums;
+}
+
+async function fetchDiscoverArtists() {
+  const response = await client.get(
+    `/api/v1/discover/artists?page=${Math.floor(Math.random() * 1000)}`
+  );
+  return response.data.artists;
+}
+
 const SpotifyRecommenderApi = {
   fetchUser,
   logout,
   fetchRecentlyPlayedTracks,
   fetchDiscoverTracks,
+  fetchDiscoverAlbums,
+  fetchDiscoverArtists,
 };
 
 export default SpotifyRecommenderApi;

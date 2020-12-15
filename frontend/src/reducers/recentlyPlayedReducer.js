@@ -1,15 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
+
+export const fetchRecentlyPlayedTracks = createAsyncThunk(
+  'recentlyPlayed/fetchRecentlyPlayedTracks',
+  async () => {
+    const tracks = await SpotifyRecommenderApi.fetchRecentlyPlayedTracks();
+    return tracks;
+  }
+);
 
 const recentlyPlayedSlice = createSlice({
   name: 'recentlyPlayed',
   initialState: {
-    value: [],
+    tracks: [],
   },
-  reducers: {
-    setRecentlyPlayedTracks: (state, action) => ({ value: action.payload }),
+  reducers: {},
+  extraReducers: {
+    [fetchRecentlyPlayedTracks.fulfilled]: (state, action) => ({
+      tracks: action.payload,
+    }),
   },
 });
 
-export const { setRecentlyPlayedTracks } = recentlyPlayedSlice.actions;
-export const selectRecentlyPlayedTracks = (state) => state.recentlyPlayed.value;
+export const selectRecentlyPlayedTracks = (state) =>
+  state.recentlyPlayed.tracks;
 export default recentlyPlayedSlice.reducer;

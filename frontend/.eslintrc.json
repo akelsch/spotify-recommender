@@ -10,6 +10,10 @@
   "rules": {
     "camelcase": "off",
     "no-console": "off",
+    "no-param-reassign": [
+      "error",
+      { "props": true, "ignorePropertyModificationsFor": ["state"] }
+    ],
     "no-unused-vars": "warn",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],

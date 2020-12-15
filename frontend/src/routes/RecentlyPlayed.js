@@ -3,23 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   selectRecentlyPlayedTracks,
-  setRecentlyPlayedTracks,
+  fetchRecentlyPlayedTracks,
 } from '../reducers/recentlyPlayedReducer';
-import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
-import TrackItemGrid from '../components/TrackItemGrid';
+import CoverGrid from '../components/CoverGrid';
 
 function RecentlyPlayed() {
   const dispatch = useDispatch();
   const recentlyPlayedTracks = useSelector(selectRecentlyPlayedTracks);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const newTracks = await SpotifyRecommenderApi.fetchRecentlyPlayedTracks();
-      dispatch(setRecentlyPlayedTracks(newTracks));
-    };
-    fetchData();
+    dispatch(fetchRecentlyPlayedTracks());
   }, [dispatch]);
 
   return (
@@ -28,7 +23,7 @@ function RecentlyPlayed() {
         title="Recently Played"
         subtitle="Here's what you have been up to recently"
       />
-      <TrackItemGrid tracks={recentlyPlayedTracks} />
+      <CoverGrid tracks={recentlyPlayedTracks} />
     </Layout>
   );
 }
