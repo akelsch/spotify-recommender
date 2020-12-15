@@ -4,16 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserName } from '../reducers/userReducer';
 import {
   selectRecentlyPlayedTracks,
-  setRecentlyPlayedTracks,
+  fetchRecentlyPlayedTracks,
 } from '../reducers/recentlyPlayedReducer';
 import {
   selectDiscoverTracks,
-  setDiscoverTracks,
+  fetchDiscoverTracks,
 } from '../reducers/discoverReducer';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
-import Carousel from '../components/Carousel';
-import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
+import CoverCarousel from '../components/CoverCarousel';
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -22,13 +21,8 @@ function Dashboard() {
   const discoverTracks = useSelector(selectDiscoverTracks);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const newRecentlyPlayed = await SpotifyRecommenderApi.fetchRecentlyPlayedTracks();
-      dispatch(setRecentlyPlayedTracks(newRecentlyPlayed));
-      const newDiscover = await SpotifyRecommenderApi.fetchDiscoverTracks();
-      dispatch(setDiscoverTracks(newDiscover));
-    };
-    fetchData();
+    dispatch(fetchRecentlyPlayedTracks());
+    dispatch(fetchDiscoverTracks());
   }, [dispatch]);
 
   return (
@@ -39,11 +33,11 @@ function Dashboard() {
       />
 
       {recentlyPlayedTracks.length ? (
-        <Carousel heading="Recently Played" tracks={recentlyPlayedTracks} />
+        <CoverCarousel heading="Recently Played" items={recentlyPlayedTracks} />
       ) : null}
 
       {discoverTracks.length ? (
-        <Carousel heading="Discover" tracks={discoverTracks} />
+        <CoverCarousel heading="Discover" items={discoverTracks} />
       ) : null}
     </Layout>
   );

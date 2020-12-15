@@ -4,24 +4,27 @@ import { Heading } from 'react-bulma-components';
 
 import {
   selectDiscoverTracks,
-  setDiscoverTracks,
+  selectDiscoverAlbums,
+  selectDiscoverArtists,
+  fetchDiscoverTracks,
+  fetchDiscoverAlbums,
+  fetchDiscoverArtists,
 } from '../reducers/discoverReducer';
-import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
 import SettingsForm from '../components/SettingsForm';
-import Carousel from '../components/Carousel';
+import CoverCarousel from '../components/CoverCarousel';
 
 function Discover() {
   const dispatch = useDispatch();
   const discoverTracks = useSelector(selectDiscoverTracks);
+  const discoverAlbums = useSelector(selectDiscoverAlbums);
+  const discoverArtists = useSelector(selectDiscoverArtists);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const tracks = await SpotifyRecommenderApi.fetchDiscoverTracks();
-      dispatch(setDiscoverTracks(tracks));
-    };
-    fetchData();
+    dispatch(fetchDiscoverTracks());
+    dispatch(fetchDiscoverAlbums());
+    dispatch(fetchDiscoverArtists());
   }, [dispatch]);
 
   return (
@@ -37,7 +40,15 @@ function Discover() {
       </div>
 
       {discoverTracks.length ? (
-        <Carousel heading="Tracks" tracks={discoverTracks} />
+        <CoverCarousel heading="Tracks" items={discoverTracks} />
+      ) : null}
+
+      {discoverAlbums.length ? (
+        <CoverCarousel heading="Albums" items={discoverAlbums} />
+      ) : null}
+
+      {discoverArtists.length ? (
+        <CoverCarousel heading="Artists" items={discoverArtists} />
       ) : null}
     </Layout>
   );

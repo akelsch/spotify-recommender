@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TrackItem from './TrackItem';
+import SpotifyItem from './SpotifyItem';
 
-function TrackItemGrid({ tracks }) {
+function CoverGrid({ tracks }) {
   return (
     <div className="is-flex is-flex-wrap-wrap">
       {tracks.map(({ id, title, artist, image_url, played_at }) => (
-        <TrackItem
+        <SpotifyItem
           key={played_at}
           id={id}
           title={title}
@@ -19,7 +19,7 @@ function TrackItemGrid({ tracks }) {
   );
 }
 
-TrackItemGrid.propTypes = {
+CoverGrid.propTypes = {
   tracks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -32,4 +32,4 @@ TrackItemGrid.propTypes = {
   ).isRequired,
 };
 
-export default TrackItemGrid;
+export default CoverGrid;
