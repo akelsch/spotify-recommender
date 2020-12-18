@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   selectRecentlyPlayedTracks,
   fetchRecentlyPlayedTracks,
@@ -23,6 +23,7 @@ function RecentlyPlayed() {
         title="Recently Played"
         subtitle="Here's what you have been up to recently"
       />
+
       <CoverGrid tracks={recentlyPlayedTracks} />
     </Layout>
   );
