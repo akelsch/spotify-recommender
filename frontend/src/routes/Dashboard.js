@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserName } from '../reducers/userReducer';
 import {
   selectRecentlyPlayedTracks,
-  fetchRecentlyPlayedTracks,
+  fetchRecentlyPlayed,
 } from '../reducers/recentlyPlayedReducer';
 import {
   selectDiscoverTracks,
@@ -21,7 +21,7 @@ function Dashboard() {
   const discoverTracks = useSelector(selectDiscoverTracks);
 
   useEffect(() => {
-    dispatch(fetchRecentlyPlayedTracks());
+    dispatch(fetchRecentlyPlayed());
     dispatch(fetchDiscoverTracks());
   }, [dispatch]);
 
@@ -33,7 +33,10 @@ function Dashboard() {
       />
 
       {recentlyPlayedTracks.length ? (
-        <CoverCarousel heading="Recently Played" items={recentlyPlayedTracks} />
+        <CoverCarousel
+          heading="Recently Played"
+          items={recentlyPlayedTracks.slice(0, 20)}
+        />
       ) : null}
 
       {discoverTracks.length ? (

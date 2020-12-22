@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroll-component';
+
 import {
   selectRecentlyPlayedTracks,
-  fetchRecentlyPlayedTracks,
+  selectRecentlyPlayedBeforeCursor,
+  fetchRecentlyPlayed,
+  updateRecentlyPlayed,
 } from '../reducers/recentlyPlayedReducer';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
@@ -11,10 +13,11 @@ import CoverGrid from '../components/CoverGrid';
 
 function RecentlyPlayed() {
   const dispatch = useDispatch();
-  const recentlyPlayedTracks = useSelector(selectRecentlyPlayedTracks);
+  const tracks = useSelector(selectRecentlyPlayedTracks);
+  const before = useSelector(selectRecentlyPlayedBeforeCursor);
 
   useEffect(() => {
-    dispatch(fetchRecentlyPlayedTracks());
+    dispatch(fetchRecentlyPlayed());
   }, [dispatch]);
 
   return (
@@ -23,8 +26,13 @@ function RecentlyPlayed() {
         title="Recently Played"
         subtitle="Here's what you have been up to recently"
       />
-
-      <CoverGrid tracks={recentlyPlayedTracks} />
+      <CoverGrid
+        tracks={tracks}
+        updateCallback={useCallback(
+          () => dispatch(updateRecentlyPlayed(before)),
+          [dispatch, before]
+        )}
+      />
     </Layout>
   );
 }

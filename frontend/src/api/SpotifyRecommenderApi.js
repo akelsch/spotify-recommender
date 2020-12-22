@@ -17,9 +17,13 @@ async function logout() {
   return true;
 }
 
-async function fetchRecentlyPlayedTracks() {
-  const response = await client.get('/api/v1/recently-played');
-  return response.data.items;
+async function fetchRecentlyPlayed(before) {
+  const response = await client.get('/api/v1/recently-played', {
+    params: {
+      before,
+    },
+  });
+  return response.data;
 }
 
 async function fetchDiscoverTracks() {
@@ -46,7 +50,7 @@ async function fetchDiscoverArtists() {
 const SpotifyRecommenderApi = {
   fetchUser,
   logout,
-  fetchRecentlyPlayedTracks,
+  fetchRecentlyPlayed,
   fetchDiscoverTracks,
   fetchDiscoverAlbums,
   fetchDiscoverArtists,
