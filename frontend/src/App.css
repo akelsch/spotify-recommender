@@ -20,6 +20,10 @@
   flex-wrap: wrap !important;
 }
 
+.is-align-self-flex-end {
+  align-self: flex-end !important;
+}
+
 .container {
   width: 100% !important; /* fixes broken containers in flexbox root div */
 }

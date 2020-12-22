@@ -8,4 +8,6 @@ import java.util.List;
 class RecentlyPlayedResponse {
 
     List<RecentlyPlayedTrack> items;
+
+    RecentlyPlayedCursors cursors;
 }

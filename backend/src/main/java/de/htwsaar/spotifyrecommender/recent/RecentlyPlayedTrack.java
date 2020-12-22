@@ -11,14 +11,11 @@ class RecentlyPlayedTrack {
 
     private String title;
 
-    // List<String>
     private String artist;
 
     private String album;
 
-    // URI
     private String imageUrl;
 
-    // Instant
     private String playedAt;
 }
