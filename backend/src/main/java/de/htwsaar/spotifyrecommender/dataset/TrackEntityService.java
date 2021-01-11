@@ -1,5 +1,7 @@
 package de.htwsaar.spotifyrecommender.dataset;
 
+import de.htwsaar.spotifyrecommender.dataset.projections.AlbumIdOnly;
+import de.htwsaar.spotifyrecommender.dataset.projections.ArtistIdOnly;
 import de.htwsaar.spotifyrecommender.dataset.projections.TrackIdOnly;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,24 @@ public class TrackEntityService {
 
         return template.select(TrackEntity.class).as(TrackIdOnly.class)
                 .matching(Query.empty().columns("track_uri").offset(offset).limit(limit))
+                .all();
+    }
+
+    public Flux<AlbumIdOnly> findAllAlbumIds(Pageable pageable) {
+        long offset = pageable.getOffset();
+        int limit = pageable.getPageSize();
+
+        return template.select(TrackEntity.class).as(AlbumIdOnly.class)
+                .matching(Query.empty().columns("album_uri").offset(offset).limit(limit))
+                .all();
+    }
+
+    public Flux<ArtistIdOnly> findAllArtistIds(Pageable pageable) {
+        long offset = pageable.getOffset();
+        int limit = pageable.getPageSize();
+
+        return template.select(TrackEntity.class).as(ArtistIdOnly.class)
+                .matching(Query.empty().columns("artist_uri").offset(offset).limit(limit))
                 .all();
     }
 }

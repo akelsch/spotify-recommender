@@ -4,16 +4,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 @Data
-@JsonDeserialize(using = DiscoverTrackDeserializer.class)
-class DiscoverTrack {
-
+@JsonDeserialize(using = DiscoverArtistDeserializer.class)
+class DiscoverArtist {
     private String id;
 
-    private String title;
-
-    private String artist;
-
-    private String album;
+    private String name;
 
     private String imageUrl;
 }

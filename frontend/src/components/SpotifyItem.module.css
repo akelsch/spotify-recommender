@@ -4,6 +4,10 @@
   position: relative;
 }
 
+.itemContainer img {
+  height: 250px;
+}
+
 .itemContainer p {
   white-space: nowrap;
   overflow: hidden;

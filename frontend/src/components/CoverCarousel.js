@@ -4,7 +4,7 @@ import { Heading } from 'react-bulma-components';
 import SwiperCore, { Pagination, Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import TrackItem from './TrackItem';
+import SpotifyItem from './SpotifyItem';
 
 SwiperCore.use([Pagination, Virtual]);
 
@@ -31,15 +31,15 @@ const params = {
   virtual: true,
 };
 
-function Carousel({ heading, tracks }) {
+function CoverCarousel({ heading, items }) {
   const [swiper, setSwiper] = useState(null);
-  const tracksRef = useRef(tracks);
+  const itemsRef = useRef(items);
 
   useEffect(() => {
-    if (swiper && tracks !== tracksRef.current) {
+    if (swiper && items !== itemsRef.current) {
       swiper.updateSlides();
     }
-  }, [swiper, tracks]);
+  }, [swiper, items]);
 
   return (
     <div>
@@ -47,33 +47,37 @@ function Carousel({ heading, tracks }) {
         {heading}
       </Heading>
       <Swiper onSwiper={setSwiper} {...params}>
-        {tracks.map(({ id, title, artist, image_url, played_at }, index) => (
-          <SwiperSlide key={played_at || id + index} virtualIndex={index}>
-            <TrackItem
-              id={id}
-              title={title}
-              artist={artist}
-              imageUrl={image_url}
-            />
-          </SwiperSlide>
-        ))}
+        {items.map(
+          ({ id, title, name, artist, image_url, played_at }, index) => (
+            <SwiperSlide key={played_at || id + index} virtualIndex={index}>
+              <SpotifyItem
+                id={id}
+                title={title}
+                name={name}
+                artist={artist}
+                imageUrl={image_url}
+              />
+            </SwiperSlide>
+          )
+        )}
       </Swiper>
     </div>
   );
 }
 
-Carousel.propTypes = {
+CoverCarousel.propTypes = {
   heading: PropTypes.string.isRequired,
-  tracks: PropTypes.arrayOf(
+  items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      artist: PropTypes.string.isRequired,
-      album: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      name: PropTypes.string,
+      artist: PropTypes.string,
+      album: PropTypes.string,
       image_url: PropTypes.string.isRequired,
       played_at: PropTypes.string,
     })
   ).isRequired,
 };
 
-export default Carousel;
+export default CoverCarousel;

@@ -17,9 +17,13 @@ async function logout() {
   return true;
 }
 
-async function fetchRecentlyPlayedTracks() {
-  const response = await client.get('/api/v1/recently-played');
-  return response.data.items;
+async function fetchRecentlyPlayed(before) {
+  const response = await client.get('/api/v1/recently-played', {
+    params: {
+      before,
+    },
+  });
+  return response.data;
 }
 
 async function fetchDiscoverTracks() {
@@ -29,11 +33,27 @@ async function fetchDiscoverTracks() {
   return response.data.tracks;
 }
 
+async function fetchDiscoverAlbums() {
+  const response = await client.get(
+    `/api/v1/discover/albums?page=${Math.floor(Math.random() * 1000)}`
+  );
+  return response.data.albums;
+}
+
+async function fetchDiscoverArtists() {
+  const response = await client.get(
+    `/api/v1/discover/artists?page=${Math.floor(Math.random() * 1000)}`
+  );
+  return response.data.artists;
+}
+
 const SpotifyRecommenderApi = {
   fetchUser,
   logout,
-  fetchRecentlyPlayedTracks,
+  fetchRecentlyPlayed,
   fetchDiscoverTracks,
+  fetchDiscoverAlbums,
+  fetchDiscoverArtists,
 };
 
 export default SpotifyRecommenderApi;

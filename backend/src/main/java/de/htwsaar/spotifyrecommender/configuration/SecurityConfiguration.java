@@ -65,6 +65,7 @@ public class SecurityConfiguration {
         oauthFilter.setDefaultOAuth2AuthorizedClient(true);
 
         return WebClient.builder()
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(2 * 1024 * 1024)) // 2 MB
                 .baseUrl("https://api.spotify.com")
                 .filter(oauthFilter)
                 .build();
