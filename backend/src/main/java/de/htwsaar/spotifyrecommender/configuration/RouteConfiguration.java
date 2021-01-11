@@ -1,6 +1,7 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
 import de.htwsaar.spotifyrecommender.discover.DiscoverHandler;
+import de.htwsaar.spotifyrecommender.rating.RatingHandler;
 import de.htwsaar.spotifyrecommender.recent.RecentlyPlayedHandler;
 import de.htwsaar.spotifyrecommender.spotify.SpotifyHandler;
 import de.htwsaar.spotifyrecommender.user.UserHandler;
@@ -41,5 +42,14 @@ public class RouteConfiguration {
                 .and(route(GET("/artists"), discoverHandler::discoverArtists));
 
         return nest(path("/api/v1/discover").and(accept(APPLICATION_JSON)), routes);
+    }
+
+    @Bean
+    RouterFunction<ServerResponse> routeRating(RatingHandler ratingHandler) {
+        var routes = route(GET(""), ratingHandler::queryRatings)
+                .and(route(POST(""), ratingHandler::createRating))
+                .and(route(PUT("/{id}"), ratingHandler::updateRating));
+
+        return nest(path("/api/v1/ratings").and(accept(APPLICATION_JSON)), routes);
     }
 }
