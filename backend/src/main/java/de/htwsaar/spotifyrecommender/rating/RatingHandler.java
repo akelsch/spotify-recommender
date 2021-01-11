@@ -12,20 +12,28 @@ public class RatingHandler {
 
     private final RatingEntityService ratingEntityService;
 
-    public Mono<ServerResponse> getRating(ServerRequest request) {
-        return ratingEntityService.findAllRatings()
+    public Mono<ServerResponse> queryRatings(ServerRequest request) {
+        return request.principal()
+                .flatMapMany(p -> ratingEntityService.findAllRatings(p.getName())) // TODO use id instead of name
                 .collectList()
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
-    public Mono<ServerResponse> postRating(ServerRequest request) {
+    public Mono<ServerResponse> createRating(ServerRequest request) {
         return request.bodyToMono(RatingEntity.class)
+                .zipWith(request.principal())
+                .map(t -> t.getT1().withUserId(t.getT2().getName()))
                 .flatMap(ratingEntityService::createRating)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
-    public Mono<ServerResponse> putRating(ServerRequest request) {
-        return null;
+    public Mono<ServerResponse> updateRating(ServerRequest request) {
+        long id = Long.parseLong(request.pathVariable("id"));
+        return request.bodyToMono(RatingEntity.class)
+                .zipWith(request.principal())
+                .map(t -> t.getT1().withUserId(t.getT2().getName()))
+                .flatMap(ratingEntity -> ratingEntityService.updateRating(ratingEntity, id))
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
 }

@@ -46,10 +46,10 @@ public class RouteConfiguration {
 
     @Bean
     RouterFunction<ServerResponse> routeRating(RatingHandler ratingHandler) {
-        var routes = route(GET(""), ratingHandler::getRating)
-                .and(route(POST(""), ratingHandler::postRating))
-                .and(route(PUT("/{id}"), ratingHandler::putRating));
+        var routes = route(GET(""), ratingHandler::queryRatings)
+                .and(route(POST(""), ratingHandler::createRating))
+                .and(route(PUT("/{id}"), ratingHandler::updateRating));
 
-        return nest(path("/api/v1/rating").and(accept(APPLICATION_JSON)), routes);
+        return nest(path("/api/v1/ratings").and(accept(APPLICATION_JSON)), routes);
     }
 }
