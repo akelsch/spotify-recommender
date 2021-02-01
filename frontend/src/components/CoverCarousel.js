@@ -50,15 +50,7 @@ function CoverCarousel({ heading, items, ratings }) {
         {items.map(
           // eslint-disable-next-line arrow-body-style
           ({ id, title, name, artist, image_url, played_at }, index) => {
-            const ratingObject = {};
-            // eslint-disable-next-line no-restricted-syntax
-            for (const rating of ratings) {
-              if (rating.uri === id) {
-                ratingObject.id = rating.id;
-                ratingObject.rating = rating.rating;
-                break;
-              }
-            }
+            const ratingObject = ratings.find(({ uri }) => uri === id);
             return (
               <SwiperSlide key={played_at || id + index} virtualIndex={index}>
                 <SpotifyItem
@@ -67,7 +59,10 @@ function CoverCarousel({ heading, items, ratings }) {
                   name={name}
                   artist={artist}
                   imageUrl={image_url}
-                  ratingObject={ratingObject.id ? ratingObject : undefined}
+                  ratingObject={{
+                    id: ratingObject?.id,
+                    rating: ratingObject?.rating,
+                  }}
                 />
               </SwiperSlide>
             );

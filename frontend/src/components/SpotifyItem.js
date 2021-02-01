@@ -8,9 +8,10 @@ import { updateRating, createRating } from '../reducers/ratingReducer';
 import styles from './SpotifyItem.module.css';
 
 function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
+  console.log(ratingObject);
   const dispatch = useDispatch();
   const [isShown, setShown] = useState(false);
-  const [rate, setRate] = useState(ratingObject.id);
+  const [rate, setRate] = useState(ratingObject.rating);
   const [isRated, setIsRated] = useState(Boolean(ratingObject.id));
 
   let type;
@@ -70,27 +71,24 @@ function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
       {textComponents}
       <ReactStars
         count={5}
-        onChange={(starsRating) => {
+        onChange={(newRating) => {
+          const jsonBody = {
+            uri: id,
+            type,
+            rating: newRating,
+          };
           if (isRated) {
             dispatch(
               updateRating({
                 id: ratingObject.id,
-                uri: id,
-                type,
-                rating: starsRating,
+                ...jsonBody,
               })
             );
           } else {
-            dispatch(
-              createRating({
-                uri: id,
-                type,
-                rating: starsRating,
-              })
-            );
+            dispatch(createRating(jsonBody));
             setIsRated(true);
           }
-          setRate(starsRating);
+          setRate(newRating);
         }}
         size={24}
         isHalf
