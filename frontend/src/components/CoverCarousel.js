@@ -31,7 +31,7 @@ const params = {
   virtual: true,
 };
 
-function CoverCarousel({ heading, items }) {
+function CoverCarousel({ heading, items, ratings }) {
   const [swiper, setSwiper] = useState(null);
   const itemsRef = useRef(items);
 
@@ -48,17 +48,30 @@ function CoverCarousel({ heading, items }) {
       </Heading>
       <Swiper onSwiper={setSwiper} {...params}>
         {items.map(
-          ({ id, title, name, artist, image_url, played_at }, index) => (
-            <SwiperSlide key={played_at || id + index} virtualIndex={index}>
-              <SpotifyItem
-                id={id}
-                title={title}
-                name={name}
-                artist={artist}
-                imageUrl={image_url}
-              />
-            </SwiperSlide>
-          )
+          // eslint-disable-next-line arrow-body-style
+          ({ id, title, name, artist, image_url, played_at }, index) => {
+            const ratingObject = {};
+            // eslint-disable-next-line no-restricted-syntax
+            for (const rating of ratings) {
+              if (rating.uri === id) {
+                ratingObject.id = rating.id;
+                ratingObject.rating = rating.rating;
+                break;
+              }
+            }
+            return (
+              <SwiperSlide key={played_at || id + index} virtualIndex={index}>
+                <SpotifyItem
+                  id={id}
+                  title={title}
+                  name={name}
+                  artist={artist}
+                  imageUrl={image_url}
+                  ratingObject={ratingObject.id ? ratingObject : undefined}
+                />
+              </SwiperSlide>
+            );
+          }
         )}
       </Swiper>
     </div>
@@ -78,6 +91,14 @@ CoverCarousel.propTypes = {
       played_at: PropTypes.string,
     })
   ).isRequired,
+  ratings: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      user_id: PropTypes.string,
+      uri: PropTypes.string,
+      type: PropTypes.string,
+      rating: PropTypes.number,
+    })
+  ).isRequired,
 };
-
 export default CoverCarousel;

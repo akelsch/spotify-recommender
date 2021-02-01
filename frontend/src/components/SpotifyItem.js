@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import ReactStars from 'react-rating-stars-component';
-
+import { updateRating, createRating } from '../reducers/ratingReducer';
 import styles from './SpotifyItem.module.css';
 
-function SpotifyItem({ id, title, name, artist, imageUrl }) {
+function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
+  const dispatch = useDispatch();
   const [isShown, setShown] = useState(false);
+  const [rate, setRate] = useState(ratingObject.id);
+  const [isRated, setIsRated] = useState(Boolean(ratingObject.id));
 
   let type;
   if (title && artist) {
@@ -64,7 +68,34 @@ function SpotifyItem({ id, title, name, artist, imageUrl }) {
         <img src={imageUrl} alt={imageAlt} />
       </div>
       {textComponents}
-      <ReactStars count={5} onChange={(e) => console.log(e)} size={24} isHalf />
+      <ReactStars
+        count={5}
+        onChange={(starsRating) => {
+          if (isRated) {
+            dispatch(
+              updateRating({
+                id: ratingObject.id,
+                uri: id,
+                type,
+                rating: starsRating,
+              })
+            );
+          } else {
+            dispatch(
+              createRating({
+                uri: id,
+                type,
+                rating: starsRating,
+              })
+            );
+            setIsRated(true);
+          }
+          setRate(starsRating);
+        }}
+        size={24}
+        isHalf
+        value={rate}
+      />
     </div>
   );
 }
@@ -75,12 +106,17 @@ SpotifyItem.propTypes = {
   name: PropTypes.string,
   artist: PropTypes.string,
   imageUrl: PropTypes.string.isRequired,
+  ratingObject: PropTypes.shape({
+    id: PropTypes.number,
+    rating: PropTypes.number,
+  }),
 };
 
 SpotifyItem.defaultProps = {
   title: null,
   name: null,
   artist: null,
+  ratingObject: { id: 0, rating: 0 },
 };
 
 export default SpotifyItem;

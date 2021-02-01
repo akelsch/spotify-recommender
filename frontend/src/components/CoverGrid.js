@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 
 import SpotifyItem from './SpotifyItem';
 
-function CoverGrid({ tracks, updateCallback }) {
+function CoverGrid({ tracks, updateCallback, ratings }) {
   const [sentinel, inView, entry] = useInView();
   const entryRef = useRef(entry);
 
@@ -20,15 +20,28 @@ function CoverGrid({ tracks, updateCallback }) {
   }, [inView, entry, tracks, updateCallback]);
 
   const components = tracks.map(
-    ({ id, title, artist, image_url, played_at }) => (
-      <SpotifyItem
-        key={played_at}
-        id={id}
-        title={title}
-        artist={artist}
-        imageUrl={image_url}
-      />
-    )
+    // eslint-disable-next-line arrow-body-style
+    ({ id, title, artist, image_url, played_at }) => {
+      const ratingObject = {};
+      // eslint-disable-next-line no-restricted-syntax
+      for (const rating of ratings) {
+        if (rating.uri === id) {
+          ratingObject.id = rating.id;
+          ratingObject.rating = rating.rating;
+          break;
+        }
+      }
+      return (
+        <SpotifyItem
+          key={played_at}
+          id={id}
+          title={title}
+          artist={artist}
+          imageUrl={image_url}
+          ratingObject={ratingObject}
+        />
+      );
+    }
   );
 
   components.push(
@@ -50,6 +63,15 @@ CoverGrid.propTypes = {
     })
   ).isRequired,
   updateCallback: PropTypes.func.isRequired,
+  ratings: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      user_id: PropTypes.string,
+      uri: PropTypes.string,
+      type: PropTypes.string,
+      rating: PropTypes.number,
+    })
+  ).isRequired,
 };
 
 export default CoverGrid;
