@@ -42,7 +42,7 @@ function Discover() {
         <SettingsForm />
       </div>
 
-      {discoverTracks.length && ratings.length ? (
+      {discoverTracks.length ? (
         <CoverCarousel
           heading="Tracks"
           items={discoverTracks}
@@ -50,7 +50,7 @@ function Discover() {
         />
       ) : null}
 
-      {discoverAlbums.length && ratings.length ? (
+      {discoverAlbums.length ? (
         <CoverCarousel
           heading="Albums"
           items={discoverAlbums}
@@ -58,7 +58,7 @@ function Discover() {
         />
       ) : null}
 
-      {discoverArtists.length && ratings.length ? (
+      {discoverArtists.length ? (
         <CoverCarousel
           heading="Artists"
           items={discoverArtists}

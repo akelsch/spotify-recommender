@@ -20,9 +20,8 @@ function CoverGrid({ tracks, updateCallback, ratings }) {
   }, [inView, entry, tracks, updateCallback]);
 
   const components = tracks.map(
-    // eslint-disable-next-line arrow-body-style
     ({ id, title, artist, image_url, played_at }) => {
-      const ratingObject = ratings.find(({ uri }) => uri === id);
+      const rating = ratings.find(({ uri }) => uri === id);
       return (
         <SpotifyItem
           key={played_at}
@@ -30,10 +29,7 @@ function CoverGrid({ tracks, updateCallback, ratings }) {
           title={title}
           artist={artist}
           imageUrl={image_url}
-          ratingObject={{
-            id: ratingObject?.id,
-            rating: ratingObject?.rating,
-          }}
+          ratingObject={rating}
         />
       );
     }

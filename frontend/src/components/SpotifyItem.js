@@ -8,7 +8,6 @@ import { updateRating, createRating } from '../reducers/ratingReducer';
 import styles from './SpotifyItem.module.css';
 
 function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
-  console.log(ratingObject);
   const dispatch = useDispatch();
   const [isShown, setShown] = useState(false);
   const [rate, setRate] = useState(ratingObject.rating);

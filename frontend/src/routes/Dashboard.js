@@ -35,7 +35,7 @@ function Dashboard() {
         subtitle={`Welcome back, ${userName}! How is it going?`}
       />
 
-      {recentlyPlayedTracks.length && ratings.length ? (
+      {recentlyPlayedTracks.length ? (
         <CoverCarousel
           heading="Recently Played"
           items={recentlyPlayedTracks.slice(0, 20)}
@@ -43,7 +43,7 @@ function Dashboard() {
         />
       ) : null}
 
-      {discoverTracks.length && ratings.length ? (
+      {discoverTracks.length ? (
         <CoverCarousel
           heading="Discover"
           items={discoverTracks}

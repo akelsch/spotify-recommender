@@ -29,6 +29,6 @@
 }
 
 /* Workaround for swiper pagination ignoring margin */
-.swiper-slide > [class^='TrackItem'] > :last-child {
+.swiper-slide > [class^='SpotifyItem'] > :last-child {
   margin-bottom: 3rem;
 }

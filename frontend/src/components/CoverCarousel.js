@@ -48,9 +48,8 @@ function CoverCarousel({ heading, items, ratings }) {
       </Heading>
       <Swiper onSwiper={setSwiper} {...params}>
         {items.map(
-          // eslint-disable-next-line arrow-body-style
           ({ id, title, name, artist, image_url, played_at }, index) => {
-            const ratingObject = ratings.find(({ uri }) => uri === id);
+            const rating = ratings.find(({ uri }) => uri === id);
             return (
               <SwiperSlide key={played_at || id + index} virtualIndex={index}>
                 <SpotifyItem
@@ -59,10 +58,7 @@ function CoverCarousel({ heading, items, ratings }) {
                   name={name}
                   artist={artist}
                   imageUrl={image_url}
-                  ratingObject={{
-                    id: ratingObject?.id,
-                    rating: ratingObject?.rating,
-                  }}
+                  ratingObject={rating}
                 />
               </SwiperSlide>
             );
