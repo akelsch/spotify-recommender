@@ -34,6 +34,13 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 This profile automatically activates if you do not provide a profile. In this case, the application will use the in-memory H2 database which does not contain any data. This is useful if you want to access the Spotify Web API only (e.g. to test login, fetch recently played tracks, etc).
 
+| Environment Variable     | Description                      |
+| ------------------------ | -------------------------------- |
+| SR_SPOTIFY_CLIENT_ID     | Client ID of the Spotify app     |
+| SR_SPOTIFY_CLIENT_SECRET | Client Secret of the Spotify app |
+
+Note that these environment variables are required in any of the following profiles.
+
 ### init
 
 Profile used to convert the Spotify Million Playlist Dataset to CSV so that it can be imported into PostgreSQL (see [COPY](https://www.postgresql.org/docs/12/sql-copy.html)).
