@@ -32,7 +32,7 @@ public class RatingHandler {
         return request.bodyToMono(RatingEntity.class)
                 .zipWith(request.principal())
                 .map(t -> t.getT1().withUserId(t.getT2().getName()))
-                .flatMap(ratingEntity -> ratingEntityService.updateRating(ratingEntity, id))
+                .flatMap(ratingEntity -> ratingEntityService.updateRating(ratingEntity, id)) // TODO does this allow to update other users rating?
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
