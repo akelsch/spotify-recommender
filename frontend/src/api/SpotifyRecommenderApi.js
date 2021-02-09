@@ -47,6 +47,21 @@ async function fetchDiscoverArtists() {
   return response.data.artists;
 }
 
+async function fetchRatings() {
+  const response = await client.get('/api/v1/ratings');
+  return response.data;
+}
+
+async function createRating(rating) {
+  const response = await client.post('/api/v1/ratings', rating);
+  return response.data;
+}
+
+async function updateRating(rating) {
+  const response = await client.put(`/api/v1/ratings/${rating.id}`, rating);
+  return response.data;
+}
+
 const SpotifyRecommenderApi = {
   fetchUser,
   logout,
@@ -54,6 +69,9 @@ const SpotifyRecommenderApi = {
   fetchDiscoverTracks,
   fetchDiscoverAlbums,
   fetchDiscoverArtists,
+  fetchRatings,
+  createRating,
+  updateRating,
 };
 
 export default SpotifyRecommenderApi;

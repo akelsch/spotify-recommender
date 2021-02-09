@@ -10,6 +10,7 @@ import {
   selectDiscoverTracks,
   fetchDiscoverTracks,
 } from '../reducers/discoverReducer';
+import { selectRatings, fetchRatings } from '../reducers/ratingReducer';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
 import CoverCarousel from '../components/CoverCarousel';
@@ -19,10 +20,12 @@ function Dashboard() {
   const userName = useSelector(selectUserName);
   const recentlyPlayedTracks = useSelector(selectRecentlyPlayedTracks);
   const discoverTracks = useSelector(selectDiscoverTracks);
+  const ratings = useSelector(selectRatings);
 
   useEffect(() => {
     dispatch(fetchRecentlyPlayed());
     dispatch(fetchDiscoverTracks());
+    dispatch(fetchRatings());
   }, [dispatch]);
 
   return (
@@ -36,11 +39,16 @@ function Dashboard() {
         <CoverCarousel
           heading="Recently Played"
           items={recentlyPlayedTracks.slice(0, 20)}
+          ratings={ratings}
         />
       ) : null}
 
       {discoverTracks.length ? (
-        <CoverCarousel heading="Discover" items={discoverTracks} />
+        <CoverCarousel
+          heading="Discover"
+          items={discoverTracks}
+          ratings={ratings}
+        />
       ) : null}
     </Layout>
   );

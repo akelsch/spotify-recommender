@@ -24,8 +24,12 @@ function Avatar({ imageUrl, logoutCallback }) {
 }
 
 Avatar.propTypes = {
-  imageUrl: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
   logoutCallback: PropTypes.func.isRequired,
+};
+
+Avatar.defaultProps = {
+  imageUrl: '',
 };
 
 export default Avatar;

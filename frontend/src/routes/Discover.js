@@ -10,6 +10,7 @@ import {
   fetchDiscoverAlbums,
   fetchDiscoverArtists,
 } from '../reducers/discoverReducer';
+import { selectRatings, fetchRatings } from '../reducers/ratingReducer';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
 import SettingsForm from '../components/SettingsForm';
@@ -20,11 +21,13 @@ function Discover() {
   const discoverTracks = useSelector(selectDiscoverTracks);
   const discoverAlbums = useSelector(selectDiscoverAlbums);
   const discoverArtists = useSelector(selectDiscoverArtists);
+  const ratings = useSelector(selectRatings);
 
   useEffect(() => {
     dispatch(fetchDiscoverTracks());
     dispatch(fetchDiscoverAlbums());
     dispatch(fetchDiscoverArtists());
+    dispatch(fetchRatings());
   }, [dispatch]);
 
   return (
@@ -40,15 +43,27 @@ function Discover() {
       </div>
 
       {discoverTracks.length ? (
-        <CoverCarousel heading="Tracks" items={discoverTracks} />
+        <CoverCarousel
+          heading="Tracks"
+          items={discoverTracks}
+          ratings={ratings}
+        />
       ) : null}
 
       {discoverAlbums.length ? (
-        <CoverCarousel heading="Albums" items={discoverAlbums} />
+        <CoverCarousel
+          heading="Albums"
+          items={discoverAlbums}
+          ratings={ratings}
+        />
       ) : null}
 
       {discoverArtists.length ? (
-        <CoverCarousel heading="Artists" items={discoverArtists} />
+        <CoverCarousel
+          heading="Artists"
+          items={discoverArtists}
+          ratings={ratings}
+        />
       ) : null}
     </Layout>
   );

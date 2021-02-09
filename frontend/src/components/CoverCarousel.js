@@ -31,7 +31,7 @@ const params = {
   virtual: true,
 };
 
-function CoverCarousel({ heading, items }) {
+function CoverCarousel({ heading, items, ratings }) {
   const [swiper, setSwiper] = useState(null);
   const itemsRef = useRef(items);
 
@@ -47,19 +47,17 @@ function CoverCarousel({ heading, items }) {
         {heading}
       </Heading>
       <Swiper onSwiper={setSwiper} {...params}>
-        {items.map(
-          ({ id, title, name, artist, image_url, played_at }, index) => (
-            <SwiperSlide key={played_at || id + index} virtualIndex={index}>
-              <SpotifyItem
-                id={id}
-                title={title}
-                name={name}
-                artist={artist}
-                imageUrl={image_url}
-              />
+        {items.map((item, index) => {
+          const rating = ratings.find(({ uri }) => uri === item.id);
+          return (
+            <SwiperSlide
+              key={item.played_at || item.id + index}
+              virtualIndex={index}
+            >
+              <SpotifyItem item={item} rating={rating} />
             </SwiperSlide>
-          )
-        )}
+          );
+        })}
       </Swiper>
     </div>
   );
@@ -78,6 +76,14 @@ CoverCarousel.propTypes = {
       played_at: PropTypes.string,
     })
   ).isRequired,
+  ratings: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      user_id: PropTypes.string,
+      uri: PropTypes.string,
+      type: PropTypes.string,
+      rating: PropTypes.number,
+    })
+  ).isRequired,
 };
-
 export default CoverCarousel;

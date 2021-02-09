@@ -7,6 +7,7 @@ import {
   fetchRecentlyPlayed,
   updateRecentlyPlayed,
 } from '../reducers/recentlyPlayedReducer';
+import { selectRatings, fetchRatings } from '../reducers/ratingReducer';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
 import CoverGrid from '../components/CoverGrid';
@@ -15,11 +16,12 @@ function RecentlyPlayed() {
   const dispatch = useDispatch();
   const tracks = useSelector(selectRecentlyPlayedTracks);
   const before = useSelector(selectRecentlyPlayedBeforeCursor);
+  const ratings = useSelector(selectRatings);
 
   useEffect(() => {
     dispatch(fetchRecentlyPlayed());
+    dispatch(fetchRatings());
   }, [dispatch]);
-
   return (
     <Layout>
       <Headline
@@ -28,6 +30,7 @@ function RecentlyPlayed() {
       />
       <CoverGrid
         tracks={tracks}
+        ratings={ratings}
         updateCallback={useCallback(
           () => dispatch(updateRecentlyPlayed(before)),
           [dispatch, before]

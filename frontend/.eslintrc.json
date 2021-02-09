@@ -7,6 +7,7 @@
     "prettier/react",
     "plugin:react-redux/recommended"
   ],
+  "parser": "babel-eslint",
   "rules": {
     "camelcase": "off",
     "no-console": "off",
@@ -19,5 +20,8 @@
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": ["error", { "custom": "ignore" }],
     "require-await": "warn"
+  },
+  "env": {
+    "browser": true
   }
 }
