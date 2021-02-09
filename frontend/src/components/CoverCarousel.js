@@ -47,23 +47,17 @@ function CoverCarousel({ heading, items, ratings }) {
         {heading}
       </Heading>
       <Swiper onSwiper={setSwiper} {...params}>
-        {items.map(
-          ({ id, title, name, artist, image_url, played_at }, index) => {
-            const rating = ratings.find(({ uri }) => uri === id);
-            return (
-              <SwiperSlide key={played_at || id + index} virtualIndex={index}>
-                <SpotifyItem
-                  id={id}
-                  title={title}
-                  name={name}
-                  artist={artist}
-                  imageUrl={image_url}
-                  ratingObject={rating}
-                />
-              </SwiperSlide>
-            );
-          }
-        )}
+        {items.map((item, index) => {
+          const rating = ratings.find(({ uri }) => uri === item.id);
+          return (
+            <SwiperSlide
+              key={item.played_at || item.id + index}
+              virtualIndex={index}
+            >
+              <SpotifyItem item={item} rating={rating} />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

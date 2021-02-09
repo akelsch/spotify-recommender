@@ -19,21 +19,10 @@ function CoverGrid({ tracks, updateCallback, ratings }) {
     }
   }, [inView, entry, tracks, updateCallback]);
 
-  const components = tracks.map(
-    ({ id, title, artist, image_url, played_at }) => {
-      const rating = ratings.find(({ uri }) => uri === id);
-      return (
-        <SpotifyItem
-          key={played_at}
-          id={id}
-          title={title}
-          artist={artist}
-          imageUrl={image_url}
-          ratingObject={rating}
-        />
-      );
-    }
-  );
+  const components = tracks.map((track) => {
+    const rating = ratings.find(({ uri }) => uri === track.id);
+    return <SpotifyItem key={track.played_at} item={track} rating={rating} />;
+  });
 
   components.push(
     <div key="sentinel" ref={sentinel} className="is-align-self-flex-end" />

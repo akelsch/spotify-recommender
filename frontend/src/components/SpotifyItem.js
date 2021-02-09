@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import ReactStars from 'react-rating-stars-component';
+import { useDispatch } from 'react-redux';
 import { updateRating, createRating } from '../reducers/ratingReducer';
+
 import styles from './SpotifyItem.module.css';
 
-function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
-  const dispatch = useDispatch();
+function SpotifyItem({ item, rating }) {
+  const { id: itemId, title, name, artist, image_url: imageUrl } = item;
+
+  const dispatch = useDispatch(); // TODO remove and pass callback instead?
   const [isShown, setShown] = useState(false);
-  const [rate, setRate] = useState(ratingObject.rating);
-  const [isRated, setIsRated] = useState(Boolean(ratingObject.id));
 
   let type;
   if (title && artist) {
@@ -22,7 +23,7 @@ function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
     type = 'artist';
   }
 
-  const spotifyLink = `https://open.spotify.com/${type}/${id}`;
+  const spotifyLink = `https://open.spotify.com/${type}/${itemId}`;
 
   let imageAlt;
   let textComponents;
@@ -51,6 +52,21 @@ function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
     );
   }
 
+  const handleRatingChange = (newRating) => {
+    const payload = {
+      id: rating.id,
+      uri: itemId,
+      type,
+      rating: newRating,
+    };
+
+    if (payload.id) {
+      dispatch(updateRating(payload));
+    } else {
+      dispatch(createRating(payload));
+    }
+  };
+
   return (
     <div className={styles.itemContainer}>
       <div
@@ -70,50 +86,37 @@ function SpotifyItem({ id, title, name, artist, imageUrl, ratingObject }) {
       {textComponents}
       <ReactStars
         count={5}
-        onChange={(newRating) => {
-          const jsonBody = {
-            uri: id,
-            type,
-            rating: newRating,
-          };
-          if (isRated) {
-            dispatch(
-              updateRating({
-                id: ratingObject.id,
-                ...jsonBody,
-              })
-            );
-          } else {
-            dispatch(createRating(jsonBody));
-            setIsRated(true);
-          }
-          setRate(newRating);
-        }}
+        onChange={handleRatingChange}
         size={24}
         isHalf
-        value={rate}
+        value={rating.rating}
       />
     </div>
   );
 }
 
 SpotifyItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  name: PropTypes.string,
-  artist: PropTypes.string,
-  imageUrl: PropTypes.string.isRequired,
-  ratingObject: PropTypes.shape({
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    name: PropTypes.string,
+    artist: PropTypes.string,
+    album: PropTypes.string,
+    image_url: PropTypes.string.isRequired,
+    played_at: PropTypes.string,
+  }),
+  rating: PropTypes.shape({
     id: PropTypes.number,
+    user_id: PropTypes.string,
+    uri: PropTypes.string,
+    type: PropTypes.string,
     rating: PropTypes.number,
   }),
 };
 
 SpotifyItem.defaultProps = {
-  title: null,
-  name: null,
-  artist: null,
-  ratingObject: { id: 0, rating: 0 },
+  item: null,
+  rating: {},
 };
 
 export default SpotifyItem;
