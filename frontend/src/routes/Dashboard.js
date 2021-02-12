@@ -31,7 +31,7 @@ function Dashboard() {
   return (
     <Layout>
       <Headline
-        title="Dashboard"
+        title="Your ratings"
         subtitle={`Welcome back, ${userName}! How is it going?`}
       />
 
