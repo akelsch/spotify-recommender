@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Container, Button, Columns, Icon } from 'react-bulma-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ReactStars from 'react-rating-stars-component';
 import { useDispatch } from 'react-redux';
 import { updateRating, createRating } from '../reducers/ratingReducer';
@@ -13,6 +14,7 @@ function SpotifyItem({ item, rating }) {
 
   const dispatch = useDispatch(); // TODO remove and pass callback instead?
   const [isShown, setShown] = useState(false);
+  const [ratingValue, setRating] = useState(rating.rating);
 
   let type;
   if (title && artist) {
@@ -84,13 +86,31 @@ function SpotifyItem({ item, rating }) {
         <img src={imageUrl} alt={imageAlt} />
       </div>
       {textComponents}
-      <ReactStars
-        count={5}
-        onChange={handleRatingChange}
-        size={24}
-        isHalf
-        value={rating.rating}
-      />
+      <Container>
+        <Columns>
+          <Columns.Column className="column is-three-quarters">
+            <ReactStars
+              count={5}
+              onChange={handleRatingChange}
+              size={24}
+              isHalf
+              value={ratingValue}
+            />
+          </Columns.Column>
+          <Columns.Column className="column">
+            <Button
+              size="small"
+              className="button is-danger is-outlined"
+              style={{ marginTop: '0.5em' }}
+              onClick={() => setRating(0)}
+            >
+              <Icon>
+                <FontAwesomeIcon icon={faTimes} />
+              </Icon>
+            </Button>
+          </Columns.Column>
+        </Columns>
+      </Container>
     </div>
   );
 }
