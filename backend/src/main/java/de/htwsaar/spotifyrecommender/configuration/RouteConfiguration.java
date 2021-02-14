@@ -1,6 +1,7 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
 import de.htwsaar.spotifyrecommender.discover.DiscoverHandler;
+import de.htwsaar.spotifyrecommender.discover.DiscoverService;
 import de.htwsaar.spotifyrecommender.rating.RatingHandler;
 import de.htwsaar.spotifyrecommender.recent.RecentlyPlayedHandler;
 import de.htwsaar.spotifyrecommender.spotify.SpotifyHandler;
@@ -9,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
@@ -36,10 +39,11 @@ public class RouteConfiguration {
     }
 
     @Bean
-    RouterFunction<ServerResponse> routeDiscover(DiscoverHandler discoverHandler) {
+    RouterFunction<ServerResponse> routeDiscover(DiscoverHandler discoverHandler, DiscoverService discoverService) {
         var routes = route(GET("/tracks"), discoverHandler::discoverTracks)
                 .and(route(GET("/albums"), discoverHandler::discoverAlbums))
-                .and(route(GET("/artists"), discoverHandler::discoverArtists));
+                .and(route(GET("/artists"), discoverHandler::discoverArtists))
+                .and(route(GET("/test"), request -> ServerResponse.ok().body(discoverService.discoverTracks(), Map.class))); // TODO remove
 
         return nest(path("/api/v1/discover").and(accept(APPLICATION_JSON)), routes);
     }
