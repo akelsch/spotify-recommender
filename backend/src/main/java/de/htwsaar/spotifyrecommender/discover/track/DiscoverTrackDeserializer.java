@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.discover;
+package de.htwsaar.spotifyrecommender.discover.track;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -11,7 +11,7 @@ import java.io.IOException;
 class DiscoverTrackDeserializer extends StdDeserializer<DiscoverTrack> {
 
     public DiscoverTrackDeserializer() {
-        super(DiscoverTrackDeserializer.class);
+        super(DiscoverTrack.class);
     }
 
     @Override

@@ -48,7 +48,8 @@ public class RouteConfiguration {
     RouterFunction<ServerResponse> routeRating(RatingHandler ratingHandler) {
         var routes = route(GET(""), ratingHandler::queryRatings)
                 .and(route(POST(""), ratingHandler::createRating))
-                .and(route(PUT("/{id}"), ratingHandler::updateRating));
+                .and(route(PUT("/{id}"), ratingHandler::updateRating))
+                .and(route(DELETE("/{id}"), ratingHandler::deleteRating));
 
         return nest(path("/api/v1/ratings").and(accept(APPLICATION_JSON)), routes);
     }
