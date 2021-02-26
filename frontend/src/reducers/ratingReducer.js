@@ -25,6 +25,14 @@ export const updateRating = createAsyncThunk(
   }
 );
 
+export const deleteRating = createAsyncThunk(
+  'rating/deleteRating',
+  async (ratingId) => {
+    await SpotifyRecommenderApi.deleteRating(ratingId);
+    return ratingId;
+  }
+);
+
 const ratingSlice = createSlice({
   name: 'rating',
   initialState: {
@@ -43,6 +51,9 @@ const ratingSlice = createSlice({
         ({ id }) => id === action.payload.id
       );
       state.ratings[index] = action.payload;
+    },
+    [deleteRating.fulfilled]: (state, action) => {
+      state.ratings = state.ratings.filter(({ id }) => id !== action.payload);
     },
   },
 });

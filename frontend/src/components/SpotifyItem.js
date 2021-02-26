@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ReactStars from 'react-rating-stars-component';
 import { useDispatch } from 'react-redux';
-import { updateRating, createRating } from '../reducers/ratingReducer';
+import {
+  updateRating,
+  createRating,
+  deleteRating,
+} from '../reducers/ratingReducer';
 
 import styles from './SpotifyItem.module.css';
 
@@ -14,7 +18,8 @@ function SpotifyItem({ item, rating }) {
 
   const dispatch = useDispatch(); // TODO remove and pass callback instead?
   const [isShown, setShown] = useState(false);
-  const [ratingValue, setRating] = useState(rating.rating);
+  const [ratingValue, setRatingValue] = useState(rating.id ? rating.rating : 0);
+  console.log(rating);
 
   let type;
   if (title && artist) {
@@ -102,7 +107,10 @@ function SpotifyItem({ item, rating }) {
               size="small"
               className="button is-danger is-outlined"
               style={{ marginTop: '0.5em' }}
-              onClick={() => setRating(0)}
+              onClick={() => {
+                dispatch(deleteRating(rating.id));
+                setRatingValue(0);
+              }}
             >
               <Icon>
                 <FontAwesomeIcon icon={faTimes} />
