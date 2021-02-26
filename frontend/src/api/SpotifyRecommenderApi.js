@@ -27,23 +27,17 @@ async function fetchRecentlyPlayed(before) {
 }
 
 async function fetchDiscoverTracks() {
-  const response = await client.get(
-    `/api/v1/discover/tracks?page=${Math.floor(Math.random() * 1000)}`
-  );
+  const response = await client.get('/api/v1/discover/tracks');
   return response.data.tracks;
 }
 
 async function fetchDiscoverAlbums() {
-  const response = await client.get(
-    `/api/v1/discover/albums?page=${Math.floor(Math.random() * 1000)}`
-  );
+  const response = await client.get('/api/v1/discover/albums');
   return response.data.albums;
 }
 
 async function fetchDiscoverArtists() {
-  const response = await client.get(
-    `/api/v1/discover/artists?page=${Math.floor(Math.random() * 1000)}`
-  );
+  const response = await client.get('/api/v1/discover/artists');
   return response.data.artists;
 }
 

@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.discover;
+package de.htwsaar.spotifyrecommender.discover.album;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -11,7 +11,7 @@ import java.io.IOException;
 class DiscoverAlbumDeserializer extends StdDeserializer<DiscoverAlbum> {
 
     public DiscoverAlbumDeserializer() {
-        super(DiscoverTrackDeserializer.class);
+        super(DiscoverAlbum.class);
     }
 
     @Override
