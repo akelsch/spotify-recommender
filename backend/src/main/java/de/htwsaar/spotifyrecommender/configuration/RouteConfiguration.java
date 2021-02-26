@@ -1,7 +1,6 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
 import de.htwsaar.spotifyrecommender.discover.DiscoverHandler;
-import de.htwsaar.spotifyrecommender.discover.DiscoverService;
 import de.htwsaar.spotifyrecommender.rating.RatingHandler;
 import de.htwsaar.spotifyrecommender.recent.RecentlyPlayedHandler;
 import de.htwsaar.spotifyrecommender.spotify.SpotifyHandler;
@@ -10,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
-import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
@@ -39,11 +36,10 @@ public class RouteConfiguration {
     }
 
     @Bean
-    RouterFunction<ServerResponse> routeDiscover(DiscoverHandler discoverHandler, DiscoverService discoverService) {
+    RouterFunction<ServerResponse> routeDiscover(DiscoverHandler discoverHandler) {
         var routes = route(GET("/tracks"), discoverHandler::discoverTracks)
                 .and(route(GET("/albums"), discoverHandler::discoverAlbums))
-                .and(route(GET("/artists"), discoverHandler::discoverArtists))
-                .and(route(GET("/test"), request -> ServerResponse.ok().body(discoverService.discoverTracks(), Map.class))); // TODO remove
+                .and(route(GET("/artists"), discoverHandler::discoverArtists));
 
         return nest(path("/api/v1/discover").and(accept(APPLICATION_JSON)), routes);
     }
@@ -52,7 +48,8 @@ public class RouteConfiguration {
     RouterFunction<ServerResponse> routeRating(RatingHandler ratingHandler) {
         var routes = route(GET(""), ratingHandler::queryRatings)
                 .and(route(POST(""), ratingHandler::createRating))
-                .and(route(PUT("/{id}"), ratingHandler::updateRating));
+                .and(route(PUT("/{id}"), ratingHandler::updateRating))
+                .and(route(DELETE("/{id}"), ratingHandler::deleteRating));
 
         return nest(path("/api/v1/ratings").and(accept(APPLICATION_JSON)), routes);
     }

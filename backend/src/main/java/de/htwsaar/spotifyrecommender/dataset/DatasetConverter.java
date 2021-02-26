@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Flux;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
@@ -63,9 +63,8 @@ public class DatasetConverter implements ApplicationListener<ApplicationReadyEve
     @SneakyThrows
     private void initDirs() {
         File dir = Paths.get(datasetPath, "csv").toFile();
-        if (!dir.mkdir()) {
-            FileUtils.cleanDirectory(dir);
-        }
+        FileSystemUtils.deleteRecursively(dir);
+        dir.mkdir();
     }
 
     @SneakyThrows

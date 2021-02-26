@@ -13,16 +13,13 @@ public class RatingHandler {
     private final RatingEntityService ratingEntityService;
 
     public Mono<ServerResponse> queryRatings(ServerRequest request) {
-        return request.principal()
-                .flatMapMany(p -> ratingEntityService.findAllRatings(p.getName())) // TODO use id instead of name
+        return ratingEntityService.findAllRatings()
                 .collectList()
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
     public Mono<ServerResponse> createRating(ServerRequest request) {
         return request.bodyToMono(RatingEntity.class)
-                .zipWith(request.principal())
-                .map(t -> t.getT1().withUserId(t.getT2().getName()))
                 .flatMap(ratingEntityService::createRating)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
@@ -30,10 +27,14 @@ public class RatingHandler {
     public Mono<ServerResponse> updateRating(ServerRequest request) {
         long id = Long.parseLong(request.pathVariable("id"));
         return request.bodyToMono(RatingEntity.class)
-                .zipWith(request.principal())
-                .map(t -> t.getT1().withUserId(t.getT2().getName()))
-                .flatMap(ratingEntity -> ratingEntityService.updateRating(ratingEntity, id)) // TODO does this allow to update other users rating?
+                .flatMap(entity -> ratingEntityService.updateRating(entity, id))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
+    }
+
+    public Mono<ServerResponse> deleteRating(ServerRequest request) {
+        long id = Long.parseLong(request.pathVariable("id"));
+        return ratingEntityService.deleteRating(id)
+                .then(ServerResponse.noContent().build());
     }
 
 }
