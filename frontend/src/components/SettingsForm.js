@@ -20,9 +20,9 @@ function SettingsForm() {
               value={source}
               onChange={(e) => setSource(e.target.value)}
             >
-              <option>Saved Tracks</option>
               <option>Top Tracks</option>
               <option>Recently Played Tracks</option>
+              <option>Saved Tracks</option>
             </Select>
           </Control>
         </div>

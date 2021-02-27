@@ -20,10 +20,10 @@ public class SpotifyHandler {
         this.client = oauthWebClient;
     }
 
-    public Mono<ServerResponse> deligate(ServerRequest serverRequest) {
-        HttpMethod method = Optional.ofNullable(serverRequest.method()).orElse(HttpMethod.GET);
-        String endpoint = serverRequest.requestPath().subPath(2).value();
-        var queryParams = serverRequest.queryParams();
+    public Mono<ServerResponse> deligate(ServerRequest request) {
+        HttpMethod method = Optional.ofNullable(request.method()).orElse(HttpMethod.GET);
+        String endpoint = request.requestPath().subPath(2).value();
+        var queryParams = request.queryParams();
 
         return client.method(method)
                 .uri(uriBuilder -> uriBuilder.path(endpoint).queryParams(queryParams).build())

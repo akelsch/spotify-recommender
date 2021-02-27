@@ -13,8 +13,8 @@ public class RecentlyPlayedHandler {
 
     private final SpotifyApi spotifyApi;
 
-    public Mono<ServerResponse> get(ServerRequest serverRequest) {
-        var queryParams = serverRequest.queryParams();
+    public Mono<ServerResponse> get(ServerRequest request) {
+        var queryParams = request.queryParams();
         return spotifyApi.getRecentlyPlayedTracks(queryParams)
                 .bodyToMono(RecentlyPlayedResponse.class)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));

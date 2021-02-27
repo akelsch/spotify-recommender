@@ -7,6 +7,7 @@ import de.htwsaar.spotifyrecommender.discover.artist.DiscoverArtistResponse;
 import de.htwsaar.spotifyrecommender.discover.track.DiscoverTrackResponse;
 import de.htwsaar.spotifyrecommender.discover.track.TrackIdAndScore;
 import de.htwsaar.spotifyrecommender.spotify.SpotifyApi;
+import de.htwsaar.spotifyrecommender.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -20,15 +21,17 @@ public class DiscoverHandler {
     private final DiscoverService discoverService;
     private final SpotifyApi spotifyApi;
 
-    public Mono<ServerResponse> discoverTracks(ServerRequest serverRequest) {
-        return discoverService.discoverTracks()
+    public Mono<ServerResponse> discoverTracks(ServerRequest request) {
+        DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
+        return discoverService.discoverTracks(source)
                 .map(TrackIdAndScore::getId)
                 .collectList()
                 .flatMap(ids -> spotifyApi.getSeveralTracks(ids).bodyToMono(DiscoverTrackResponse.class))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
-    public Mono<ServerResponse> discoverAlbums(ServerRequest serverRequest) {
+    public Mono<ServerResponse> discoverAlbums(ServerRequest request) {
+        DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
         return discoverService.discoverAlbums()
                 .map(AlbumIdAndScore::getId)
                 .collectList()
@@ -36,7 +39,8 @@ public class DiscoverHandler {
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
-    public Mono<ServerResponse> discoverArtists(ServerRequest serverRequest) {
+    public Mono<ServerResponse> discoverArtists(ServerRequest request) {
+        DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
         return discoverService.discoverArtists()
                 .map(ArtistIdAndScore::getId)
                 .collectList()

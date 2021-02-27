@@ -48,7 +48,7 @@ public class DiscoverService {
         this.template = template;
     }
 
-    public Flux<TrackIdAndScore> discoverTracks() {
+    public Flux<TrackIdAndScore> discoverTracks(DiscoverSource source) {
         return template.getDatabaseClient()
                 .sql("SELECT * FROM my_jaccard_tracks(:uris)")
                 .bind("uris", EXAMPLE_PLAYLIST)
