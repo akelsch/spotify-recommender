@@ -32,7 +32,7 @@ public class DiscoverHandler {
 
     public Mono<ServerResponse> discoverAlbums(ServerRequest request) {
         DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
-        return discoverService.discoverAlbums()
+        return discoverService.discoverAlbums(source)
                 .map(AlbumIdAndScore::getId)
                 .collectList()
                 .flatMap(ids -> spotifyApi.getSeveralAlbums(ids).bodyToMono(DiscoverAlbumResponse.class))
@@ -41,7 +41,7 @@ public class DiscoverHandler {
 
     public Mono<ServerResponse> discoverArtists(ServerRequest request) {
         DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
-        return discoverService.discoverArtists()
+        return discoverService.discoverArtists(source)
                 .map(ArtistIdAndScore::getId)
                 .collectList()
                 .flatMap(ids -> spotifyApi.getSeveralArtists(ids).bodyToMono(DiscoverArtistResponse.class))

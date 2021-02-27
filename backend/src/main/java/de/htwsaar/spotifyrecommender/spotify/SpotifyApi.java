@@ -1,11 +1,15 @@
 package de.htwsaar.spotifyrecommender.spotify;
 
+import de.htwsaar.spotifyrecommender.spotify.model.Item;
+import de.htwsaar.spotifyrecommender.spotify.model.ItemsResponse;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -47,5 +51,15 @@ public class SpotifyApi {
         return client.get()
                 .uri(uriBuilder -> uriBuilder.path("/v1/me/player/recently-played").queryParams(queryParams).build())
                 .retrieve();
+    }
+
+    public Mono<List<String>> getTopTracks() {
+        return client.get()
+                .uri(uriBuilder -> uriBuilder.path("/v1/me/top/tracks").build())
+                .retrieve()
+                .bodyToMono(ItemsResponse.class)
+                .flatMapMany(response -> Flux.fromIterable(response.getItems()))
+                .map(Item::getUri)
+                .collectList();
     }
 }

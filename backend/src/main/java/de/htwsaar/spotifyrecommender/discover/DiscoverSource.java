@@ -1,5 +1,5 @@
 package de.htwsaar.spotifyrecommender.discover;
 
 public enum DiscoverSource {
-    top, recent, saved
+    top, recent, saved, example
 }
