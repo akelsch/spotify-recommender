@@ -5,10 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
- * POJO that represents the Playlists database table.
+ * POJO that represents the "playlists" database table.
  */
 @Data
-@Table("Playlists")
+@Table("playlists")
 public class PlaylistEntity {
 
     @Id
