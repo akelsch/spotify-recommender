@@ -1,11 +1,9 @@
 package de.htwsaar.spotifyrecommender.spotify;
 
-import de.htwsaar.spotifyrecommender.spotify.model.Item;
 import de.htwsaar.spotifyrecommender.spotify.model.ItemsResponse;
-import org.apache.logging.log4j.util.Strings;
+import de.htwsaar.spotifyrecommender.spotify.model.ItemsTrackResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -24,42 +22,59 @@ public class SpotifyApi {
     }
 
     public WebClient.ResponseSpec getSeveralTracks(List<String> ids) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.put("ids", List.of(Strings.join(ids, ',')));
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path("/v1/tracks").queryParams(queryParams).build())
+                .uri("/v1/tracks", uriBuilder -> uriBuilder.queryParam("ids", String.join(",", ids)).build())
                 .retrieve();
     }
 
     public WebClient.ResponseSpec getSeveralAlbums(List<String> ids) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.put("ids", List.of(Strings.join(ids, ',')));
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path("/v1/albums").queryParams(queryParams).build())
+                .uri("/v1/albums", uriBuilder -> uriBuilder.queryParam("ids", String.join(",", ids)).build())
                 .retrieve();
     }
 
     public WebClient.ResponseSpec getSeveralArtists(List<String> ids) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.put("ids", List.of(Strings.join(ids, ',')));
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path("/v1/artists").queryParams(queryParams).build())
+                .uri("/v1/artists", uriBuilder -> uriBuilder.queryParam("ids", String.join(",", ids)).build())
                 .retrieve();
     }
 
-    public WebClient.ResponseSpec getRecentlyPlayedTracks(MultiValueMap<String, String> queryParams) {
+    public WebClient.ResponseSpec getRecentlyPlayed(MultiValueMap<String, String> queryParams) {
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path("/v1/me/player/recently-played").queryParams(queryParams).build())
+                .uri("/v1/me/player/recently-played", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve();
     }
 
     public Mono<List<String>> getTopTracks() {
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path("/v1/me/top/tracks").build())
+                .uri("/v1/me/top/tracks")
                 .retrieve()
                 .bodyToMono(ItemsResponse.class)
-                .flatMapMany(response -> Flux.fromIterable(response.getItems()))
-                .map(Item::getUri)
+                .map(ItemsResponse::getItems)
+                .flatMapMany(Flux::fromIterable)
+                .map(ItemsResponse.Item::getUri)
+                .collectList();
+    }
+
+    public Mono<List<String>> getRecentlyPlayedTracks() {
+        return client.get()
+                .uri("/v1/me/player/recently-played")
+                .retrieve()
+                .bodyToMono(ItemsTrackResponse.class)
+                .map(ItemsTrackResponse::getItems)
+                .flatMapMany(Flux::fromIterable)
+                .map(item -> item.getTrack().getUri())
+                .collectList();
+    }
+
+    public Mono<List<String>> getSavedTracks() {
+        return client.get()
+                .uri("/v1/me/tracks")
+                .retrieve()
+                .bodyToMono(ItemsTrackResponse.class)
+                .map(ItemsTrackResponse::getItems)
+                .flatMapMany(Flux::fromIterable)
+                .map(item -> item.getTrack().getUri())
                 .collectList();
     }
 }
