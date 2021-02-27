@@ -8,8 +8,8 @@ import {
 
 import { selectRecentlyPlayedTracks } from '../reducers/recentlyPlayedReducer';
 import { selectRatings } from '../reducers/ratingReducer';
-import CoverCarousel from '../components/CoverCarousel';
 import Layout from './layout/Layout';
+import RatingListItem from '../components/RatingListItems';
 import Headline from '../components/common/Headline';
 
 function Ratings() {
@@ -36,22 +36,10 @@ function Ratings() {
         title="Ratings"
         subtitle="Review your rated tracks, albums and artists"
       />
-
-      {ratedTracks.length ? (
-        <CoverCarousel heading="Tracks" items={ratedTracks} ratings={ratings} />
-      ) : null}
-
-      {ratedAlbums.length ? (
-        <CoverCarousel heading="Albums" items={ratedAlbums} ratings={ratings} />
-      ) : null}
-
-      {ratedArtists.length ? (
-        <CoverCarousel
-          heading="Artists"
-          items={ratedArtists}
-          ratings={ratings}
-        />
-      ) : null}
+      <RatingListItem
+        items={[...discoverTracks, ...tracks]}
+        ratings={ratings}
+      />
     </Layout>
   );
 }
