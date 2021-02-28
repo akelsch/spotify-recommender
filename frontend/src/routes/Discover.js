@@ -24,10 +24,10 @@ function Discover() {
   const ratings = useSelector(selectRatings);
 
   const fetchCallback = useCallback(
-    (source) => {
-      dispatch(fetchDiscoverTracks(source));
-      dispatch(fetchDiscoverAlbums(source));
-      dispatch(fetchDiscoverArtists(source));
+    (source, timeRange) => {
+      dispatch(fetchDiscoverTracks({ source, timeRange }));
+      dispatch(fetchDiscoverAlbums({ source, timeRange }));
+      dispatch(fetchDiscoverArtists({ source, timeRange }));
       dispatch(fetchRatings());
     },
     [dispatch]

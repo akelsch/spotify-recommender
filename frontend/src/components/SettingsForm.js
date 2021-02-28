@@ -6,16 +6,16 @@ const { Field, Label, Control, Select } = Form;
 
 function SettingsForm({ fetchCallback }) {
   const [source, setSource] = useState('top');
-  const [genre, setGenre] = useState('');
+  const [timeRange, setTimeRange] = useState('long_term');
 
   useEffect(() => {
-    fetchCallback(source);
-  }, [fetchCallback, source]);
+    fetchCallback(source, timeRange);
+  }, [fetchCallback, source, timeRange]);
 
   return (
     <div style={{ width: '360px' }}>
       <Field horizontal>
-        <div className="field-label is-normal">
+        <div className="field-label is-normal is-flex-grow-2">
           <Label>Source</Label>
         </div>
         <div className="field-body">
@@ -34,21 +34,20 @@ function SettingsForm({ fetchCallback }) {
         </div>
       </Field>
       <Field horizontal>
-        <div className="field-label is-normal">
-          <Label>Genre</Label>
+        <div className="field-label is-normal is-flex-grow-2">
+          <Label>Time Range</Label>
         </div>
         <div className="field-body">
           <Control style={{ width: '100%' }}>
             <Select
               className="is-fullwidth"
-              value={genre}
-              onChange={(e) => setGenre(e.target.value)}
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value)}
+              disabled={source !== 'top'}
             >
-              <option>Pop</option>
-              <option>Rock</option>
-              <option>Electronic</option>
-              <option>Hip-Hop</option>
-              <option>Classical</option>
+              <option value="long_term">Long</option>
+              <option value="medium_term">Medium</option>
+              <option value="short_term">Short</option>
             </Select>
           </Control>
         </div>
