@@ -1,31 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Box, Media, Image, Content, Button } from 'react-bulma-components';
-import { deleteRating } from '../reducers/ratingReducer';
+import { Box, Media, Content, Button } from 'react-bulma-components';
+import ReactStars from 'react-rating-stars-component';
+import { deleteRating, updateRating } from '../reducers/ratingReducer';
 
-function RatingItem({ item, ratingId }) {
+function RatingItem({ rating }) {
   const dispatch = useDispatch();
-  console.log(ratingId);
-  const { title, name, artist, image_url: imageUrl } = item;
+  const spotifyLink = `https://open.spotify.com/${rating.type}/${rating.uri}`;
 
-  let type;
-  if (title && artist) {
-    type = 'track';
-  } else if (artist) {
-    type = 'album';
-  } else {
-    type = 'artist';
-  }
+  const handleRatingChange = (newRating) =>
+    dispatch(
+      updateRating({
+        id: rating.id,
+        uri: rating.uri,
+        type: rating.type,
+        rating: newRating,
+      })
+    );
 
-  let imageAlt;
-  if (type === 'track') {
-    imageAlt = `Cover of ${title} by ${artist}`;
-  } else if (type === 'album') {
-    imageAlt = `Cover of ${name} by ${artist}`;
-  } else {
-    imageAlt = `Cover of ${name}`;
-  }
   return (
     <Box
       responsive={{
@@ -62,25 +55,34 @@ function RatingItem({ item, ratingId }) {
       }}
     >
       <Media>
-        <Media.Item renderAs="figure" position="left">
-          <Image size={64} alt={imageAlt} src={imageUrl} />
-        </Media.Item>
         <Media.Item>
           <Content>
             <p>
-              <strong>{title}</strong> <small>{artist}</small> <br />
+              <strong>
+                <a href={spotifyLink} target="_blank" rel="noreferrer">
+                  {rating.uri}{' '}
+                </a>
+              </strong>
+              <small>{rating.type}</small> <br />
               <p style={{ visibility: 'hidden' }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
                 ornare magna eros, eu pellentesque tortor vestibulum ut.
                 Maecenas non massa sem. Etiam finibus odio quis
               </p>
             </p>
+            <ReactStars
+              count={5}
+              onChange={handleRatingChange}
+              size={24}
+              isHalf
+              value={rating.rating}
+            />
             <Button
               size="small"
               className="button is-danger is-outlined"
               style={{ marginTop: '0.5em' }}
               onClick={() => {
-                dispatch(deleteRating(ratingId));
+                dispatch(deleteRating(rating.id));
               }}
             >
               delete rating
@@ -93,19 +95,17 @@ function RatingItem({ item, ratingId }) {
 }
 
 RatingItem.propTypes = {
-  item: PropTypes.shape({
-    title: PropTypes.string,
-    name: PropTypes.string,
-    artist: PropTypes.string,
-    album: PropTypes.string,
-    image_url: PropTypes.string.isRequired,
-    played_at: PropTypes.string,
+  rating: PropTypes.shape({
+    id: PropTypes.number,
+    user_id: PropTypes.string,
+    uri: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
   }),
-  ratingId: PropTypes.number,
 };
+
 RatingItem.defaultProps = {
-  item: null,
-  ratingId: 0,
+  rating: {},
 };
 
 export default RatingItem;
