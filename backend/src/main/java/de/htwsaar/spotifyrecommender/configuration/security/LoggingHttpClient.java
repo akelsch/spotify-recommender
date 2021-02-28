@@ -32,6 +32,7 @@ public class LoggingHttpClient extends HttpClient {
         httpRequest.onRequestBegin(this::logRequest);
         httpRequest.onResponseContent((response, content) -> acc.copyBuffer(content));
         httpRequest.onResponseSuccess(response -> logResponse(response, acc.toByteArray()));
+        httpRequest.onComplete(result -> acc.close());
 
         return httpRequest;
     }

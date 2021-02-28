@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Data
 @Table("tracks")
-public class TrackEntity {
+class TrackEntity {
 
     @Id
     private Long id;

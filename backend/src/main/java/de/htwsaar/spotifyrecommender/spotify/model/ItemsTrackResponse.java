@@ -12,7 +12,8 @@ public class ItemsTrackResponse {
 
     @Data
     public static class ItemWithTrack {
-        Track track;
+
+        private Track track;
 
         @Data
         public static class Track {

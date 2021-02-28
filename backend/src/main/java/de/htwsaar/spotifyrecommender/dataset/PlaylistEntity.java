@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Data
 @Table("playlists")
-public class PlaylistEntity {
+class PlaylistEntity {
 
     @Id
     private Integer pid;

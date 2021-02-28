@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-class RatingEntityService {
+public class RatingEntityService {
 
     private final RatingEntityRepository repository;
 

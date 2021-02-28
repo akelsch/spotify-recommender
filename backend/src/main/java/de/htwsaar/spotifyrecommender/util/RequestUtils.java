@@ -8,6 +8,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 
 public final class RequestUtils {
 
+    private RequestUtils() {
+    }
+
     public static Long parseLong(String text) {
         return RequestUtils.parseNumber(text, Long.class);
     }

@@ -63,7 +63,7 @@ public class DiscoverService {
             case top -> spotifyApi.getTopTracks();
             case recent -> spotifyApi.getRecentlyPlayedTracks();
             case saved -> spotifyApi.getSavedTracks();
-            case example -> Mono.just(DiscoverExamples.ROCK_PLAYLIST);
+            case example -> Mono.just(DiscoverSource.EXAMPLE_PLAYLIST);
         };
     }
 
