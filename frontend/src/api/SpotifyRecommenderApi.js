@@ -26,28 +26,28 @@ async function fetchRecentlyPlayed(before) {
   return response.data;
 }
 
-async function fetchDiscoverTracks() {
+async function fetchDiscoverTracks(source) {
   const response = await client.get('/api/v1/discover/tracks', {
     params: {
-      source: 'example', // TODO use value from form
+      source,
     },
   });
   return response.data.tracks;
 }
 
-async function fetchDiscoverAlbums() {
+async function fetchDiscoverAlbums(source) {
   const response = await client.get('/api/v1/discover/albums', {
     params: {
-      source: 'example',
+      source,
     },
   });
   return response.data.albums;
 }
 
-async function fetchDiscoverArtists() {
+async function fetchDiscoverArtists(source) {
   const response = await client.get('/api/v1/discover/artists', {
     params: {
-      source: 'example',
+      source,
     },
   });
   return response.data.artists;

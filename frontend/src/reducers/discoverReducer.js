@@ -3,24 +3,24 @@ import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 
 export const fetchDiscoverTracks = createAsyncThunk(
   'discover/fetchDiscoverTracks',
-  async () => {
-    const tracks = await SpotifyRecommenderApi.fetchDiscoverTracks();
+  async (source) => {
+    const tracks = await SpotifyRecommenderApi.fetchDiscoverTracks(source);
     return tracks;
   }
 );
 
 export const fetchDiscoverAlbums = createAsyncThunk(
   'discover/fetchDiscoverAlbums',
-  async () => {
-    const albums = await SpotifyRecommenderApi.fetchDiscoverAlbums();
+  async (source) => {
+    const albums = await SpotifyRecommenderApi.fetchDiscoverAlbums(source);
     return albums;
   }
 );
 
 export const fetchDiscoverArtists = createAsyncThunk(
   'discover/fetchDiscoverArtists',
-  async () => {
-    const artists = await SpotifyRecommenderApi.fetchDiscoverArtists();
+  async (source) => {
+    const artists = await SpotifyRecommenderApi.fetchDiscoverArtists(source);
     return artists;
   }
 );

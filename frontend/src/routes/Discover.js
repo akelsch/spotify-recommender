@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Heading } from 'react-bulma-components';
 
@@ -23,12 +23,15 @@ function Discover() {
   const discoverArtists = useSelector(selectDiscoverArtists);
   const ratings = useSelector(selectRatings);
 
-  useEffect(() => {
-    dispatch(fetchDiscoverTracks());
-    dispatch(fetchDiscoverAlbums());
-    dispatch(fetchDiscoverArtists());
-    dispatch(fetchRatings());
-  }, [dispatch]);
+  const fetchCallback = useCallback(
+    (source) => {
+      dispatch(fetchDiscoverTracks(source));
+      dispatch(fetchDiscoverAlbums(source));
+      dispatch(fetchDiscoverArtists(source));
+      dispatch(fetchRatings());
+    },
+    [dispatch]
+  );
 
   return (
     <Layout>
@@ -39,7 +42,7 @@ function Discover() {
 
       <div className="mb-5">
         <Heading renderAs="h2">Settings</Heading>
-        <SettingsForm />
+        <SettingsForm fetchCallback={fetchCallback} />
       </div>
 
       {discoverTracks.length ? (

@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Form } from 'react-bulma-components';
 
 const { Field, Label, Control, Select } = Form;
 
-function SettingsForm() {
-  const [source, setSource] = useState('');
+function SettingsForm({ fetchCallback }) {
+  const [source, setSource] = useState('top');
   const [genre, setGenre] = useState('');
+
+  useEffect(() => {
+    fetchCallback(source);
+  }, [fetchCallback, source]);
 
   return (
     <div style={{ width: '360px' }}>
@@ -20,9 +25,10 @@ function SettingsForm() {
               value={source}
               onChange={(e) => setSource(e.target.value)}
             >
-              <option>Top Tracks</option>
-              <option>Recently Played Tracks</option>
-              <option>Saved Tracks</option>
+              <option value="top">Top Tracks</option>
+              <option value="recent">Recently Played Tracks</option>
+              <option value="saved">Saved Tracks</option>
+              <option value="example">Example Playlist</option>
             </Select>
           </Control>
         </div>
@@ -50,5 +56,9 @@ function SettingsForm() {
     </div>
   );
 }
+
+SettingsForm.propTypes = {
+  fetchCallback: PropTypes.func.isRequired,
+};
 
 export default SettingsForm;
