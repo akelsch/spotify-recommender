@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import ReactStars from 'react-rating-stars-component';
@@ -90,7 +89,7 @@ function SpotifyItem({ item, rating }) {
         onChange={handleRatingChange}
         size={24}
         isHalf
-        value={rating?.rating}
+        value={rating.rating}
       />
     </div>
   );

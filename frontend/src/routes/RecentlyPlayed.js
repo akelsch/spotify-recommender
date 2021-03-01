@@ -30,7 +30,7 @@ function RecentlyPlayed() {
       />
       <CoverGrid
         tracks={tracks}
-        ratings={ratings || []}
+        ratings={ratings}
         updateCallback={useCallback(
           () => dispatch(updateRecentlyPlayed(before)),
           [dispatch, before]
