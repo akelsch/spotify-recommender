@@ -6,6 +6,8 @@ import de.htwsaar.spotifyrecommender.util.exception.NumberMismatchException;
 import org.springframework.util.NumberUtils;
 import org.springframework.web.reactive.function.server.ServerRequest;
 
+import java.util.Optional;
+
 public final class RequestUtils {
 
     private RequestUtils() {
@@ -23,11 +25,20 @@ public final class RequestUtils {
         }
     }
 
-    public static <T extends Enum<T>> T getEnumQueryParam(ServerRequest request, String paramName, Class<T> clazz) {
-        String paramValue = request.queryParam(paramName).orElseThrow(() -> new MissingRequestParameterException(paramName));
+    public static <T extends Enum<T>> T requiredEnumQueryParam(ServerRequest request, String paramName, Class<T> clazz) {
+        return RequestUtils.enumQueryParam(request, paramName, clazz)
+                .orElseThrow(() -> new MissingRequestParameterException(paramName));
+    }
+
+    public static <T extends Enum<T>> Optional<T> enumQueryParam(ServerRequest request, String paramName, Class<T> clazz) {
+        Optional<String> paramOptional = request.queryParam(paramName);
+
+        if (paramOptional.isEmpty()) {
+            return Optional.empty();
+        }
 
         try {
-            return Enum.valueOf(clazz, paramValue);
+            return Optional.of(Enum.valueOf(clazz, paramOptional.get()));
         } catch (IllegalArgumentException e) {
             throw new EnumMismatchException(paramName, clazz, e);
         }

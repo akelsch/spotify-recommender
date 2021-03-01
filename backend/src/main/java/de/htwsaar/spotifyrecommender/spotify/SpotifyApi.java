@@ -4,6 +4,7 @@ import de.htwsaar.spotifyrecommender.spotify.model.ItemsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.ItemsTrackResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -22,20 +23,29 @@ public class SpotifyApi {
     }
 
     public WebClient.ResponseSpec getSeveralTracks(List<String> ids) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.set("ids", String.join(",", ids));
+
         return client.get()
-                .uri("/v1/tracks", uriBuilder -> uriBuilder.queryParam("ids", String.join(",", ids)).build())
+                .uri("/v1/tracks", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve();
     }
 
     public WebClient.ResponseSpec getSeveralAlbums(List<String> ids) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.set("ids", String.join(",", ids));
+
         return client.get()
-                .uri("/v1/albums", uriBuilder -> uriBuilder.queryParam("ids", String.join(",", ids)).build())
+                .uri("/v1/albums", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve();
     }
 
     public WebClient.ResponseSpec getSeveralArtists(List<String> ids) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.set("ids", String.join(",", ids));
+
         return client.get()
-                .uri("/v1/artists", uriBuilder -> uriBuilder.queryParam("ids", String.join(",", ids)).build())
+                .uri("/v1/artists", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve();
     }
 
@@ -45,9 +55,13 @@ public class SpotifyApi {
                 .retrieve();
     }
 
-    public Mono<List<String>> getTopTracks() {
+    public Mono<List<String>> getTopTracks(String timeRange) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.set("limit", "50");
+        queryParams.set("time_range", timeRange);
+
         return client.get()
-                .uri("/v1/me/top/tracks")
+                .uri("/v1/me/top/tracks", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve()
                 .bodyToMono(ItemsResponse.class)
                 .map(ItemsResponse::getItems)
@@ -57,8 +71,11 @@ public class SpotifyApi {
     }
 
     public Mono<List<String>> getRecentlyPlayedTracks() {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.set("limit", "50");
+
         return client.get()
-                .uri("/v1/me/player/recently-played")
+                .uri("/v1/me/player/recently-played", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve()
                 .bodyToMono(ItemsTrackResponse.class)
                 .map(ItemsTrackResponse::getItems)
@@ -68,8 +85,11 @@ public class SpotifyApi {
     }
 
     public Mono<List<String>> getSavedTracks() {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.set("limit", "50");
+
         return client.get()
-                .uri("/v1/me/tracks")
+                .uri("/v1/me/tracks", uriBuilder -> uriBuilder.queryParams(queryParams).build())
                 .retrieve()
                 .bodyToMono(ItemsTrackResponse.class)
                 .map(ItemsTrackResponse::getItems)

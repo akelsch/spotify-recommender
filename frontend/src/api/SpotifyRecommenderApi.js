@@ -30,7 +30,7 @@ async function fetchDiscoverTracks(source, timeRange) {
   const response = await client.get('/api/v1/discover/tracks', {
     params: {
       source,
-      timeRange,
+      time_range: timeRange,
     },
   });
   return response.data.tracks;
@@ -40,7 +40,7 @@ async function fetchDiscoverAlbums(source, timeRange) {
   const response = await client.get('/api/v1/discover/albums', {
     params: {
       source,
-      timeRange,
+      time_range: timeRange,
     },
   });
   return response.data.albums;
@@ -50,7 +50,7 @@ async function fetchDiscoverArtists(source, timeRange) {
   const response = await client.get('/api/v1/discover/artists', {
     params: {
       source,
-      timeRange,
+      time_range: timeRange,
     },
   });
   return response.data.artists;

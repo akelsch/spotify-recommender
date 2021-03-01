@@ -14,20 +14,29 @@ public class DiscoverHandler {
     private final DiscoverService discoverService;
 
     public Mono<ServerResponse> discoverTracks(ServerRequest request) {
-        DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
-        return discoverService.discoverTracks(source)
+        var source = RequestUtils.requiredEnumQueryParam(request, "source", DiscoverSource.class);
+        var timeRange = RequestUtils.enumQueryParam(request, "time_range", DiscoverTimeRange.class)
+                .orElse(DiscoverTimeRange.medium_term);
+
+        return discoverService.discoverTracks(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
     public Mono<ServerResponse> discoverAlbums(ServerRequest request) {
-        DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
-        return discoverService.discoverAlbums(source)
+        var source = RequestUtils.requiredEnumQueryParam(request, "source", DiscoverSource.class);
+        var timeRange = RequestUtils.enumQueryParam(request, "time_range", DiscoverTimeRange.class)
+                .orElse(DiscoverTimeRange.medium_term);
+
+        return discoverService.discoverAlbums(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
     public Mono<ServerResponse> discoverArtists(ServerRequest request) {
-        DiscoverSource source = RequestUtils.getEnumQueryParam(request, "source", DiscoverSource.class);
-        return discoverService.discoverArtists(source)
+        var source = RequestUtils.requiredEnumQueryParam(request, "source", DiscoverSource.class);
+        var timeRange = RequestUtils.enumQueryParam(request, "time_range", DiscoverTimeRange.class)
+                .orElse(DiscoverTimeRange.medium_term);
+
+        return discoverService.discoverArtists(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }

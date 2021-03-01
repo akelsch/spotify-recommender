@@ -28,8 +28,8 @@ public class DiscoverService {
         this.spotifyApi = spotifyApi;
     }
 
-    public Mono<DiscoverTrackResponse> discoverTracks(DiscoverSource source) {
-        return fetchUrisFromSpotify(source)
+    public Mono<DiscoverTrackResponse> discoverTracks(DiscoverSource source, DiscoverTimeRange timeRange) {
+        return fetchUrisFromSpotify(source, timeRange)
                 .flatMapMany(this::doJaccardForTracks)
                 .map(TrackIdAndScore::getId)
                 .collectList()
@@ -38,8 +38,8 @@ public class DiscoverService {
                 .defaultIfEmpty(new DiscoverTrackResponse(Collections.emptyList()));
     }
 
-    public Mono<DiscoverAlbumResponse> discoverAlbums(DiscoverSource source) {
-        return fetchUrisFromSpotify(source)
+    public Mono<DiscoverAlbumResponse> discoverAlbums(DiscoverSource source, DiscoverTimeRange timeRange) {
+        return fetchUrisFromSpotify(source, timeRange)
                 .flatMapMany(this::doJaccardForAlbums)
                 .map(AlbumIdAndScore::getId)
                 .collectList()
@@ -48,8 +48,8 @@ public class DiscoverService {
                 .defaultIfEmpty(new DiscoverAlbumResponse(Collections.emptyList()));
     }
 
-    public Mono<DiscoverArtistResponse> discoverArtists(DiscoverSource source) {
-        return fetchUrisFromSpotify(source)
+    public Mono<DiscoverArtistResponse> discoverArtists(DiscoverSource source, DiscoverTimeRange timeRange) {
+        return fetchUrisFromSpotify(source, timeRange)
                 .flatMapMany(this::doJaccardForArtists)
                 .map(ArtistIdAndScore::getId)
                 .collectList()
@@ -58,9 +58,9 @@ public class DiscoverService {
                 .defaultIfEmpty(new DiscoverArtistResponse(Collections.emptyList()));
     }
 
-    private Mono<List<String>> fetchUrisFromSpotify(DiscoverSource source) {
+    private Mono<List<String>> fetchUrisFromSpotify(DiscoverSource source, DiscoverTimeRange timeRange) {
         return switch (source) {
-            case top -> spotifyApi.getTopTracks();
+            case top -> spotifyApi.getTopTracks(timeRange.toString());
             case recent -> spotifyApi.getRecentlyPlayedTracks();
             case saved -> spotifyApi.getSavedTracks();
             case example -> Mono.just(DiscoverSource.EXAMPLE_PLAYLIST);
