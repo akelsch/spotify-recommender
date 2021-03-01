@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("Ratings")
+@Table("ratings")
 class RatingEntity {
 
     @Id

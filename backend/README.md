@@ -39,11 +39,11 @@ This profile automatically activates if you do not provide a profile. In this ca
 | SR_SPOTIFY_CLIENT_ID     | Client ID of the Spotify app     |
 | SR_SPOTIFY_CLIENT_SECRET | Client Secret of the Spotify app |
 
-Note that these environment variables are required in any of the following profiles.
+Note that these environment variables are required in any of the following profiles unless otherwise stated.
 
 ### init
 
-Profile used to convert the Spotify Million Playlist Dataset to CSV so that it can be imported into PostgreSQL (see [COPY](https://www.postgresql.org/docs/12/sql-copy.html)).
+Profile used to convert the Spotify Million Playlist Dataset to CSV so that it can be imported into PostgreSQL (see [COPY](https://www.postgresql.org/docs/12/sql-copy.html)). Will not start a webserver and thus does not require setting client id/secret.
 
 | Environment Variable | Description                                  |
 | -------------------- | -------------------------------------------- |

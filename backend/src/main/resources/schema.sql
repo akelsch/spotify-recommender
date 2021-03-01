@@ -1,6 +1,6 @@
 CREATE TYPE spotify_type AS ENUM ('track', 'artist', 'album');
 
-CREATE TABLE Playlists
+CREATE TABLE playlists
 (
     pid           integer NOT NULL,
     modified_at   bigint  NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE Playlists
     PRIMARY KEY (pid)
 );
 
-CREATE TABLE Tracks
+CREATE TABLE tracks
 (
     id         serial      NOT NULL,
     pid_fk     integer     NOT NULL,
@@ -19,10 +19,10 @@ CREATE TABLE Tracks
     album_uri  varchar(50) NOT NULL,
     pos        integer     NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (pid_fk) REFERENCES Playlists
+    FOREIGN KEY (pid_fk) REFERENCES playlists
 );
 
-CREATE TABLE Ratings
+CREATE TABLE ratings
 (
     id      serial       NOT NULL,
     user_id varchar(50)  NOT NULL,

@@ -25,7 +25,7 @@ public class RouteConfiguration {
 
     @Bean
     RouterFunction<ServerResponse> routeSpotify(SpotifyHandler spotifyHandler) {
-        return route(path("/spotify/**"), spotifyHandler::deligate);
+        return route(path("/spotify/**"), spotifyHandler::delegate);
     }
 
     @Bean

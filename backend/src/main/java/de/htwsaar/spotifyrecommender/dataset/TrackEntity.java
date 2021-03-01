@@ -6,11 +6,11 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
- * POJO that represents the Tracks database table.
+ * POJO that represents the "tracks" database table.
  */
 @Data
-@Table("Tracks")
-public class TrackEntity {
+@Table("tracks")
+class TrackEntity {
 
     @Id
     private Long id;

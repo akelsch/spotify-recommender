@@ -13,7 +13,7 @@ public class EnumCodecRegistrar implements CodecRegistrar {
     private final CodecRegistrar delegate;
 
     public EnumCodecRegistrar() {
-        delegate = EnumCodec.builder().withEnum("spotify_type", RatingType.class).build();
+        this.delegate = EnumCodec.builder().withEnum("spotify_type", RatingType.class).build();
     }
 
     @Override

@@ -1,8 +1,12 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
+import de.htwsaar.spotifyrecommender.configuration.security.LoggingHttpClient;
 import de.htwsaar.spotifyrecommender.configuration.security.SimpleUrlServerAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
+import org.springframework.http.client.reactive.JettyClientHttpConnector;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
@@ -25,16 +29,22 @@ public class SecurityConfiguration {
     @Value("${de.htwsaar.spotifyrecommender.redirectUrl}")
     private String redirectUrl;
 
+    private final boolean usingDevProfile;
+
+    public SecurityConfiguration(Environment environment) {
+        this.usingDevProfile = environment.acceptsProfiles(Profiles.of("dev"));
+    }
+
     @Bean
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.csrf().disable();
         http.cors();
 
-        if (!redirectUrl.isEmpty()) {
+        if (usingDevProfile) {
+            http.oauth2Login();
+        } else {
             var authenticationSuccessHandler = new SimpleUrlServerAuthenticationSuccessHandler(redirectUrl);
             http.oauth2Login().authenticationSuccessHandler(authenticationSuccessHandler);
-        } else {
-            http.oauth2Login();
         }
 
         http.authorizeExchange()
@@ -64,7 +74,13 @@ public class SecurityConfiguration {
         var oauthFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository, authorizedClientRepository);
         oauthFilter.setDefaultOAuth2AuthorizedClient(true);
 
-        return WebClient.builder()
+        WebClient.Builder builder = WebClient.builder();
+
+        if (usingDevProfile) {
+            builder.clientConnector(new JettyClientHttpConnector(new LoggingHttpClient()));
+        }
+
+        return builder
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(2 * 1024 * 1024)) // 2 MB
                 .baseUrl("https://api.spotify.com")
                 .filter(oauthFilter)

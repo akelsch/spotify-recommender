@@ -1,5 +1,6 @@
 package de.htwsaar.spotifyrecommender.rating;
 
+import de.htwsaar.spotifyrecommender.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -25,14 +26,14 @@ public class RatingHandler {
     }
 
     public Mono<ServerResponse> updateRating(ServerRequest request) {
-        long id = Long.parseLong(request.pathVariable("id"));
+        long id = RequestUtils.parseLong(request.pathVariable("id"));
         return request.bodyToMono(RatingEntity.class)
                 .flatMap(entity -> ratingEntityService.updateRating(entity, id))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
     public Mono<ServerResponse> deleteRating(ServerRequest request) {
-        long id = Long.parseLong(request.pathVariable("id"));
+        long id = RequestUtils.parseLong(request.pathVariable("id"));
         return ratingEntityService.deleteRating(id)
                 .then(ServerResponse.noContent().build());
     }
