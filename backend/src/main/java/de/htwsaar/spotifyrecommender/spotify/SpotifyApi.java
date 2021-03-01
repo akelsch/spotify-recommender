@@ -2,11 +2,13 @@ package de.htwsaar.spotifyrecommender.spotify;
 
 import de.htwsaar.spotifyrecommender.spotify.model.ItemsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.ItemsTrackResponse;
+import de.htwsaar.spotifyrecommender.util.CachingWebClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,10 +18,12 @@ import java.util.List;
 public class SpotifyApi {
 
     private final WebClient client;
+    private final CachingWebClient cachingWebClient;
 
     @Autowired
-    public SpotifyApi(WebClient oauthWebClient) {
+    public SpotifyApi(WebClient oauthWebClient, CachingWebClient cachingWebClient) {
         this.client = oauthWebClient;
+        this.cachingWebClient = cachingWebClient;
     }
 
     public WebClient.ResponseSpec getSeveralTracks(List<String> ids) {
@@ -56,14 +60,12 @@ public class SpotifyApi {
     }
 
     public Mono<List<String>> getTopTracks(String timeRange) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.set("limit", "50");
-        queryParams.set("time_range", timeRange);
+        String uri = UriComponentsBuilder.fromUriString("/v1/me/top/tracks")
+                .queryParam("limit", "50")
+                .queryParam("time_range", timeRange)
+                .toUriString();
 
-        return client.get()
-                .uri("/v1/me/top/tracks", uriBuilder -> uriBuilder.queryParams(queryParams).build())
-                .retrieve()
-                .bodyToMono(ItemsResponse.class)
+        return cachingWebClient.doGet(uri, ItemsResponse.class)
                 .map(ItemsResponse::getItems)
                 .flatMapMany(Flux::fromIterable)
                 .map(ItemsResponse.Item::getUri)
@@ -71,13 +73,11 @@ public class SpotifyApi {
     }
 
     public Mono<List<String>> getRecentlyPlayedTracks() {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.set("limit", "50");
+        String uri = UriComponentsBuilder.fromUriString("/v1/me/player/recently-played")
+                .queryParam("limit", "50")
+                .toUriString();
 
-        return client.get()
-                .uri("/v1/me/player/recently-played", uriBuilder -> uriBuilder.queryParams(queryParams).build())
-                .retrieve()
-                .bodyToMono(ItemsTrackResponse.class)
+        return cachingWebClient.doGet(uri, ItemsTrackResponse.class)
                 .map(ItemsTrackResponse::getItems)
                 .flatMapMany(Flux::fromIterable)
                 .map(item -> item.getTrack().getUri())
@@ -85,13 +85,11 @@ public class SpotifyApi {
     }
 
     public Mono<List<String>> getSavedTracks() {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.set("limit", "50");
+        String uri = UriComponentsBuilder.fromUriString("/v1/me/tracks")
+                .queryParam("limit", "50")
+                .toUriString();
 
-        return client.get()
-                .uri("/v1/me/tracks", uriBuilder -> uriBuilder.queryParams(queryParams).build())
-                .retrieve()
-                .bodyToMono(ItemsTrackResponse.class)
+        return cachingWebClient.doGet(uri, ItemsTrackResponse.class)
                 .map(ItemsTrackResponse::getItems)
                 .flatMapMany(Flux::fromIterable)
                 .map(item -> item.getTrack().getUri())
