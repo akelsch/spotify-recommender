@@ -4,7 +4,6 @@
     "airbnb",
     "airbnb/hooks",
     "prettier",
-    "prettier/react",
     "plugin:react-redux/recommended"
   ],
   "parser": "babel-eslint",
