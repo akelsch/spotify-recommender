@@ -5,9 +5,11 @@ import RatingItem from './RatingItem';
 function RatingItemList({ ratings }) {
   return (
     <div>
-      {ratings.map((rating) => (
-        <RatingItem key={rating.id} rating={rating} />
-      ))}
+      {[...ratings]
+        .sort((x, y) => y.id - x.id)
+        .map((rating) => (
+          <RatingItem key={rating.id} rating={rating} />
+        ))}
     </div>
   );
 }
