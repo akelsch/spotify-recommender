@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RatingItem from './RatingItem';
 
-function RatingListItems({ ratings }) {
-  const components = ratings.map((rating) => (
-    <RatingItem key={rating.played_at} rating={rating} ratingId={rating.id} />
-  ));
-
-  return <div className="is-flex is-flex-wrap-wrap">{components}</div>;
+function RatingItemList({ ratings }) {
+  return (
+    <div>
+      {ratings.map((rating) => (
+        <RatingItem key={rating.id} rating={rating} />
+      ))}
+    </div>
+  );
 }
 
-RatingListItems.propTypes = {
+RatingItemList.propTypes = {
   ratings: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -22,4 +24,4 @@ RatingListItems.propTypes = {
   ).isRequired,
 };
 
-export default RatingListItems;
+export default RatingItemList;

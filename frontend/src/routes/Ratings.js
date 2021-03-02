@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { selectRatings } from '../reducers/ratingReducer';
 import Layout from './layout/Layout';
-import RatingListItem from '../components/RatingListItems';
 import Headline from '../components/common/Headline';
+import RatingItemList from '../components/RatingItemList';
 
 function Ratings() {
   const ratings = useSelector(selectRatings);
@@ -15,7 +15,7 @@ function Ratings() {
         title="Ratings"
         subtitle="Review your rated tracks, albums and artists"
       />
-      <RatingListItem ratings={ratings} />
+      <RatingItemList ratings={ratings} />
     </Layout>
   );
 }
