@@ -28,9 +28,9 @@ public class DiscoverService {
         this.spotifyApi = spotifyApi;
     }
 
-    public Mono<DiscoverTrackResponse> discoverTracks(DiscoverSource source, DiscoverTimeRange timeRange) {
+    public Mono<DiscoverTrackResponse> discoverTracks(DiscoverSource source, DiscoverTimeRange timeRange, boolean filter) {
         return fetchUrisFromSpotify(source, timeRange)
-                .flatMapMany(this::doJaccardForTracks)
+                .flatMapMany(uris -> doJaccardForTracks(uris, filter))
                 .map(TrackIdAndScore::getId)
                 .collectList()
                 .filter(ids -> !ids.isEmpty())
@@ -67,9 +67,10 @@ public class DiscoverService {
         };
     }
 
-    private Flux<TrackIdAndScore> doJaccardForTracks(List<String> uris) {
+    private Flux<TrackIdAndScore> doJaccardForTracks(List<String> uris, boolean filter) {
         return template.getDatabaseClient()
-                .sql("SELECT * FROM my_jaccard_tracks(:uris)")
+                .sql("SELECT * FROM my_jaccard_tracks(:filter, :uris)")
+                .bind("filter", filter)
                 .bind("uris", uris)
                 .map(row -> new TrackIdAndScore(row.get("track_uri", String.class), row.get("score", Double.class)))
                 .all();

@@ -17,11 +17,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 /* Type-specific functions */
-CREATE FUNCTION my_jaccard_tracks(VARIADIC track_uris varchar[]) RETURNS TABLE(track_uri varchar, score numeric) AS $$
+CREATE FUNCTION my_jaccard_tracks(filter_tracks boolean, VARIADIC track_uris varchar[]) RETURNS TABLE(track_uri varchar, score numeric) AS $$
 BEGIN
     RETURN QUERY
     SELECT tr.track_uri, SUM(ja.jaccard) AS score
     FROM my_jaccard(VARIADIC track_uris) ja JOIN tracks tr ON ja.pid_fk = tr.pid_fk
+    WHERE NOT (filter_tracks AND tr.track_uri = ANY(track_uris))
     GROUP BY tr.track_uri
     ORDER BY score DESC
     LIMIT 20;

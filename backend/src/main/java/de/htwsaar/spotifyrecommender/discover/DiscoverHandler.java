@@ -18,8 +18,9 @@ public class DiscoverHandler {
         var source = requestConverter.requiredQueryParam(request, "source", DiscoverSource.class);
         var timeRange = requestConverter.queryParam(request, "time_range", DiscoverTimeRange.class)
                 .orElse(DiscoverTimeRange.medium_term);
+        var filter = requestConverter.queryParam(request, "filter", Boolean.class).orElse(false);
 
-        return discoverService.discoverTracks(source, timeRange)
+        return discoverService.discoverTracks(source, timeRange, filter)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
