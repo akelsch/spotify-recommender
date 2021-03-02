@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import ReactStars from 'react-rating-stars-component';
-import { useDispatch } from 'react-redux';
 import { updateRating, createRating } from '../reducers/ratingReducer';
 
 import styles from './SpotifyItem.module.css';

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Box, Button } from 'react-bulma-components';
 import ReactStars from 'react-rating-stars-component';
-import { deleteRating, updateRating } from '../reducers/ratingReducer';
+
+import { updateRating, deleteRating } from '../reducers/ratingReducer';
 
 function RatingItem({ rating }) {
   const dispatch = useDispatch();

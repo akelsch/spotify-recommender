@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import SpotifyRecommenderApi from '../api/SpotifyRecommenderApi';
 
 export const fetchDiscoverTracks = createAsyncThunk(
