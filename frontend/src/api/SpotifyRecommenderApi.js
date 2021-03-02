@@ -71,6 +71,10 @@ async function updateRating(rating) {
   return response.data;
 }
 
+async function deleteRating(ratingId) {
+  await client.delete(`/api/v1/ratings/${ratingId}`);
+}
+
 const SpotifyRecommenderApi = {
   fetchUser,
   logout,
@@ -81,6 +85,7 @@ const SpotifyRecommenderApi = {
   fetchRatings,
   createRating,
   updateRating,
+  deleteRating,
 };
 
 export default SpotifyRecommenderApi;

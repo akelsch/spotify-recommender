@@ -17,6 +17,7 @@ function Avatar({ imageUrl, logoutCallback }) {
         )}
       </Navbar.Link>
       <Navbar.Dropdown>
+        <Navbar.Item href="/ratings">My Ratings</Navbar.Item>
         <Navbar.Item onClick={logoutCallback}>Logout</Navbar.Item>
       </Navbar.Dropdown>
     </Navbar.Item>

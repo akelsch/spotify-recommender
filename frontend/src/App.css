@@ -1,4 +1,8 @@
 /* Unavailable Bulma features in react-bulma-components */
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
 .mb-0 {
   margin-bottom: 0 !important;
 }
