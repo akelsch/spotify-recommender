@@ -1,6 +1,6 @@
 package de.htwsaar.spotifyrecommender.rating;
 
-import de.htwsaar.spotifyrecommender.util.RequestUtils;
+import de.htwsaar.spotifyrecommender.util.RequestConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 public class RatingHandler {
 
     private final RatingEntityService ratingEntityService;
+    private final RequestConverter requestConverter;
 
     public Mono<ServerResponse> queryRatings(ServerRequest request) {
         return ratingEntityService.findAllRatings()
@@ -26,14 +27,14 @@ public class RatingHandler {
     }
 
     public Mono<ServerResponse> updateRating(ServerRequest request) {
-        long id = RequestUtils.parseLong(request.pathVariable("id"));
+        Long id = requestConverter.pathVariable(request, "id", Long.class);
         return request.bodyToMono(RatingEntity.class)
                 .flatMap(entity -> ratingEntityService.updateRating(entity, id))
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
     public Mono<ServerResponse> deleteRating(ServerRequest request) {
-        long id = RequestUtils.parseLong(request.pathVariable("id"));
+        Long id = requestConverter.pathVariable(request, "id", Long.class);
         return ratingEntityService.deleteRating(id)
                 .then(ServerResponse.noContent().build());
     }

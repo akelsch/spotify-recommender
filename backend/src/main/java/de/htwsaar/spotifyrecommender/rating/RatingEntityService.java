@@ -23,14 +23,14 @@ public class RatingEntityService {
                 .flatMap(repository::save);
     }
 
-    public Mono<RatingEntity> updateRating(RatingEntity ratingEntity, long id) {
+    public Mono<RatingEntity> updateRating(RatingEntity ratingEntity, Long id) {
         return SecurityUtils.getUserId()
                 .map(ratingEntity::withUserId)
                 .map(entity -> entity.withId(id)) // FIXME this allows to update other users ratings
                 .flatMap(repository::save);
     }
 
-    public Mono<Void> deleteRating(long id) {
+    public Mono<Void> deleteRating(Long id) {
         return SecurityUtils.getUserId()
                 .flatMap(userId -> repository.deleteByIdAndUserId(id, userId));
     }
