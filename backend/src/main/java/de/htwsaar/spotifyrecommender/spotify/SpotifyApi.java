@@ -2,11 +2,12 @@ package de.htwsaar.spotifyrecommender.spotify;
 
 import de.htwsaar.spotifyrecommender.spotify.model.album.AlbumsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.artist.ArtistsResponse;
-import de.htwsaar.spotifyrecommender.spotify.model.item.Item;
 import de.htwsaar.spotifyrecommender.spotify.model.item.ItemsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.item.ItemsTrackResponse;
+import de.htwsaar.spotifyrecommender.spotify.model.recent.RecentlyPlayedResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.track.TracksResponse;
 import de.htwsaar.spotifyrecommender.util.CachingWebClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -19,16 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class SpotifyApi {
 
-    private final WebClient client;
     private final CachingWebClient cachingWebClient;
-
-    @Autowired
-    public SpotifyApi(WebClient oauthWebClient, CachingWebClient cachingWebClient) {
-        this.client = oauthWebClient;
-        this.cachingWebClient = cachingWebClient;
-    }
 
     public Mono<TracksResponse> getSeveralTracks(List<String> ids) {
         if (ids.isEmpty()) {
@@ -66,10 +61,12 @@ public class SpotifyApi {
         return cachingWebClient.doGet(uri, ArtistsResponse.class);
     }
 
-    public WebClient.ResponseSpec getRecentlyPlayed(MultiValueMap<String, String> queryParams) {
-        return client.get()
-                .uri("/v1/me/player/recently-played", uriBuilder -> uriBuilder.queryParams(queryParams).build())
-                .retrieve();
+    public Mono<RecentlyPlayedResponse> getRecentlyPlayed(MultiValueMap<String, String> queryParams) {
+        String uri = UriComponentsBuilder.fromUriString("/v1/artists")
+                .queryParams(queryParams)
+                .toUriString();
+
+        return cachingWebClient.doGet(uri, RecentlyPlayedResponse.class);
     }
 
     public Mono<List<String>> getTopTracks(int limit, String timeRange) {
@@ -81,7 +78,7 @@ public class SpotifyApi {
         return cachingWebClient.doGet(uri, ItemsResponse.class)
                 .map(ItemsResponse::getItems)
                 .flatMapMany(Flux::fromIterable)
-                .map(Item::getUri)
+                .map(ItemsResponse.Item::getUri)
                 .collectList();
     }
 

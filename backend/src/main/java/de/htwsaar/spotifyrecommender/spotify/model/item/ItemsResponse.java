@@ -9,4 +9,9 @@ public class ItemsResponse {
 
     List<Item> items;
 
+    @Value
+    public static class Item {
+
+        String uri;
+    }
 }

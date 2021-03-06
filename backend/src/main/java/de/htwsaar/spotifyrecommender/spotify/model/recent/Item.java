@@ -1,11 +1,11 @@
-package de.htwsaar.spotifyrecommender.recent;
+package de.htwsaar.spotifyrecommender.spotify.model.recent;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 @Data
-@JsonDeserialize(using = RecentlyPlayedTrackDeserializer.class)
-class RecentlyPlayedTrack {
+@JsonDeserialize(using = ItemDeserializer.class)
+class Item {
 
     private String id;
 

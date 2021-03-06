@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.recent;
+package de.htwsaar.spotifyrecommender.spotify.model.recent;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -8,20 +8,20 @@ import de.htwsaar.spotifyrecommender.util.SpotifyUtils;
 
 import java.io.IOException;
 
-class RecentlyPlayedTrackDeserializer extends StdDeserializer<RecentlyPlayedTrack> {
+class ItemDeserializer extends StdDeserializer<Item> {
 
-    public RecentlyPlayedTrackDeserializer() {
-        super(RecentlyPlayedTrack.class);
+    public ItemDeserializer() {
+        super(Item.class);
     }
 
     @Override
-    public RecentlyPlayedTrack deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public Item deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode jsonNode = p.readValueAsTree();
 
         JsonNode track = jsonNode.get("track");
         JsonNode playedAt = jsonNode.get("played_at");
 
-        RecentlyPlayedTrack item = new RecentlyPlayedTrack();
+        Item item = new Item();
         item.setId(SpotifyUtils.extractIdFromUri(track.get("uri").asText()));
         item.setTitle(track.get("name").asText());
         item.setArtist(SpotifyUtils.extractArtists(track));

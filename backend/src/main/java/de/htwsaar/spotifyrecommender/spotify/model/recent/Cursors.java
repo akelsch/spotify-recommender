@@ -1,9 +1,9 @@
-package de.htwsaar.spotifyrecommender.recent;
+package de.htwsaar.spotifyrecommender.spotify.model.recent;
 
 import lombok.Data;
 
 @Data
-class RecentlyPlayedCursors {
+class Cursors {
 
     private String after;
 

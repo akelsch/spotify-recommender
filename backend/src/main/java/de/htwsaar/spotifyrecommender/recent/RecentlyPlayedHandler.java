@@ -17,7 +17,6 @@ public class RecentlyPlayedHandler {
     public Mono<ServerResponse> get(ServerRequest request) {
         MultiValueMap<String, String> queryParams = request.queryParams();
         return spotifyApi.getRecentlyPlayed(queryParams)
-                .bodyToMono(RecentlyPlayedResponse.class)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }

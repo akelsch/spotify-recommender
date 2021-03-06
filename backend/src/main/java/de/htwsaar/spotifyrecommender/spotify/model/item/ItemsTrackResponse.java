@@ -9,4 +9,15 @@ public class ItemsTrackResponse {
 
     List<ItemTrack> items;
 
+    @Value
+    public static class ItemTrack {
+
+        Track track;
+
+        @Value
+        public static class Track {
+
+            String uri;
+        }
+    }
 }
