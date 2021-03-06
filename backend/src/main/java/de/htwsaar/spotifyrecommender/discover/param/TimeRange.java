@@ -1,6 +1,6 @@
-package de.htwsaar.spotifyrecommender.discover;
+package de.htwsaar.spotifyrecommender.discover.param;
 
-enum DiscoverTimeRange {
+public enum TimeRange {
     /*
     Reference: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-users-top-artists-and-tracks
 

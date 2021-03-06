@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.discover.artist;
+package de.htwsaar.spotifyrecommender.spotify.model.artist;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -8,17 +8,17 @@ import de.htwsaar.spotifyrecommender.util.SpotifyUtils;
 
 import java.io.IOException;
 
-class DiscoverArtistDeserializer extends StdDeserializer<DiscoverArtist> {
+class ArtistDeserializer extends StdDeserializer<Artist> {
 
-    public DiscoverArtistDeserializer() {
-        super(DiscoverArtist.class);
+    public ArtistDeserializer() {
+        super(Artist.class);
     }
 
     @Override
-    public DiscoverArtist deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public Artist deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode jsonNode = p.readValueAsTree();
 
-        DiscoverArtist artist = new DiscoverArtist();
+        Artist artist = new Artist();
         artist.setId(SpotifyUtils.extractIdFromUri(jsonNode.get("uri").asText()));
         artist.setName(jsonNode.get("name").asText());
         artist.setImageUrl(SpotifyUtils.extractImageUrl(jsonNode));

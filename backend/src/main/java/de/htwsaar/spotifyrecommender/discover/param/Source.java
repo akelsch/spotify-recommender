@@ -1,11 +1,11 @@
-package de.htwsaar.spotifyrecommender.discover;
+package de.htwsaar.spotifyrecommender.discover.param;
 
 import java.util.List;
 
-enum DiscoverSource {
+public enum Source {
     top, recent, saved, example;
 
-    static final List<String> EXAMPLE_PLAYLIST = List.of(
+    public static final List<String> EXAMPLE_PLAYLIST = List.of(
             "spotify:track:3FUS56gKr9mVBmzvlnodlh",
             "spotify:track:2MuWTIM3b0YEAskbeeFE1i",
             "spotify:track:4nRyBgsqXEP2oPfzaMeZr7",
