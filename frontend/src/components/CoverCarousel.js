@@ -29,6 +29,7 @@ const params = {
   },
   pagination: { clickable: true },
   virtual: true,
+  resizeObserver: true,
 };
 
 function CoverCarousel({ heading, items, ratings }) {
