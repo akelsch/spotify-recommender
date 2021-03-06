@@ -1,6 +1,6 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
-import de.htwsaar.spotifyrecommender.rating.RatingTypeWritingConverter;
+import de.htwsaar.spotifyrecommender.configuration.persistence.SpotifyTypeWritingConverter;
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class PersistenceConfiguration extends AbstractR2dbcConfiguration {
 
     @Override
     protected List<Object> getCustomConverters() {
-        return List.of(new RatingTypeWritingConverter());
+        return List.of(new SpotifyTypeWritingConverter());
     }
 
 }

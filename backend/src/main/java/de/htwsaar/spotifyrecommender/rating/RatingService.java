@@ -1,5 +1,6 @@
 package de.htwsaar.spotifyrecommender.rating;
 
+import de.htwsaar.spotifyrecommender.rating.model.RatingEntity;
 import de.htwsaar.spotifyrecommender.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class RatingEntityService {
+public class RatingService {
 
     private final RatingEntityRepository repository;
 

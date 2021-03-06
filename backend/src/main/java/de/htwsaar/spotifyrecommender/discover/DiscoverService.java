@@ -20,13 +20,13 @@ import java.util.List;
 @Service
 public class DiscoverService {
 
-    private final R2dbcEntityTemplate template;
     private final SpotifyApi spotifyApi;
+    private final R2dbcEntityTemplate template;
 
     @Autowired
-    public DiscoverService(R2dbcEntityTemplate template, SpotifyApi spotifyApi) {
-        this.template = template;
+    public DiscoverService(SpotifyApi spotifyApi, R2dbcEntityTemplate template) {
         this.spotifyApi = spotifyApi;
+        this.template = template;
     }
 
     public Mono<TracksResponse> discoverTracks(Source source, TimeRange timeRange, boolean filter) {

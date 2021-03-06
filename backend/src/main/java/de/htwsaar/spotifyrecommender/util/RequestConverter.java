@@ -26,6 +26,7 @@ public class RequestConverter {
                 .orElseThrow(() -> new MissingRequestParameterException(paramName));
     }
 
+    @SuppressWarnings("unchecked")
     public <T> Optional<T> queryParam(ServerRequest request, String paramName, Class<T> targetType) {
         String paramValue = request.queryParam(paramName).orElse(null);
 

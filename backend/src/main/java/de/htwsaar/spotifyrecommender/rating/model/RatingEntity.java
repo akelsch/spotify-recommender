@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.rating;
+package de.htwsaar.spotifyrecommender.rating.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("ratings")
-class RatingEntity {
+public class RatingEntity {
 
     @Id
     private Long id;
@@ -21,7 +21,7 @@ class RatingEntity {
 
     private String uri;
 
-    private RatingType type;
+    private SpotifyType type;
 
     private float rating;
 }

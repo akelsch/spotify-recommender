@@ -8,10 +8,8 @@ import de.htwsaar.spotifyrecommender.spotify.model.recent.RecentlyPlayedResponse
 import de.htwsaar.spotifyrecommender.spotify.model.track.TracksResponse;
 import de.htwsaar.spotifyrecommender.util.CachingWebClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -62,7 +60,7 @@ public class SpotifyApi {
     }
 
     public Mono<RecentlyPlayedResponse> getRecentlyPlayed(MultiValueMap<String, String> queryParams) {
-        String uri = UriComponentsBuilder.fromUriString("/v1/artists")
+        String uri = UriComponentsBuilder.fromUriString("/v1/me/player/recently-played")
                 .queryParams(queryParams)
                 .toUriString();
 

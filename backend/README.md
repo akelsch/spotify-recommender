@@ -51,7 +51,7 @@ Profile used to convert the Spotify Million Playlist Dataset to CSV so that it c
 
 ### dev
 
-Profile used to do backend development. This profile will not forward you to the frontend dashboard after the first request/login with Spotify. Requires running a SSH tunnel to the remote database (or Docker).
+Profile used to do backend development. This profile will not forward you to the frontend dashboard after the first request/login with Spotify. Requires running an SSH tunnel to the remote database (or Docker).
 
 | Environment Variable | Description       |
 | -------------------- | ----------------- |
