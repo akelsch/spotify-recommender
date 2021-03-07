@@ -14,6 +14,10 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * {@link HttpClient} that logs request and response including body.
+ * Useful for testing purposes and the "dev" profile.
+ */
 @Slf4j
 public class LoggingHttpClient extends HttpClient {
 

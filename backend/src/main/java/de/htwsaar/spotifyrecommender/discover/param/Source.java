@@ -2,9 +2,36 @@ package de.htwsaar.spotifyrecommender.discover.param;
 
 import java.util.List;
 
+/**
+ * Request parameter used to decide which tracks should be used make recommendations.
+ */
 public enum Source {
-    top, recent, saved, example;
 
+    /**
+     * Spotify's "Get a User's Top Artists and Tracks" endpoint.
+     */
+    top,
+
+    /**
+     * Spotify's "Get Current User's Recently Played Tracks" endpoint.
+     */
+    recent,
+
+    /**
+     * Spotify's "Get User's Saved Tracks" endpoint.
+     */
+    saved,
+
+    /**
+     * Some example playlist (offline).
+     *
+     * @see #EXAMPLE_PLAYLIST
+     */
+    example;
+
+    /**
+     * Example playlist mostly containing 80s/90s Rock.
+     */
     public static final List<String> EXAMPLE_PLAYLIST = List.of(
             "spotify:track:3FUS56gKr9mVBmzvlnodlh",
             "spotify:track:2MuWTIM3b0YEAskbeeFE1i",

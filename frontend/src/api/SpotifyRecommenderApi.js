@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const BACKEND_URL = 'http://localhost:8080';
+const BACKEND_URL = 'http://localhost:8080';
+export const LOGIN_URL = `${BACKEND_URL}/oauth2/authorization/spotify`;
 
 const client = axios.create({
   baseURL: BACKEND_URL,

@@ -8,6 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.cache.CacheMono;
 import reactor.core.publisher.Mono;
 
+/**
+ * {@link WebClient} adapter that caches requests.
+ */
 @Component
 public class CachingWebClient {
 
@@ -22,10 +25,27 @@ public class CachingWebClient {
         this.cache = cache;
     }
 
+    /**
+     * Does a HTTP GET request for the given URI expecting a body of the provided type.
+     *
+     * @param uri   the URI for the request
+     * @param clazz the target type of the response body
+     * @param <T>   the response type
+     * @return the parsed response body wrapped in a {@link Mono}
+     */
     public <T> Mono<T> doGet(String uri, Class<T> clazz) {
         return doRequest(HttpMethod.GET, uri, clazz);
     }
 
+    /**
+     * Does an arbitrary HTTP request for the given URI expecting a body of the provided type.
+     *
+     * @param method the HTTP method of the request
+     * @param uri    the URI for the request
+     * @param clazz  the target type of the response body
+     * @param <T>    the response type
+     * @return the parsed response body wrapped in a {@link Mono}
+     */
     public <T> Mono<T> doRequest(HttpMethod method, String uri, Class<T> clazz) {
         return SecurityUtils.getUserId()
                 .flatMap(userId -> {

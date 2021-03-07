@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * Converts the JSON dataset we got to CSV so it can be imported into Postgres.
+ * Converts the Spotify Million Playlist Dataset from JSON to CSV so it can be imported into Postgres.
  */
 @Component
 @Profile("init")

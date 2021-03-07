@@ -1,15 +1,25 @@
 package de.htwsaar.spotifyrecommender.discover.param;
 
+/**
+ * Request parameter for the "Get a User's Top Artists and Tracks" Spotify endpoint:
+ * Over what time frame the affinities are computed.
+ *
+ * @see Source#top
+ */
 public enum TimeRange {
-    /*
-    Reference: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-users-top-artists-and-tracks
 
-    Over what time frame the affinities are computed. Valid values:
-    - long_term (calculated from several years of data and including all new data as it becomes available),
-    - medium_term (approximately last 6 months),
-    - short_term (approximately last 4 weeks).
-    Default: medium_term
+    /**
+     * Several years of data and including all new data as it becomes available.
      */
+    long_term,
 
-    long_term, medium_term, short_term
+    /**
+     * Approximately last 6 months (default).
+     */
+    medium_term,
+
+    /**
+     * Approximately last 4 weeks.
+     */
+    short_term
 }

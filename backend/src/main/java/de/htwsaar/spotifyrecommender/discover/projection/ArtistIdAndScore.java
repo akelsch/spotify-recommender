@@ -1,6 +1,6 @@
 package de.htwsaar.spotifyrecommender.discover.projection;
 
-import de.htwsaar.spotifyrecommender.util.SpotifyUtils;
+import de.htwsaar.spotifyrecommender.util.DeserializerUtils;
 import lombok.Value;
 
 @Value
@@ -11,7 +11,7 @@ public class ArtistIdAndScore {
     Double score;
 
     public ArtistIdAndScore(String uri, Double score) {
-        this.id = SpotifyUtils.extractIdFromUri(uri);
+        this.id = DeserializerUtils.extractIdFromUri(uri);
         this.score = score;
     }
 }

@@ -1,6 +1,7 @@
 package de.htwsaar.spotifyrecommender.configuration.security;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.server.DefaultServerRedirectStrategy;
 import org.springframework.security.web.server.ServerRedirectStrategy;
 import org.springframework.security.web.server.WebFilterExchange;
@@ -10,6 +11,9 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
+/**
+ * {@link ServerAuthenticationSuccessHandler} implementation that mimics {@link SimpleUrlAuthenticationSuccessHandler}.
+ */
 public class SimpleUrlServerAuthenticationSuccessHandler implements ServerAuthenticationSuccessHandler {
 
     private final ServerRedirectStrategy redirectStrategy = new DefaultServerRedirectStrategy();

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import de.htwsaar.spotifyrecommender.util.SpotifyUtils;
+import de.htwsaar.spotifyrecommender.util.DeserializerUtils;
 
 import java.io.IOException;
 
@@ -19,11 +19,11 @@ class TrackDeserializer extends StdDeserializer<Track> {
         JsonNode jsonNode = p.readValueAsTree();
 
         Track track = new Track();
-        track.setId(SpotifyUtils.extractIdFromUri(jsonNode.get("uri").asText()));
+        track.setId(DeserializerUtils.extractIdFromUri(jsonNode.get("uri").asText()));
         track.setTitle(jsonNode.get("name").asText());
-        track.setArtist(SpotifyUtils.extractArtists(jsonNode));
+        track.setArtist(DeserializerUtils.extractArtists(jsonNode));
         track.setAlbum(jsonNode.get("album").get("name").asText());
-        track.setImageUrl(SpotifyUtils.extractImageUrl(jsonNode.get("album")));
+        track.setImageUrl(DeserializerUtils.extractImageUrl(jsonNode.get("album")));
 
         return track;
     }

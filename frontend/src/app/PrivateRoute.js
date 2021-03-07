@@ -18,8 +18,8 @@ function PrivateRoute({ component: Component, ...rest }) {
         try {
           const newUser = await SpotifyRecommenderApi.fetchUser();
           dispatch(login(newUser));
-        } catch (e) {
-          // authentication failed, user is not logged in
+        } catch (error) {
+          // unauthorized, user remains null
         }
       }
       setLoading(false);

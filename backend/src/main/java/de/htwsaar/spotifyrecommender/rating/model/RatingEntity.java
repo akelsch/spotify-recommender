@@ -7,6 +7,9 @@ import lombok.With;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+/**
+ * POJO that represents the "ratings" database table.
+ */
 @Data
 @With
 @NoArgsConstructor

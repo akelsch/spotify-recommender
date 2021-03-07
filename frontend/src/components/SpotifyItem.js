@@ -11,7 +11,7 @@ import styles from './SpotifyItem.module.css';
 function SpotifyItem({ item, rating }) {
   const { id: itemId, title, name, artist, image_url: imageUrl } = item;
 
-  const dispatch = useDispatch(); // TODO remove and pass callback instead?
+  const dispatch = useDispatch();
   const [isShown, setShown] = useState(false);
 
   let type;
@@ -75,11 +75,12 @@ function SpotifyItem({ item, rating }) {
         onMouseLeave={() => setShown(!isShown)}
       >
         {isShown && (
-          <FontAwesomeIcon
-            className={styles.coverPlayButton}
-            icon={faPlayCircle}
-            onClick={() => window.open(spotifyLink)}
-          />
+          <a href={spotifyLink} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon
+              className={styles.coverPlayButton}
+              icon={faPlayCircle}
+            />
+          </a>
         )}
         <img src={imageUrl} alt={imageAlt} />
       </div>

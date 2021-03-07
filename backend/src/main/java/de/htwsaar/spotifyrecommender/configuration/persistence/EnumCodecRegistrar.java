@@ -8,6 +8,11 @@ import io.r2dbc.postgresql.codec.EnumCodec;
 import io.r2dbc.postgresql.extension.CodecRegistrar;
 import org.reactivestreams.Publisher;
 
+/**
+ * Provides Postgres read support for Enums using the {@link java.util.ServiceLoader} mechanism.
+ *
+ * @see EnumCodec
+ */
 public class EnumCodecRegistrar implements CodecRegistrar {
 
     private final CodecRegistrar delegate;
