@@ -1,7 +1,7 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
-import de.htwsaar.spotifyrecommender.configuration.security.LoggingHttpClient;
 import de.htwsaar.spotifyrecommender.configuration.security.SimpleUrlServerAuthenticationSuccessHandler;
+import de.htwsaar.spotifyrecommender.util.logging.LoggingHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -37,8 +37,9 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.csrf().disable();
-        http.cors();
+        http.authorizeExchange()
+                .pathMatchers("/spotify/**", "/api/**").authenticated()
+                .anyExchange().permitAll();
 
         if (usingDevProfile) {
             http.oauth2Login();
@@ -46,10 +47,6 @@ public class SecurityConfiguration {
             var authenticationSuccessHandler = new SimpleUrlServerAuthenticationSuccessHandler(redirectUrl);
             http.oauth2Login().authenticationSuccessHandler(authenticationSuccessHandler);
         }
-
-        http.authorizeExchange()
-                .pathMatchers("/spotify/**", "/api/**").authenticated()
-                .anyExchange().permitAll();
 
         return http.build();
     }

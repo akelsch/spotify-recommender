@@ -2,7 +2,7 @@ package de.htwsaar.spotifyrecommender.discover;
 
 import de.htwsaar.spotifyrecommender.discover.param.Source;
 import de.htwsaar.spotifyrecommender.discover.param.TimeRange;
-import de.htwsaar.spotifyrecommender.util.RequestConverter;
+import de.htwsaar.spotifyrecommender.util.web.RequestConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;

@@ -1,8 +1,8 @@
-package de.htwsaar.spotifyrecommender.util;
+package de.htwsaar.spotifyrecommender.util.web;
 
-import de.htwsaar.spotifyrecommender.util.exception.EnumMismatchException;
-import de.htwsaar.spotifyrecommender.util.exception.MissingRequestParameterException;
-import de.htwsaar.spotifyrecommender.util.exception.NumberMismatchException;
+import de.htwsaar.spotifyrecommender.util.web.exception.EnumMismatchException;
+import de.htwsaar.spotifyrecommender.util.web.exception.MissingRequestParameterException;
+import de.htwsaar.spotifyrecommender.util.web.exception.NumberMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.ConversionService;

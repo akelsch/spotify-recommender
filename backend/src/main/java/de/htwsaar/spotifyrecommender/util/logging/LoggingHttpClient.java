@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.configuration.security;
+package de.htwsaar.spotifyrecommender.util.logging;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

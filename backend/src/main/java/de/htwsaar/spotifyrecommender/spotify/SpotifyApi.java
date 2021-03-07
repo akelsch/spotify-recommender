@@ -6,7 +6,7 @@ import de.htwsaar.spotifyrecommender.spotify.model.item.ItemsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.item.ItemsTrackResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.recent.RecentlyPlayedResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.track.TracksResponse;
-import de.htwsaar.spotifyrecommender.util.CachingWebClient;
+import de.htwsaar.spotifyrecommender.util.web.CachingWebClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
