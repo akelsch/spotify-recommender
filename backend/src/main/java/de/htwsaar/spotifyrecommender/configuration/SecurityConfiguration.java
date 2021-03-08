@@ -1,6 +1,5 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
-import de.htwsaar.spotifyrecommender.configuration.security.SimpleUrlServerAuthenticationSuccessHandler;
 import de.htwsaar.spotifyrecommender.util.logging.LoggingHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +12,7 @@ import org.springframework.security.oauth2.client.registration.ReactiveClientReg
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -40,12 +40,12 @@ public class SecurityConfiguration {
         http.csrf().disable()
                 .authorizeExchange()
                 .pathMatchers("/spotify/**", "/api/**").authenticated()
-                .anyExchange().permitAll();
+                .anyExchange().permitAll()
+                .and()
+                .oauth2Login();
 
-        if (usingDevProfile) {
-            http.oauth2Login();
-        } else {
-            var authenticationSuccessHandler = new SimpleUrlServerAuthenticationSuccessHandler(redirectUrl);
+        if (!usingDevProfile) {
+            var authenticationSuccessHandler = new RedirectServerAuthenticationSuccessHandler(redirectUrl);
             http.oauth2Login().authenticationSuccessHandler(authenticationSuccessHandler);
         }
 
