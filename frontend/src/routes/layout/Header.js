@@ -15,6 +15,8 @@ function Header() {
   const isUserOnline = useSelector(selectUserOnline);
   const image = useSelector(selectUserImage);
 
+  const [isActive, setActive] = useState(false);
+
   const logoutCallback = useCallback(async () => {
     try {
       await SpotifyRecommenderApi.logout();
@@ -24,8 +26,6 @@ function Header() {
       dispatch(logout());
     }
   }, [dispatch]);
-
-  const [isActive, setActive] = useState(false);
 
   return (
     <header>

@@ -1,63 +1,84 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'react-bulma-components';
+import { Form, Columns } from 'react-bulma-components';
 
-const { Field, Label, Control, Select } = Form;
+const { Field, Label, Control, Select, Checkbox } = Form;
 
-function SettingsForm({ fetchCallback }) {
+function SettingsForm({ updateCallback }) {
   const [source, setSource] = useState('top');
   const [timeRange, setTimeRange] = useState('long_term');
+  const [filter, setFilter] = useState(false);
 
   useEffect(() => {
-    fetchCallback(source, timeRange);
-  }, [fetchCallback, source, timeRange]);
+    if (source === 'top') {
+      updateCallback({ source, time_range: timeRange, filter });
+    } else {
+      updateCallback({ source, filter });
+    }
+  }, [updateCallback, source, timeRange, filter]);
 
   return (
-    <div style={{ width: '360px' }}>
-      <Field horizontal>
-        <div className="field-label is-normal is-flex-grow-2">
-          <Label>Source</Label>
-        </div>
-        <div className="field-body">
-          <Control style={{ width: '100%' }}>
-            <Select
-              className="is-fullwidth"
-              value={source}
-              onChange={(e) => setSource(e.target.value)}
-            >
-              <option value="top">Top Tracks</option>
-              <option value="recent">Recently Played Tracks</option>
-              <option value="saved">Saved Tracks</option>
-              <option value="example">Example Playlist</option>
-            </Select>
-          </Control>
-        </div>
-      </Field>
-      <Field horizontal>
-        <div className="field-label is-normal is-flex-grow-2">
-          <Label>Time Range</Label>
-        </div>
-        <div className="field-body">
-          <Control style={{ width: '100%' }}>
-            <Select
-              className="is-fullwidth"
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-              disabled={source !== 'top'}
-            >
-              <option value="long_term">Long</option>
-              <option value="medium_term">Medium</option>
-              <option value="short_term">Short</option>
-            </Select>
-          </Control>
-        </div>
-      </Field>
+    <div style={{ maxWidth: '500px' }}>
+      <Columns>
+        <Columns.Column>
+          <Field>
+            <Label>Source</Label>
+            <Control>
+              <Select
+                className="is-fullwidth"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+              >
+                <option value="top">Top Tracks</option>
+                <option value="recent">Recently Played Tracks</option>
+                <option value="saved">Saved Tracks</option>
+                <option value="example">Example Playlist</option>
+              </Select>
+            </Control>
+          </Field>
+        </Columns.Column>
+        <Columns.Column>
+          <Field>
+            <Label>Time Range</Label>
+            <Control>
+              <Select
+                className="is-fullwidth"
+                value={timeRange}
+                onChange={(e) => {
+                  console.log(e);
+                  setTimeRange(e.target.value);
+                }}
+                disabled={source !== 'top'}
+              >
+                <option value="long_term">Long</option>
+                <option value="medium_term">Medium</option>
+                <option value="short_term">Short</option>
+              </Select>
+            </Control>
+          </Field>
+        </Columns.Column>
+      </Columns>
+      <Columns>
+        <Columns.Column>
+          <Field>
+            <Control>
+              <Checkbox
+                onChange={(e) => setFilter(e.target.checked)}
+                checked={filter}
+              >
+                {' '}
+                Filter Known Tracks
+              </Checkbox>
+            </Control>
+          </Field>
+        </Columns.Column>
+      </Columns>
     </div>
   );
 }
 
 SettingsForm.propTypes = {
-  fetchCallback: PropTypes.func.isRequired,
+  updateCallback: PropTypes.func.isRequired,
 };
 
 export default SettingsForm;
