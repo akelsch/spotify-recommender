@@ -37,7 +37,8 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.authorizeExchange()
+        http.csrf().disable()
+                .authorizeExchange()
                 .pathMatchers("/spotify/**", "/api/**").authenticated()
                 .anyExchange().permitAll();
 

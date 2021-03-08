@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Container, Heading } from 'react-bulma-components';
 
@@ -14,8 +14,16 @@ function Header() {
   const dispatch = useDispatch();
   const isUserOnline = useSelector(selectUserOnline);
   const image = useSelector(selectUserImage);
-  const logoutCallback = () =>
-    dispatch(logout()) && SpotifyRecommenderApi.logout();
+
+  const logoutCallback = useCallback(async () => {
+    try {
+      await SpotifyRecommenderApi.logout();
+    } catch (error) {
+      // Session possibly not invalidated
+    } finally {
+      dispatch(logout());
+    }
+  }, [dispatch]);
 
   const [isActive, setActive] = useState(false);
 
