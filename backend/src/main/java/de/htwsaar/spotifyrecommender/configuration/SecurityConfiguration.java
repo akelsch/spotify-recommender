@@ -37,19 +37,15 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.csrf().disable()
+        return http.csrf().disable()
                 .authorizeExchange()
                 .pathMatchers("/spotify/**", "/api/**").authenticated()
                 .anyExchange().permitAll()
                 .and()
-                .oauth2Login();
-
-        if (!usingDevProfile) {
-            var authenticationSuccessHandler = new RedirectServerAuthenticationSuccessHandler(redirectUrl);
-            http.oauth2Login().authenticationSuccessHandler(authenticationSuccessHandler);
-        }
-
-        return http.build();
+                .oauth2Login()
+                .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler(redirectUrl))
+                .and()
+                .build();
     }
 
     @Bean
