@@ -9,6 +9,7 @@ import de.htwsaar.spotifyrecommender.spotify.SpotifyApi;
 import de.htwsaar.spotifyrecommender.spotify.model.album.AlbumsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.artist.ArtistsResponse;
 import de.htwsaar.spotifyrecommender.spotify.model.track.TracksResponse;
+import de.htwsaar.spotifyrecommender.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,14 @@ public class DiscoverService {
                 .flatMap(spotifyApi::getSeveralTracks);
     }
 
+    public Mono<TracksResponse> discoverTracksWithWeights(Source source, TimeRange timeRange, boolean filter) {
+        return fetchUrisFromSpotify(source, timeRange).zipWith(SecurityUtils.getUserId())
+                .flatMapMany(tuple -> doJaccardForTracksWithWeights(tuple.getT1(), tuple.getT2(), filter))
+                .map(TrackIdAndScore::getId)
+                .collectList()
+                .flatMap(spotifyApi::getSeveralTracks);
+    }
+
     public Mono<AlbumsResponse> discoverAlbums(Source source, TimeRange timeRange) {
         return fetchUrisFromSpotify(source, timeRange)
                 .flatMapMany(this::doJaccardForAlbums)
@@ -45,9 +54,25 @@ public class DiscoverService {
                 .flatMap(spotifyApi::getSeveralAlbums);
     }
 
+    public Mono<AlbumsResponse> discoverAlbumsWithWeights(Source source, TimeRange timeRange) {
+        return fetchUrisFromSpotify(source, timeRange).zipWith(SecurityUtils.getUserId())
+                .flatMapMany(tuple -> doJaccardForAlbumsWithWeights(tuple.getT1(), tuple.getT2()))
+                .map(AlbumIdAndScore::getId)
+                .collectList()
+                .flatMap(spotifyApi::getSeveralAlbums);
+    }
+
     public Mono<ArtistsResponse> discoverArtists(Source source, TimeRange timeRange) {
         return fetchUrisFromSpotify(source, timeRange)
                 .flatMapMany(this::doJaccardForArtists)
+                .map(ArtistIdAndScore::getId)
+                .collectList()
+                .flatMap(spotifyApi::getSeveralArtists);
+    }
+
+    public Mono<ArtistsResponse> discoverArtistsWithWeights(Source source, TimeRange timeRange) {
+        return fetchUrisFromSpotify(source, timeRange).zipWith(SecurityUtils.getUserId())
+                .flatMapMany(tuple -> doJaccardForArtistsWithWeights(tuple.getT1(), tuple.getT2()))
                 .map(ArtistIdAndScore::getId)
                 .collectList()
                 .flatMap(spotifyApi::getSeveralArtists);
@@ -71,6 +96,16 @@ public class DiscoverService {
                 .all();
     }
 
+    private Flux<TrackIdAndScore> doJaccardForTracksWithWeights(List<String> uris, String user, boolean filter) {
+        return template.getDatabaseClient()
+                .sql("SELECT * FROM my_jaccard_tracks_weights(:filter, :user, :uris)")
+                .bind("filter", filter)
+                .bind("user", user)
+                .bind("uris", uris)
+                .map(row -> new TrackIdAndScore(row.get("track_uri", String.class), row.get("score", Double.class)))
+                .all();
+    }
+
     private Flux<AlbumIdAndScore> doJaccardForAlbums(List<String> uris) {
         return template.getDatabaseClient()
                 .sql("SELECT * FROM my_jaccard_albums(:uris)")
@@ -79,9 +114,27 @@ public class DiscoverService {
                 .all();
     }
 
+    private Flux<AlbumIdAndScore> doJaccardForAlbumsWithWeights(List<String> uris, String user) {
+        return template.getDatabaseClient()
+                .sql("SELECT * FROM my_jaccard_albums_weights(:user, :uris)")
+                .bind("user", user)
+                .bind("uris", uris)
+                .map(row -> new AlbumIdAndScore(row.get("album_uri", String.class), row.get("score", Double.class)))
+                .all();
+    }
+
     private Flux<ArtistIdAndScore> doJaccardForArtists(List<String> uris) {
         return template.getDatabaseClient()
                 .sql("SELECT * FROM my_jaccard_artists(:uris)")
+                .bind("uris", uris)
+                .map(row -> new ArtistIdAndScore(row.get("artist_uri", String.class), row.get("score", Double.class)))
+                .all();
+    }
+
+    private Flux<ArtistIdAndScore> doJaccardForArtistsWithWeights(List<String> uris, String user) {
+        return template.getDatabaseClient()
+                .sql("SELECT * FROM my_jaccard_artists_weights(:user, :uris)")
+                .bind("user", user)
                 .bind("uris", uris)
                 .map(row -> new ArtistIdAndScore(row.get("artist_uri", String.class), row.get("score", Double.class)))
                 .all();

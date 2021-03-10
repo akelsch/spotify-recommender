@@ -38,8 +38,11 @@ public class RouteConfiguration {
     @Bean
     RouterFunction<ServerResponse> routeDiscover(DiscoverHandler discoverHandler) {
         var routes = route(GET("/tracks"), discoverHandler::discoverTracks)
+                .and(route(GET("/tracks/weights"), discoverHandler::discoverTracksWithWeights))
                 .and(route(GET("/albums"), discoverHandler::discoverAlbums))
-                .and(route(GET("/artists"), discoverHandler::discoverArtists));
+                .and(route(GET("/albums/weights"), discoverHandler::discoverAlbumsWithWeights))
+                .and(route(GET("/artists"), discoverHandler::discoverArtists))
+                .and(route(GET("/artists/weights"), discoverHandler::discoverArtistsWithWeights));
 
         return nest(path("/api/v1/discover").and(accept(APPLICATION_JSON)), routes);
     }

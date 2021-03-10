@@ -29,6 +29,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION my_jaccard_tracks_weights(filter_tracks boolean, user_Id varchar, VARIADIC track_uris varchar[]) RETURNS TABLE(track_uri varchar, score double precision) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT ja.track_uri, ja.score * COALESCE(r.rating, 2.5) AS score
+    FROM my_jaccard_tracks(filter_tracks, VARIADIC track_uris) ja LEFT OUTER JOIN ratings r ON r.user_id = user_Id AND r.type = 'track' AND 'spotify:track:' || r.uri = ja.track_uri
+	ORDER BY score desc;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE FUNCTION my_jaccard_albums(VARIADIC track_uris varchar[]) RETURNS TABLE(album_uri varchar, score numeric) AS $$
 BEGIN
     RETURN QUERY
@@ -40,6 +49,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION my_jaccard_albums_weights(user_Id varchar, VARIADIC track_uris varchar[]) RETURNS TABLE(track_uri varchar, score double precision) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT ja.album_uri, ja.score * COALESCE(r.rating, 2.5) AS score
+    FROM my_jaccard_albums(VARIADIC track_uris) ja LEFT OUTER JOIN ratings r ON r.user_id = user_Id AND r.type = 'album' AND 'spotify:album:' || r.uri = ja.album_uri
+	ORDER BY score desc;
+END;
+
+$$ LANGUAGE plpgsql;
+
+
 CREATE FUNCTION my_jaccard_artists(VARIADIC track_uris varchar[]) RETURNS TABLE(artist_uri varchar, score numeric) AS $$
 BEGIN
     RETURN QUERY
@@ -50,3 +70,13 @@ BEGIN
     LIMIT 20;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE FUNCTION my_jaccard_artists_weights(user_Id varchar, VARIADIC track_uris varchar[]) RETURNS TABLE(track_uri varchar, score double precision) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT ja.artist_uri, ja.score * COALESCE(r.rating, 2.5) AS score
+    FROM my_jaccard_artists(VARIADIC track_uris) ja LEFT OUTER JOIN ratings r ON r.user_id = user_Id AND r.type = 'artist' AND 'spotify:artist:' || r.uri = ja.artist_uri
+	ORDER BY score desc;
+END;
+$$ LANGUAGE plpgsql;
+

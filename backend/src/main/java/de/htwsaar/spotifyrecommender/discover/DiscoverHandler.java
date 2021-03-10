@@ -26,6 +26,16 @@ public class DiscoverHandler {
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
+    public Mono<ServerResponse> discoverTracksWithWeights(ServerRequest request) {
+        var source = requestConverter.requiredQueryParam(request, "source", Source.class);
+        var timeRange = requestConverter.queryParam(request, "time_range", TimeRange.class)
+                .orElse(TimeRange.medium_term);
+        var filter = requestConverter.queryParam(request, "filter", Boolean.class).orElse(false);
+
+        return discoverService.discoverTracksWithWeights(source, timeRange, filter)
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
+    }
+
     public Mono<ServerResponse> discoverAlbums(ServerRequest request) {
         var source = requestConverter.requiredQueryParam(request, "source", Source.class);
         var timeRange = requestConverter.queryParam(request, "time_range", TimeRange.class)
@@ -35,12 +45,30 @@ public class DiscoverHandler {
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
+    public Mono<ServerResponse> discoverAlbumsWithWeights(ServerRequest request) {
+        var source = requestConverter.requiredQueryParam(request, "source", Source.class);
+        var timeRange = requestConverter.queryParam(request, "time_range", TimeRange.class)
+                .orElse(TimeRange.medium_term);
+
+        return discoverService.discoverAlbumsWithWeights(source, timeRange)
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
+    }
+
     public Mono<ServerResponse> discoverArtists(ServerRequest request) {
         var source = requestConverter.requiredQueryParam(request, "source", Source.class);
         var timeRange = requestConverter.queryParam(request, "time_range", TimeRange.class)
                 .orElse(TimeRange.medium_term);
 
         return discoverService.discoverArtists(source, timeRange)
+                .flatMap(response -> ServerResponse.ok().bodyValue(response));
+    }
+
+    public Mono<ServerResponse> discoverArtistsWithWeights(ServerRequest request) {
+        var source = requestConverter.requiredQueryParam(request, "source", Source.class);
+        var timeRange = requestConverter.queryParam(request, "time_range", TimeRange.class)
+                .orElse(TimeRange.medium_term);
+
+        return discoverService.discoverArtistsWithWeights(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }
