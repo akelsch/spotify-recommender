@@ -32,7 +32,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 ### default
 
-This profile automatically activates if you do not provide a profile. In this case, the application will use the in-memory H2 database which does not contain any data. This is useful if you want to access the Spotify Web API only (e.g. to test login, fetch recently played tracks, etc).
+Activates if no profile is provided. In this case, the application will use the in-memory H2 database which does not contain any data. This is useful if you want to access the Spotify Web API only (e.g. to test login, fetch recently played tracks, etc).
 
 | Environment Variable     | Description                      |
 | ------------------------ | -------------------------------- |
@@ -51,7 +51,7 @@ Profile used to convert the Spotify Million Playlist Dataset to CSV so that it c
 
 ### dev
 
-Profile used to do backend development. This profile will not forward you to the frontend dashboard after the first request/login with Spotify. Requires running an SSH tunnel to the remote database (or Docker).
+Profile used during development. This profile will log HTTP requests to Spotify to console which helps with debugging and observing the `WebClient` [cache](src/main/java/de/htwsaar/spotifyrecommender/util/web/CachingWebClient.java). Requires running an SSH tunnel to the remote database containing the imported dataset and SQL functions.
 
 | Environment Variable | Description       |
 | -------------------- | ----------------- |

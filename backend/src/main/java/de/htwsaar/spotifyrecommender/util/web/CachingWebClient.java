@@ -1,6 +1,7 @@
-package de.htwsaar.spotifyrecommender.util;
+package de.htwsaar.spotifyrecommender.util.web;
 
 import com.github.benmanes.caffeine.cache.Cache;
+import de.htwsaar.spotifyrecommender.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;

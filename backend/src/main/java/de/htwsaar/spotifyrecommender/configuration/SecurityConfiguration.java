@@ -1,7 +1,6 @@
 package de.htwsaar.spotifyrecommender.configuration;
 
-import de.htwsaar.spotifyrecommender.configuration.security.LoggingHttpClient;
-import de.htwsaar.spotifyrecommender.configuration.security.SimpleUrlServerAuthenticationSuccessHandler;
+import de.htwsaar.spotifyrecommender.util.logging.LoggingHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -13,6 +12,7 @@ import org.springframework.security.oauth2.client.registration.ReactiveClientReg
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -37,21 +37,15 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.csrf().disable();
-        http.cors();
-
-        if (usingDevProfile) {
-            http.oauth2Login();
-        } else {
-            var authenticationSuccessHandler = new SimpleUrlServerAuthenticationSuccessHandler(redirectUrl);
-            http.oauth2Login().authenticationSuccessHandler(authenticationSuccessHandler);
-        }
-
-        http.authorizeExchange()
+        return http.csrf().disable()
+                .authorizeExchange()
                 .pathMatchers("/spotify/**", "/api/**").authenticated()
-                .anyExchange().permitAll();
-
-        return http.build();
+                .anyExchange().permitAll()
+                .and()
+                .oauth2Login()
+                .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler(redirectUrl))
+                .and()
+                .build();
     }
 
     @Bean

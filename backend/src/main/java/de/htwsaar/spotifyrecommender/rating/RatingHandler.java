@@ -1,7 +1,7 @@
 package de.htwsaar.spotifyrecommender.rating;
 
 import de.htwsaar.spotifyrecommender.rating.model.RatingEntity;
-import de.htwsaar.spotifyrecommender.util.RequestConverter;
+import de.htwsaar.spotifyrecommender.util.web.RequestConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;

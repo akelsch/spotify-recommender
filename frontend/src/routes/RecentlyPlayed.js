@@ -22,6 +22,12 @@ function RecentlyPlayed() {
     dispatch(fetchRecentlyPlayed());
     dispatch(fetchRatings());
   }, [dispatch]);
+
+  const updateCallback = useCallback(
+    () => dispatch(updateRecentlyPlayed(before)),
+    [dispatch, before]
+  );
+
   return (
     <Layout>
       <Headline
@@ -31,10 +37,7 @@ function RecentlyPlayed() {
       <CoverGrid
         tracks={tracks}
         ratings={ratings}
-        updateCallback={useCallback(
-          () => dispatch(updateRecentlyPlayed(before)),
-          [dispatch, before]
-        )}
+        updateCallback={updateCallback}
       />
     </Layout>
   );

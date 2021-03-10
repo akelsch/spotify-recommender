@@ -1,4 +1,4 @@
-package de.htwsaar.spotifyrecommender.util.exception;
+package de.htwsaar.spotifyrecommender.util.web.exception;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;

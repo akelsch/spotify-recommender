@@ -27,31 +27,34 @@ async function fetchRecentlyPlayed(before) {
   return response.data;
 }
 
-async function fetchDiscoverTracks(source, timeRange) {
+async function fetchDiscoverTracks({ source, time_range, filter }) {
   const response = await client.get('/api/v1/discover/tracks', {
     params: {
       source,
-      time_range: timeRange,
+      time_range,
+      filter,
     },
   });
   return response.data.tracks;
 }
 
-async function fetchDiscoverAlbums(source, timeRange) {
+async function fetchDiscoverAlbums({ source, time_range, filter }) {
   const response = await client.get('/api/v1/discover/albums', {
     params: {
       source,
-      time_range: timeRange,
+      time_range,
+      filter,
     },
   });
   return response.data.albums;
 }
 
-async function fetchDiscoverArtists(source, timeRange) {
+async function fetchDiscoverArtists({ source, time_range, filter }) {
   const response = await client.get('/api/v1/discover/artists', {
     params: {
       source,
-      time_range: timeRange,
+      time_range,
+      filter,
     },
   });
   return response.data.artists;

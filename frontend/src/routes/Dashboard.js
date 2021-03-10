@@ -6,10 +6,7 @@ import {
   selectRecentlyPlayedTracks,
   fetchRecentlyPlayed,
 } from '../reducers/recentlyPlayedReducer';
-import {
-  selectDiscoverTracks,
-  fetchDiscoverTracks,
-} from '../reducers/discoverReducer';
+import { selectDiscoverTracks } from '../reducers/discoverReducer';
 import { selectRatings, fetchRatings } from '../reducers/ratingReducer';
 import Layout from './layout/Layout';
 import Headline from '../components/common/Headline';
@@ -24,7 +21,6 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(fetchRecentlyPlayed());
-    dispatch(fetchDiscoverTracks());
     dispatch(fetchRatings());
   }, [dispatch]);
 
