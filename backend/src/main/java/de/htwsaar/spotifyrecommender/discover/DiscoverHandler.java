@@ -23,9 +23,9 @@ public class DiscoverHandler {
         var filter = requestConverter.queryParam(request, "filter", Boolean.class).orElse(false);
         var useWeights = requestConverter.queryParam(request, "use_weights", Boolean.class).orElse(false);
 
-        return useWeights?discoverService.discoverTracksWithWeights(source, timeRange, filter)
+        return useWeights ? discoverService.discoverTracksWithWeights(source, timeRange, filter)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response))
-                :discoverService.discoverTracks(source, timeRange, filter)
+                : discoverService.discoverTracks(source, timeRange, filter)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
@@ -35,9 +35,9 @@ public class DiscoverHandler {
                 .orElse(TimeRange.medium_term);
         var useWeights = requestConverter.queryParam(request, "use_weights", Boolean.class).orElse(false);
 
-        return useWeights?discoverService.discoverAlbumsWithWeights(source, timeRange)
+        return useWeights ? discoverService.discoverAlbumsWithWeights(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response))
-                :discoverService.discoverAlbums(source, timeRange)
+                : discoverService.discoverAlbums(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 
@@ -47,9 +47,9 @@ public class DiscoverHandler {
                 .orElse(TimeRange.medium_term);
         var useWeights = requestConverter.queryParam(request, "use_weights", Boolean.class).orElse(false);
 
-        return useWeights? discoverService.discoverArtistsWithWeights(source, timeRange)
+        return useWeights ? discoverService.discoverArtistsWithWeights(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response))
-                :discoverService.discoverArtists(source, timeRange)
+                : discoverService.discoverArtists(source, timeRange)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
     }
 }
