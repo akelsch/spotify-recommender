@@ -27,34 +27,52 @@ async function fetchRecentlyPlayed(before) {
   return response.data;
 }
 
-async function fetchDiscoverTracks({ source, time_range, filter }) {
+async function fetchDiscoverTracks({
+  source,
+  time_range,
+  filter,
+  use_weights,
+}) {
   const response = await client.get('/api/v1/discover/tracks', {
     params: {
       source,
       time_range,
       filter,
+      use_weights,
     },
   });
   return response.data.tracks;
 }
 
-async function fetchDiscoverAlbums({ source, time_range, filter }) {
+async function fetchDiscoverAlbums({
+  source,
+  time_range,
+  filter,
+  use_weights,
+}) {
   const response = await client.get('/api/v1/discover/albums', {
     params: {
       source,
       time_range,
       filter,
+      use_weights,
     },
   });
   return response.data.albums;
 }
 
-async function fetchDiscoverArtists({ source, time_range, filter }) {
+async function fetchDiscoverArtists({
+  source,
+  time_range,
+  filter,
+  use_weights,
+}) {
   const response = await client.get('/api/v1/discover/artists', {
     params: {
       source,
       time_range,
       filter,
+      use_weights,
     },
   });
   return response.data.artists;
