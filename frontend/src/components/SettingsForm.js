@@ -8,14 +8,20 @@ function SettingsForm({ updateCallback }) {
   const [source, setSource] = useState('top');
   const [timeRange, setTimeRange] = useState('long_term');
   const [filter, setFilter] = useState(false);
+  const [useWeights, setUseWeights] = useState(false);
 
   useEffect(() => {
     if (source === 'top') {
-      updateCallback({ source, time_range: timeRange, filter });
+      updateCallback({
+        source,
+        time_range: timeRange,
+        filter,
+        use_weights: useWeights,
+      });
     } else {
-      updateCallback({ source, filter });
+      updateCallback({ source, filter, use_weights: useWeights });
     }
-  }, [updateCallback, source, timeRange, filter]);
+  }, [updateCallback, source, timeRange, filter, useWeights]);
 
   return (
     <div style={{ maxWidth: '500px' }}>
@@ -68,6 +74,17 @@ function SettingsForm({ updateCallback }) {
               >
                 {' '}
                 Filter Known Tracks
+              </Checkbox>
+            </Control>
+          </Field>
+          <Field>
+            <Control>
+              <Checkbox
+                onChange={(e) => setUseWeights(e.target.checked)}
+                checked={useWeights}
+              >
+                {' '}
+                Consider Ratings
               </Checkbox>
             </Control>
           </Field>
