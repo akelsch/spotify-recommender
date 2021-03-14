@@ -8,7 +8,7 @@ function SettingsForm({ updateCallback }) {
   const [source, setSource] = useState('top');
   const [timeRange, setTimeRange] = useState('long_term');
   const [filter, setFilter] = useState(false);
-  const [useWeights, setX] = useState(false);
+  const [useWeights, setUseWeights] = useState(false);
 
   useEffect(() => {
     if (source === 'top') {
@@ -80,11 +80,11 @@ function SettingsForm({ updateCallback }) {
           <Field>
             <Control>
               <Checkbox
-                onChange={(e) => setX(e.target.checked)}
+                onChange={(e) => setUseWeights(e.target.checked)}
                 checked={useWeights}
               >
                 {' '}
-                Filter Ratings
+                Consider Ratings
               </Checkbox>
             </Control>
           </Field>
