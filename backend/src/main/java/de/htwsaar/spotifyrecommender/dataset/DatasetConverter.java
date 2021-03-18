@@ -60,7 +60,6 @@ public class DatasetConverter implements ApplicationListener<ApplicationReadyEve
                 .subscribe(this::writeCsvFiles);
     }
 
-    @SneakyThrows
     private void initDirs() {
         File dir = Paths.get(datasetPath, "csv").toFile();
         FileSystemUtils.deleteRecursively(dir);
