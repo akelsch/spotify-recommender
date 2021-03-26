@@ -1,9 +1,52 @@
 %********************************************************************
 % Kapitel 1
 %*******************************************************
-\chapter{Motivation}
+\chapter{Motivation and goals}
+
 \label{ch:Motivation}
 
-\section{Project Goals}
+\section{Motivation}
+\begin{itemize}
+    \item It exists an increase demand on good recommender systems.
+    \item Build an attractive and good recommender system for users, providing songs that the users might find good as well.
+    \item Provide to users a different recommender system than the spotify one, with new features, e.g., option to rate the songs and display a rank for them.
+    \item Make profitable the fact that we go to the point, focusing on displaying discovered songs, while spotify is a more general application.
+\end{itemize}
 
-\section{Mockups}
+\section{Goals}
+\begin{itemize}
+    \item Goals reached:
+    \begin{itemize}
+        \item Application developed according to the requirements:
+        \begin{itemize}
+            \item Dashboard page.
+            \item Recently played page.
+            \item Discover page.
+        \end{itemize}
+        \item Main objectives and requirements, e.g., discover functionality, were mostly achieved. 
+    \end{itemize}
+    \item Goals not reached:
+    \begin{itemize}
+        \item Filter by genre
+        \item Show to the user briefly how our system decides which songs are likely to be recommended.
+        \item Possibility to play the song in our application instead of using the Spotify website.
+        \item Usage of deeplearning4j library and embeddings approach were not included to recommend songs.
+        \item Brief amount of songs displayed due to API limitations to fetch songs, max:50.
+    \end{itemize}
+\end{itemize}
+\clearpage
+
+\section{Mockup}
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics[scale=0.26]{images/Mockup1.png}
+    \caption{Dashboard Page.}
+    \label{fig:my_label}
+\end{figure*}
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics[scale=0.26]{images/Mockup2.png}
+    \caption{Dashboard Page.}
+    \label{fig:my_label}
+\end{figure*}
+
