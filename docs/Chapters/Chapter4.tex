@@ -17,7 +17,7 @@ Spotify does limit the amount of requests a certain application can do. It is no
     --- Spotify Web API Documentation \cite{SpotifyWebApi}
 \end{quote}
 
-To ensure that we do not run into such limit we have decided to cache requests to Spotify. The cache is in-memory and will last for five minutes by default. So if you were wondering why the recently played page does not update immediately, that is why. Using a request cache is advantageous anyways because we do not store any track information in our database but obtain it from Spotify every time we want to display some information in the UI. This way we can avoid unnecessary requests to Spotify on page refreshes.
+To ensure that we do not run into such limit we have decided to cache requests to Spotify. The cache is in-memory and will last for five minutes by default. So if you were wondering why the recently played page does not update immediately, that is why. Using a request cache is advantageous anyways because we do not store any track information in our database but obtain it from Spotify every time we want to display some information in the \ac{UI}. This way we can avoid unnecessary requests to Spotify on page refreshes.
 
 \subsection{Query Size Limits}
 
@@ -40,7 +40,7 @@ While the public API is documented, the private one is not. The latter one does 
     \caption{Spotify Web Player using different endpoints}
 \end{figure}
 
-Another issue was that we could not implement a music player with controls so you can play/pause songs or skip to the next song. Unfortunately, that functionality requires the OAuth token to be available in the frontend which implies that it does handle authentication instead of the backend. As we do server-side authentication using the backend application we had to scrap that idea and instead will open the Spotify Web Player instead. Note that the Web Playback SDK is considered beta too \cite{SpotifyWebPlaybackSdk}.
+Another issue was that we could not implement a music player with controls so you can play/pause songs or skip to the next song. Unfortunately, that functionality requires the OAuth token to be available in the frontend which implies that it does handle authentication instead of the backend. As we do server-side authentication using the backend application we had to scrap that idea and instead will open the Spotify Web Player instead. Note that the Web Playback \acs{SDK} is considered beta too \cite{SpotifyWebPlaybackSdk}.
 
 \section{Optimizing Query Speed in PostgreSQL}
 
@@ -59,12 +59,12 @@ When first implementing the Jaccard algorithm using PostgreSQL functions we had 
     CREATE INDEX ON tracks (pid_fk) INCLUDE (album_uri);
 \end{lstlisting}
 
-As you can see, we have created an index containing the track URI and playlist ID. Those two fields are used to join in the Jaccard algorithm implementation. The last three indexes are used for the different variants of discover functions we have. There is a index for track, artist and album each. Using the indexes the explain graph should look like this:
+As you can see, we have created an index containing the track \ac{URI} and playlist ID. Those two fields are used to join in the Jaccard algorithm implementation. The last three indexes are used for the different variants of discover functions we have. There is a index for track, artist and album each. Using the indexes the explain graph should look like this:
 
 \begin{figure}[bth]
     \centering
     \includegraphics[width=1.0\textwidth]{Graphics/Chapter4/my-jaccard-explain.png}
-    \caption{Explain graph of the my{\_}jaccard SQL function}
+    \caption{Explain graph of the my{\_}jaccard \acs{SQL} function}
 \end{figure}
 
 Looking at the textual representation of this graph shows us that PostgreSQL uses \textit{Index Only} scans instead of table scans. This approach is much faster and enables us to reduce query time to sub-second times. In case PostgreSQL still wants to use table scans, you can try running the \texttt{ANALYZE} command. In our case this was not sufficient and we had to run the \texttt{VACUUM} command so that PostgreSQL acknowledged the indexes. The command will basically do garbage-collection before running an analyze \cite{PostgresVacuum}.

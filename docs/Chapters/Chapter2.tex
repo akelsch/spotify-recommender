@@ -8,7 +8,7 @@
 
 As it was clear that we have to develop a web application we had to decide on the web development stack that we want to use. It was decided to split the team of four into pairs of two so that one pair does frontend development and the other pair does backend development. This decision allowed for each pair to choose the technologies they felt comfortable with which in turn improves development of the whole application.
 
-In regards of frontend development it was intuitive to choose a JavaScript/Node.js stack as it is the primary programming language used for web development in general. The framework or library of choice was React. React is one of the most-used frontend technologies besides Angular and Vue.js. Its ecosystem is huge and comes with lots of reusable components and other libraries one can get from npm, e.g. reusable components for our CSS framework of choice Bulma.
+In regards of frontend development it was intuitive to choose a JavaScript/Node.js stack as it is the primary programming language used for web development in general. The framework or library of choice was React. React is one of the most-used frontend technologies besides Angular and Vue.js. Its ecosystem is huge and comes with lots of reusable components and other libraries one can get from npm, e.g. reusable components for our \acs{CSS} framework of choice Bulma.
 
 \begin{figure}[bth]
     \centering
@@ -18,7 +18,7 @@ In regards of frontend development it was intuitive to choose a JavaScript/Node.
 
 On the backend side it was decided to use Java and the Spring Framework. Reason being that the Spring Framework ecosystem provides a lot of useful projects and dependencies one can use. For example, Spring comes with abstractions for connecting to a database (Spring Data) or handling OAuth authentication (Spring Security). It was also decided to leverage the new, reactive stack of Spring called WebFlux. Using WebFlux we can make sure that the backend application is fast and responsive which in turn makes it behave similar to a Node application as well.
 
-Choosing a database technology to accompany the backend application was fairly easy. Using Spring we basically could decide between PostgreSQL, MS SQL and MySQL/MariaDB as those databases are the only ones that are supported by the reactive stack at the time of writing (excluding H2 which we have used as an in-memory database mostly during the beginning of development). Even though we probably would have been able to use MS SQL we did not see the need to. As we have done previous projects using PostgreSQL we knew that it is easy to install on Linux and that we could also install pgAdmin to manage the database through an UI.
+Choosing a database technology to accompany the backend application was fairly easy. Using Spring we basically could decide between PostgreSQL, MS SQL and MySQL/MariaDB as those databases are the only ones that are supported by the reactive stack at the time of writing (excluding H2 which we have used as an in-memory database mostly during the beginning of development). Even though we probably would have been able to use MS SQL we did not see the need to. As we have done previous projects using PostgreSQL we knew that it is easy to install on Linux and that we could also install pgAdmin to manage the database through an \ac{UI}.
 
 \begin{figure}[bth]
     \centering
@@ -43,7 +43,7 @@ Looking at the Spotify Million Playlist Dataset one quickly will notice that it 
 }
 \end{lstlisting}
 
-Not only is the dataset missing information that we would like to use, e.g. links to the cover art, but it also does provide incomplete data, e.g. \texttt{artist\_name} missing artists in case of multiple artists, and data that we do not need anyway, e.g. \texttt{duration\_ms}. Luckily it contains all key information that we need to query Spotify for the data that we need. We can make use of the Spotify URIs which each have their API endpoint to query information for. Note that only the complete URI is unique and that we absolutely need the prefix to the 22 character ID. For more details, see \href{https://boonepeter.github.io/posts/2020-11-10-spotify-codes/}{\textit{How do Spotify Codes work?} by Peter Boone}.
+Not only is the dataset missing information that we would like to use, e.g. links to the cover art, but it also does provide incomplete data, e.g. \texttt{artist\_name} missing artists in case of multiple artists, and data that we do not need anyway, e.g. \texttt{duration\_ms}. Luckily it contains all key information that we need to query Spotify for the data that we need. We can make use of the Spotify URIs which each have their API endpoint to query information for. Note that only the complete \ac{URI} is unique and that we absolutely need the prefix to the 22 character identifier. For more details, see \href{https://boonepeter.github.io/posts/2020-11-10-spotify-codes/}{\textit{How do Spotify Codes work?} by Peter Boone}.
 
 Additionally, we use the Spotify Web API to authenticate users using OAuth 2.0. This is really useful as we do not have to implement our own authentication but just can use existing and secure OAuth through a client implementation. It also does provide us with user information such as their name and avatar. We can use this information to personalize the application and experience for the user. Finally, using the provided OAuth server we also can ask for specific scopes the user has to explicitly grant to our application, e.g. when reading a user's recently played tracks or other personal data.
 
@@ -64,7 +64,7 @@ We would then choose the Jaccard similarity to compute similarities between two 
     J(A,B) = {{|A \cap B|}\over{|A \cup B|}} = {{|A \cap B|}\over{|A| + |B| - |A \cap B|}}
 \end{equation}
 
-\begin{lstlisting}[caption={Jaccard implementation as a SQL function in PostgreSQL}, style=Base, language=SQL]
+\begin{lstlisting}[caption={Jaccard implementation as a \acs{SQL} function in PostgreSQL}, style=Base, language=SQL]
 CREATE FUNCTION my_jaccard(VARIADIC track_uris varchar[])
 RETURNS TABLE(jaccard numeric, pid_fk integer) AS $$
 BEGIN
@@ -79,7 +79,7 @@ END;
 $$ LANGUAGE plpgsql;
 \end{lstlisting}
 
-As you can see the SQL function is doing exactly what the last part of the equation looks like (notice the \texttt{jaccard} column in the \texttt{SELECT} statement). We then would use this computed value and sum it for every match in the provided playlist to calculate a score.
+As you can see the \acs{SQL} function is doing exactly what the last part of the equation looks like (notice the \texttt{jaccard} column in the \texttt{SELECT} statement). We then would use this computed value and sum it for every match in the provided playlist to calculate a score.
 
 \begin{lstlisting}[caption={Using the implementation to compute scores for tracks}, style=Base, language=SQL]
 CREATE FUNCTION my_jaccard_tracks(track_uris varchar[])

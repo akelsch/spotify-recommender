@@ -69,7 +69,7 @@ $ psql -U sptfyusr -d postgres -c "DELETE FROM tracks; COPY tracks(pid_fk,track_
 # ...
 \end{lstlisting}
 
-This should take a while. You can verify the imported data by running a count on both tables (playlists \& tracks). They should contain 1.000.000 and 66.346.428 entries respectively. Finally, import indexes.sql and jaccard.sql from the \textit{sql} subdirectory. They will create necessary tables and indexes to improve query speed as well as creating all the different Jaccard SQL functions the backend application uses.
+This should take a while. You can verify the imported data by running a count on both tables (playlists \& tracks). They should contain 1.000.000 and 66.346.428 entries respectively. Finally, import indexes.sql and jaccard.sql from the \textit{sql} subdirectory. They will create necessary tables and indexes to improve query speed as well as creating all the different Jaccard \acs{SQL} functions the backend application uses.
 
 Having said that, the database should now be ready to use!
 
