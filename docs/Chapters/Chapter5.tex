@@ -23,7 +23,7 @@ The application has been developed and tested using the following languages \& t
     \item pgAdmin 5.0
 \end{itemize}
 
-The HTW provided server runs Ubuntu 20.04 and development took place on Windows as well as macOS so that the project can be considered cross-platform. Looking forward, the Java application should be compatible with versions 16 and above, except for a single issue (see Known Issues). The same holds true for Node.js 15 and above, although it should be noted that the package.json format has changed in newer versions of Node.js. Also, there were no special requirements in regards to the database so older or newer PostgreSQL should work as well (we simply chose the latest version provided by the package manager).
+The HTW provided server runs Ubuntu 20.04 and development took place on Windows as well as macOS so that the project can be considered cross-platform. Looking forward, the Java application should be compatible with versions 16 and above, except for a single issue (see Known Issues). The same holds true for Node.js 15 and above, although it should be noted that the \texttt{package.json} format has changed in newer versions of Node.js. Also, there were no special requirements in regards to the database so older or newer PostgreSQL should work as well (we simply chose the latest version provided by the package manager).
 
 \subsection{Database Setup}
 
@@ -36,9 +36,9 @@ CREATE USER sptfyusr WITH PASSWORD 'htwds2k20!';
 GRANT pg_read_server_files TO sptfyusr;
 \end{lstlisting}
 
-Then, we will have to create our schema and import the dataset. To do so, you can import schema.sql from the backend project. After that, run the backend application using the \textit{init} profile. You will have to point to the dataset path if it does not match the default one (see Readme for details). Running the script should yield a \textit{csv} subdirectory which contains the converted JSON files in CSV format so that they can be imported by PostgreSQL.
+Then, we will have to create our schema and import the dataset. To do so, you can import schema.sql from the backend project. After that, run the backend application using the \textit{init} profile. You will have to point to the dataset path if it does not match the default one (see Readme for details). Running the script should yield a \textit{csv} subdirectory which contains the converted \acs{JSON} files in \acs{CSV} format so that they can be imported by PostgreSQL.
 
-\begin{lstlisting}[caption={Expected CSV output after running the init script}, style=Terminal]
+\begin{lstlisting}[caption={Expected \acs{CSV} output after running the init script}, style=Terminal]
 $ pwd
 /data/spotify/spotify_million_playlist_dataset/data/csv
 
@@ -61,7 +61,7 @@ pid,track_uri,artist_uri,album_uri,pos
 
 Continue with importing the playlists table first as the tracks table will require those to exist (foreign key constraint). The tracks can be imported afterwards, e.g. using a simple loop in bash.
 
-\begin{lstlisting}[caption={Importing CSV files into PostgreSQL}, style=Terminal]
+\begin{lstlisting}[caption={Importing \acs{CSV} files into PostgreSQL}, style=Terminal]
 $ psql -U sptfyusr -d postgres -c "DELETE FROM playlists; COPY playlists FROM '/data/spotify/spotify_million_playlist_dataset/data/csv/playlists.csv' DELIMITER ',' CSV HEADER;"
 
 $ psql -U sptfyusr -d postgres -c "DELETE FROM tracks; COPY tracks(pid_fk,track_uri,artist_uri,album_uri,pos) FROM '/data/spotify/spotify_million_playlist_dataset/data/csv/tracks0.csv' DELIMITER ',' CSV HEADER;"

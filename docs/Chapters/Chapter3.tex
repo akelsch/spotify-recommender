@@ -26,4 +26,34 @@ As one can see, the backend application handles communication to the database (P
 
 \section{Backend}
 
+The backend application is powered by the Spring Framework and basically serves as an intermediate between what the user sees in the frontend and the data in our database as well as the data that the Spotify API provides. In fact, the backend application even provides an endpoint which just relays requests to the Spotify API so you theoretically could talk to the whole Spotify Web API through one \ac{HTTP} endpoint.
+
+But of course the application does more than that. First, a user will have to authenticate. We did setup Spring Security and its OAuth2 client to handle authentication. Spring Security will also handle redirection after successful authentication, \ac{CORS} and access to the Spotify API as it requires a valid OAuth Token.
+
+Furthermore, backend will handle querying the database using Spring Data and transforming that data into a \acs{JSON} response enriched with data fetched from the Spotify Web API. Most of the codebase will account for such functionality so let us go into more detail. For starters, the application follows are layered architecture approach and classes are packaged by feature. Those design decisions are inspired by \ac{DDD} and you will quickly notice that our packages represent different domains of the application that you can observe in the \ac{UI}, namely:
+
+\begin{description}
+    \item[discover] This package handles requests that want to fetch new recommendations. It will call the PostgreSQL functions and will also query the Spotify Web API for track, album and artist details.
+    \item[rating] This package handles rating requests in case you change the star rating of a track, album or artist in frontend.
+    \item[recent] This package handles requests that want to fetch recently-played tracks. They will display for the user to see in the frontend.
+\end{description}
+
+Besides those three main packages there are also some other important packages:
+
+\begin{description}
+    \item[dataset] This package handles does not provide any endpoints but is used to convert parts of the dataset from \acs{JSON} to \acs{CSV} so it can be imported into PostgreSQL.
+    \item[spotify] This package contains the aforementioned endpoint that will delegate any requests including their headers and body to the Spotify Web API. It most importantly also includes a class that serves as a client to the API so that other packages can simply reuse it (\texttt{SpotifyApi}).
+    \item[user] This package provides an endpoint for frontend so it can check if a user is logged-in.
+\end{description}
+
+The other two remaining packages \textbf{configuration} and \textbf{utils} do contain obligatory Spring application configuration and utility classes that can be used by all other domains. Most noteworthy, it does contain a routing configuration that is responsible for routing \ac{HTTP} requests. It also does contain classes that handle caching. Caching is done for outbound \ac{HTTP} requests to the Spotify API using a high-performance in-memory cache called \href{https://github.com/ben-manes/caffeine}{Caffeine}. The cache is configured to clear entries five minutes after write so that recently-played tracks are still somehow up to date.
+
+\begin{figure}[bth]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/Chapter3/backend-layers.pdf}
+    \caption{Different layers in the backend application}
+\end{figure}
+
+In terms of layers we pretty much do follow the \ac{DDD} approach of a distinct application, domain and infrastructure layer. An inbound request will get handled by the application layer consisting of a router and handler. You might know this combination of router and handler as a \texttt{RestController} in the traditional servlet stack of Spring. Anyway, the router contains the path mappings and the handler will delegate tasks to the appropriate service layer. The service layer then will do the actual work and do transformation of data it fetches from the infrastructure layer. That final layer consists of a Spring Data repository or an other database access mechanism (e.g. templates) but it could also be our \texttt{SpotifyApi} implementation that provides access to Spotify Web API endpoints.
+
 \section{Frontend}
