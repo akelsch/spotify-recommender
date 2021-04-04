@@ -57,3 +57,25 @@ The other two remaining packages \textbf{configuration} and \textbf{utils} do co
 In terms of layers we pretty much do follow the \ac{DDD} approach of a distinct application, domain and infrastructure layer. An inbound request will get handled by the application layer consisting of a router and handler. You might know this combination of router and handler as a \texttt{RestController} in the traditional servlet stack of Spring. Anyway, the router contains the path mappings and the handler will delegate tasks to the appropriate service layer. The service layer then will do the actual work and do transformation of data it fetches from the infrastructure layer. That final layer consists of a Spring Data repository or an other database access mechanism (e.g. templates) but it could also be our \texttt{SpotifyApi} implementation that provides access to Spotify Web API endpoints.
 
 \section{Frontend}
+
+Frontend builds upon the popular React JavaScript library. It was deliberately chosen in favor of Angular and Vue.js as we do like its approach of building building user interfaces the most. React uses a component-based approach where \acs{HTML} pages consist of reusable components which each manage their own individual state. Common examples for a component on a webpage are the header or footer section of the page which in itself each can contain more sub-components.
+
+\begin{figure}[bth]
+    \centering
+    \includegraphics[width=1.0\textwidth]{Graphics/Chapter3/frontend-component-tree.pdf}
+    \caption{Exemplary component tree of the recently played page}
+\end{figure}
+
+Components do store some of the state using a library called Redux. Redux is configured to store data in local storage of your browser which means you can look at it using the browser developer tools (under Application > Storage > Local Storage). The data that we store in Redux is fetched from the backend application asynchronously using Redux Thunk and axios. The latter is responsible for doing \ac{HTTP} requests using a session cookie the user will receive from the backend application after logging in successfully.
+
+Other than the backend application, the frontend application is not packaged by feature but packaged by layer:
+
+\begin{description}
+    \item[api] Does contain a single file that handles access to the backend using axios.
+    \item[app] Does contain application configuration for React Router as well as Redux.
+    \item[components] Does contain components that the user actually will see on the webpage.
+    \item[reducers] Does contain reducer definitions for Redux. They describe how the state looks like and provides functions to update the state.
+    \item[routes] Does contain React Router routes that primarily assemble a full page using components from the previously mentioned components directory.
+\end{description}
+
+The \acs{CSS} framework of choice is Bulma. Additional libraries that provide \acs{CSS} files are the Font Awesome icon library as well as the Swiper slider library. Also, components can define component-specific \acs{CSS} in a \texttt{.module.css} file like \texttt{Avatar.module.css} does for the user avatar component. Additionally, we had to override some Bulma styles as the React library that does provide Bulma components is unfortunately slightly outdated.
