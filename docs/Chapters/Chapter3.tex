@@ -6,7 +6,7 @@
 
 \section{Overview}
 
-In general, the application consists of two separate applications. For once, we have the React frontend which in running in a browser. On the other side there is the Spring Boot backend application server. Usually the user will use the \ac{UI} to display data which the frontend fetches from the backend. Backend also does handle authentication as previously mentioned. \ac{IETF} draft \textit{OAuth 2.0 for Browser-Based Apps} describes how such architectures look like and even mentions React and Spring Boot as an example in section 6.2. \textit{JavaScript Applications with a Backend}.
+In general, the application consists of two separate applications. For once, we have the React frontend which is running in a browser. On the other side there is the Spring Boot backend application server. Usually the user will use the \ac{UI} to display data which the frontend fetches from the backend. Backend also does handle authentication as previously mentioned. \ac{IETF} draft \textit{OAuth 2.0 for Browser-Based Apps} describes how such architectures look like and even mentions React and Spring Boot as an example in section 6.2. \textit{JavaScript Applications with a Backend}.
 
 \begin{figure}[bth]
     \centering
@@ -14,7 +14,7 @@ In general, the application consists of two separate applications. For once, we 
     \caption{Architecture from an authentication point of view \cite[Section~6.2]{IetfOauthDraft}}
 \end{figure}
 
-In our case, the application server is Spring Boot and the authorization endpoint is the Spotify login page (see \autoref{fig:SpotifyLogin}). The token endpoint is a Spotify API endpoint and configured in the Spring Boot application. The only difference to above figure is that the backend application is not setup to serve frontend files (the resource server part). This is because we usually would run the React and Spring Boot application separately during development. Do note that not serving frontend files from the backend application comes with some drawbacks though. For example, we had to disable \ac{CSRF} protection as it does only work if the backend serves frontend files. This brings us to the actual high-level architecture overview from a user perspective.
+In our case, the application server is Spring Boot and the authorization endpoint is the Spotify login page (see \autoref{fig:SpotifyLogin}). The token endpoint is a Spotify API endpoint and is configured in the Spring Boot application. The only difference to above figure is that the backend application is not setup to serve frontend files (the resource server part). This is because we usually would run the React and Spring Boot application separately during development. Do note that not serving frontend files from the backend application comes with some drawbacks though. For example, we had to disable \ac{CSRF} protection as it does only work if the backend serves frontend files. This brings us to the actual high-level architecture overview from a user perspective.
 
 \begin{figure}[bth]
     \centering
@@ -30,7 +30,7 @@ The backend application is powered by the Spring Framework and basically serves 
 
 But of course the application does more than that. First, a user will have to authenticate. We did setup Spring Security and its OAuth2 client to handle authentication. Spring Security will also handle redirection after successful authentication, \ac{CORS} and access to the Spotify API as it requires a valid OAuth Token.
 
-Furthermore, backend will handle querying the database using Spring Data and transforming that data into a \acs{JSON} response enriched with data fetched from the Spotify Web API. Most of the codebase will account for such functionality so let us go into more detail. For starters, the application follows are layered architecture approach and classes are packaged by feature. Those design decisions are inspired by \ac{DDD} and you will quickly notice that our packages represent different domains of the application that you can observe in the \ac{UI}, namely:
+Furthermore, backend will handle querying the database using Spring Data and transforming that data into a \acs{JSON} response enriched with data fetched from the Spotify Web API. Most of the codebase will account for such functionality so let us go into more detail. For starters, the application follows a layered architecture approach and classes are packaged by feature. Those design decisions are inspired by \ac{DDD} and you will quickly notice that our packages represent different domains of the application that you can observe in the \ac{UI}, namely:
 
 \begin{description}
     \item[discover] This package handles requests that want to fetch new recommendations. It will call the PostgreSQL functions and will also query the Spotify Web API for track, album and artist details.
@@ -41,7 +41,7 @@ Furthermore, backend will handle querying the database using Spring Data and tra
 Besides those three main packages there are also some other important packages:
 
 \begin{description}
-    \item[dataset] This package handles does not provide any endpoints but is used to convert parts of the dataset from \acs{JSON} to \acs{CSV} so it can be imported into PostgreSQL.
+    \item[dataset] This package does not provide any endpoints but is used to convert parts of the dataset from \acs{JSON} to \acs{CSV} so it can be imported into PostgreSQL.
     \item[spotify] This package contains the aforementioned endpoint that will delegate any requests including their headers and body to the Spotify Web API. It most importantly also includes a class that serves as a client to the API so that other packages can simply reuse it (\texttt{SpotifyApi}).
     \item[user] This package provides an endpoint for frontend so it can check if a user is logged-in.
 \end{description}
@@ -58,7 +58,7 @@ In terms of layers we pretty much do follow the \ac{DDD} approach of a distinct 
 
 \section{Frontend}
 
-Frontend builds upon the popular React JavaScript library. It was deliberately chosen in favor of Angular and Vue.js as we do like its approach of building building user interfaces the most. React uses a component-based approach where \acs{HTML} pages consist of reusable components which each manage their own individual state. Common examples for a component on a webpage are the header or footer section of the page which in itself each can contain more sub-components.
+Frontend builds upon the popular React JavaScript library. It was deliberately chosen in favor of Angular and Vue.js as we do like its approach of building user interfaces the most. React uses a component-based approach where \acs{HTML} pages consist of reusable components which each manage their own individual state. Common examples for a component on a webpage are the header or footer section of the page which in itself each can contain more sub-components.
 
 \begin{figure}[bth]
     \centering
