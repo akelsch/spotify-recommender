@@ -12,7 +12,7 @@ The build tool we use for this project is Maven. So you can create a JAR using t
 mvn clean package
 ```
 
-Note that Java 15 is required.
+Note that Java 17 is recommended and at least Java 14 is required.
 
 ### Running the Application
 
